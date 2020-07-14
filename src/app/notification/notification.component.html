@@ -1,0 +1,81 @@
+<!--
+<div *ngFor="let notification of notifications$|async" class="btn-group" dropdown id="notification-dropdown">
+  <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+          aria-controls="dropdown-animated" style="width: 60px">
+    <fa-icon [icon]="faEnvelope"></fa-icon>
+    <span *ngIf=true class="badge" id="notification-badge"> </span>
+  </button>
+  <ul id="notification-dropdown-menu" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+      aria-labelledby="button-animated">
+    <li style="height: 500px" class="dropdown-item"
+        role="menuitem">
+      <p class="adesso-blue-text">{{notification.sendDate|date}}</p>
+
+      <div class="notification-text">
+        <div *ngIf="getWinners(notification.match).length == 1">
+          Bitte bestätige, dass Moin das Kicker-Spiel
+          vom was
+          gewonnen hat
+        </div>
+        <div *ngIf="getWinners(notification.match).length == 2">
+          Bitte bestätige, dass {{getWinners(notification.match)[0].lastName}}
+          und {{getWinners(notification.match)[1].lastName}} das
+          Kicker-Spiel vom {{notification.match.date}} gewonnen haben
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <button type="button" class="btn hvr-fade notification-bt"
+                    (click)="acceptNotification(notification.notificationId)">
+              Ja
+            </button>
+          </div>
+          <div class="col-sm-6">
+            <button type="button" class="btn hvr-fade notification-bt"
+                    (click)="declineNotification(notification.notificationId)">
+              Nein
+            </button>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+-->
+<div class="btn-group" dropdown [autoClose]="false">
+  <button id="button-animated" dropdownToggle type="button"
+          class="btn btn-primary dropdown-toggle"
+          aria-controls="dropdown-animated">
+    <fa-icon [icon]="faEnvelope"></fa-icon>
+  </button>
+  <ul style="height: 300px" id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+      role="menu" aria-labelledby="button-animated">
+    <li *ngFor="let notification of notifications$|async" class="dropdown-item matchverification notification"
+        role="menuitem">
+      <div class="notification-text">
+        <div *ngIf="getWinners(notification.match).length == 1">
+          Bitte bestätige, dass Moin das Kicker-Spiel
+          vom was
+          gewonnen hat
+        </div>
+        <div *ngIf="getWinners(notification.match).length == 2">
+          Bitte bestätige, dass {{getWinners(notification.match)[0].lastName}}
+          und {{getWinners(notification.match)[1].lastName}} das
+          Kicker-Spiel vom {{notification.match.date}} gewonnen haben
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <button type="button" class="btn btn-primary" (click)="acceptNotification(notification.notificationId)">
+              Ja
+            </button>
+          </div>
+          <div class="col-sm-6">
+            <button type="button" class="btn btn-primary" (click)="declineNotification(notification.notificationId)">
+              Nein
+            </button>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

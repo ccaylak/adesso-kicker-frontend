@@ -1,0 +1,117 @@
+<form [formGroup]="matchRequestForm" (ngSubmit)="matchParser()">
+  <div class="container shadow" id="form">
+    <!--/* Info Tooltip */-->
+    <fa-icon class="info-tooltip" [icon]="faInfoCircle" tooltip="Du kannst 1v1, 1v2, 2v1 oder 2v2 spielen"
+             placement="left" size="2x"></fa-icon>
+    <!--/* Who played? */-->
+    <div class="headline">Wer hat gespielt?</div>
+    <!--/* Error Warning (Same Player) */-->
+    <div *ngIf="matchRequestForm.errors?.samePlayer" class="popup popup-error">
+      <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
+      <span> Ein Spieler kann an einem Kicker-Spiel nur einmal teilnehmen</span>
+    </div>
+    <!--/* Error Warning (Null Player) */-->
+    <div *ngIf="teamPlayerB1.invalid && teamPlayerB1.touched"
+         class="popup popup-error">
+      <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
+      <span> Bitte wähle Spieler 1 für Team A und Team B</span>
+    </div>
+
+    <div *ngIf="(teamPlayers$|async) as teamPlayers" class="row">
+      <!--/* Team A */-->
+      <div class="col-sm-6">
+        <div class="team-description">Team A</div>
+        <div class="team team-textbox">
+          <input class="form-control" formControlName="teamPlayerA1" type="text" name="teamAPlayer1" id="teamAPlayer1"/>
+          <input list=playersOfTeamA formControlName="teamPlayerA2" class="form-control" type="text" id="teamAPlayer2"
+                 name="teamAPlayer2">
+          <datalist id="playersOfTeamA">
+            <option
+              *ngFor="let teamPlayerA of teamPlayers"
+              [value]="teamPlayerA.userId">{{teamPlayerA.firstName}} {{teamPlayerA.lastName}}</option>
+          </datalist>
+        </div>
+      </div>
+      <!--/* Team B */-->
+      <div class="col-sm-6">
+        <div class="team-description">Team B</div>
+        <div class="team team-textbox search-bar">
+          <ng-container>
+            <input list="playerB1"
+                   formControlName="teamPlayerB1" class="form-control" type="text" id="teamBPlayer1"
+                   name="teamBPlayer1"
+                   [class.is-invalid]="teamPlayerB1.invalid && teamPlayerB1.touched"/>
+            <datalist id="playerB1">
+              <option
+                *ngFor="let teamPlayerB1 of teamPlayers"
+                [value]="teamPlayerB1.userId">{{teamPlayerB1.firstName}} {{teamPlayerB1.lastName}}</option>
+            </datalist>
+          </ng-container>
+          <ng-container>
+            <input list="playerB2" formControlName="teamPlayerB2" class="form-control" type="text" id="teamBPlayer2"
+                   name="teamBPlayer2"/>
+            <datalist id="playerB2">
+              <option
+                *ngFor="let teamPlayerB2 of teamPlayers"
+                [value]="teamPlayerB2.userId">{{teamPlayerB2.firstName}} {{teamPlayerB2.lastName}}</option>
+            </datalist>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <!--/* Who won */-->
+    <div class="headline">Wer hat gewonnen?</div>
+    <!--/* Radio Buttons */-->
+    <div class="row" id="radio-winner-team">
+      <div class="col">
+        <div class="form-check" id="form-check-1">
+          <input type="radio" formControlName="winnerTeam" value="teamA" name="winnerTeam" id="radio1">
+          <label class="form-check-label" for="radio1">Team A</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-check" id="form-check-2">
+          <input type="radio" formControlName="winnerTeam" value="teamB" name="winnerTeam" id="radio2">
+          <label class="form-check-label" for="radio2">Team B</label>
+        </div>
+      </div>
+    </div>
+    <!--/* When did you play? */-->
+    <div class="headline">Wann habt ihr gespielt?</div>
+    <!--/* Datepicker */-->
+    <!--/* Error NoDate */-->
+    <div *ngIf="date.errors?.required" class="popup popup-error">
+      <i class="fa fa-times" aria-hidden="true"></i>
+      <span> Bitte wähle ein gültiges Datum</span>
+    </div>
+    <!--/* Error Future Date */-->
+    <div *ngIf="date.errors?.required" class="popup popup-error">
+      <i class="fa fa-times" aria-hidden="true"></i>
+      <span> Bitte wähle ein Datum, dass nicht in der Zukunft liegt</span>
+    </div>
+
+
+    <div class="form-group col-sm-6" id="datetimepicker-form-group">
+      <div class="input-group date">
+        <input type="text" id="datetimepicker" #dp="bsDatepicker" formControlName="date" class="form-control"
+               bsDatepicker
+               [bsConfig]="{isAnimated: true}" [maxDate]="bsValueAndMaxDate"
+               placement="top"
+               [class.is-invalid]="date.invalid && date.touched">
+        <div class="input-group-append">
+          <div class="input-group-text" (click)="dp.toggle()">
+            <fa-icon [icon]="faCalender"></fa-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/* Submit Match */-->
+    <div>
+      <div *ngIf="matchRequestForm.valid" class="popup popup-success">
+        <fa-icon [icon]="faCheck" aria-hidden="true"></fa-icon>
+        <span> Match erfolgreich erstellt</span>
+      </div>
+      <button type="submit" class="btn btn-primary">Match erstellen</button>
+    </div>
+  </div>
+</form>

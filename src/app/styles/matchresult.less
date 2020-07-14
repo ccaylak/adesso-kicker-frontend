@@ -1,0 +1,158 @@
+@import "_colorscheme.less";
+@import "_mediaqueries.less";
+@import "_background.less";
+@import "_searchbar.less";
+
+/* When container-fly-in animation starts, the scrollbar appears,
+ * As the container is out of the initial screen. This looks weird,
+ * So we hide the scrollbar, as we don't need it at this specific size.
+ * This is an ideal solution, as it can mess up the scrollbar in other sizes too.
+ */
+
+@media screen and(min-width: 1480px) {
+  body {
+    overflow: hidden;
+  }
+}
+
+#form {
+  border: 1px solid @colorscheme[warm-grey-midtone];
+  margin-top: 50px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  animation: container-fly-in 0.75s cubic-bezier(.17, .84, .44, 1);
+}
+
+.headline {
+  font-size: 40px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  color: @colorscheme[warm-grey-darker];
+}
+
+.info-tooltip {
+  float: right;
+  color: @colorscheme[adesso-blue];
+  margin-top: 27px;
+}
+
+.team {
+  height: 30%;
+  color: @colorscheme[warm-grey-darker];
+
+  &-description {
+    font-size: 15px;
+    text-decoration: underline;
+    color: @colorscheme[warm-grey-dark];
+  }
+
+  &-textbox {
+    @width: 100%;
+    width: @width;
+
+    .search-bar-content {
+      width: @width;
+    }
+
+    input {
+      font-size: 23px;
+      height: 50px;
+    }
+  }
+
+  &-margin-top {
+    margin-top: 15px;
+  }
+}
+
+#form-check-1, #form-check-2 {
+  margin-left: -20px;
+}
+
+.form-check {
+  width: 60%;
+
+  &-input {
+    display: none;
+  }
+
+  &-label {
+    font-size: 35px;
+    color: @colorscheme[warm-grey-dark];
+    min-width: 109px;
+  }
+
+  &:hover > .outline-trophy {
+    -webkit-text-stroke: 0 black;
+    -webkit-text-fill-color: @colorscheme[orange];
+    opacity: 0.5;
+  }
+
+  .trophy-selected {
+    -webkit-text-stroke: 0 black !important;
+    -webkit-text-fill-color: @colorscheme[orange] !important;
+    opacity: 1 !important;
+  }
+
+  .outline-trophy {
+    -webkit-text-stroke: 1px @colorscheme[warm-grey-dark];
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+#datetimepicker-form-group {
+  @width: 100%;
+  padding-left: 0;
+  width: @width/2;
+  @media @mobile {
+    width: @width;
+    padding-right: 0;
+  }
+}
+
+.popup {
+  opacity: 0;
+  font-size: 22px;
+  margin-bottom: 10px;
+  border-radius: 1px;
+  text-align: center;
+  color: white;
+  animation: popup-display 0.4s ease-in forwards;
+  animation-delay: 0.2s;
+
+  &-success {
+    background-color: @colorscheme[success];
+  }
+
+  &-error {
+    background-color: @colorscheme[error];
+  }
+}
+
+@keyframes popup-display {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes container-fly-in {
+  0% {
+    transform: translateY(200px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0);
+    opacity: 25%;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

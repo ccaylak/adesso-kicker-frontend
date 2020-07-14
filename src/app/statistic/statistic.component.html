@@ -1,0 +1,46 @@
+<div class="container-fluid chart-container">
+  <div class="row">
+    <div class="col-lg-6 chart">
+      <h3 class="chart-headline">Rang über Zeit</h3>
+      <canvas baseChart
+              [datasets]="rankOverTimeChart.lineChartData"
+              [labels]="rankOverTimeChart.lineChartLabels"
+              [colors]="rankOverTimeChart.lineChartColors"
+              [legend]="rankOverTimeChart.lineChartLegend"
+              [chartType]="rankOverTimeChart.lineChartType">
+      </canvas>
+    </div>
+    <div class="col-lg-6 chart">
+      <h3 class="chart-headline">Siegesrate über Zeit</h3>
+      <canvas baseChart
+              [datasets]="winRateOverTimeChart.lineChartData"
+              [labels]="winRateOverTimeChart.lineChartLabels"
+              [colors]="winRateOverTimeChart.lineChartColors"
+              [legend]="winRateOverTimeChart.lineChartLegend"
+              [chartType]="winRateOverTimeChart.lineChartType">
+      </canvas>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 chart">
+      <h3 class="chart-headline">Siege & Niederlagen pro Tag</h3>
+      <canvas baseChart
+              [datasets]="winsAndLossesPerDayChart.lineChartData"
+              [labels]="winsAndLossesPerDayChart.lineChartLabels"
+              [colors]="winsAndLossesPerDayChart.lineChartColors"
+              [legend]="winsAndLossesPerDayChart.lineChartLegend"
+              [chartType]="winsAndLossesPerDayChart.lineChartType">
+      </canvas>
+    </div>
+    <div class="col-lg-6 chart">
+      <h3 class="chart-headline">Sieg-Niederlage Differenz</h3>
+      <canvas baseChart
+              [datasets]="winsAndLossesDiffPerDayChart.lineChartData"
+              [labels]="winsAndLossesDiffPerDayChart.lineChartLabels"
+              [colors]="winsAndLossesDiffPerDayChart.lineChartColors"
+              [legend]="winsAndLossesDiffPerDayChart.lineChartLegend"
+              [chartType]="winsAndLossesDiffPerDayChart.lineChartType">
+      </canvas>
+    </div>
+  </div>
+</div>

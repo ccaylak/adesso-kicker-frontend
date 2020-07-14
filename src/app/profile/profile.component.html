@@ -1,0 +1,73 @@
+<div *ngIf="(user$ | async) as user">
+  <!--/* Profile Name */-->
+  <div class="container" id="text-container">
+    <h1 id="userID">{{getFullName(user)}}</h1>
+  </div>
+
+  <!--/* Profile Statistics */-->
+  <div class="container">
+    <!--/* Display if player has no statistic */-->
+    <div *ngIf="user.statistic, then thenBlock else elseBlock"></div>
+
+    <!--/* Display statistics */-->
+    <ng-template #thenBlock>
+      <div class="row">
+        <!--/* Rank */-->
+        <div class="col-lg-2">
+          <div class="statistic">
+            <p class="statistic-title">Rang</p>
+            <fa-icon [icon]="faChartLine" size="3x"></fa-icon>
+            <p class="statistic-value">{{user.statistic.rank}}</p>
+          </div>
+        </div>
+        <!--/* Points */-->
+        <div class="col-lg-2">
+          <div class="statistic" id="statistic-2">
+            <p class="statistic-title">Punkte</p>
+            <fa-icon [icon]="faTrophy" size="3x"></fa-icon>
+            <p class="statistic-value">{{user.statistic.rating}}</p>
+          </div>
+        </div>
+        <!--/* Matches Played */-->
+        <div class="col-lg-2">
+          <div class="statistic" id="statistic-3">
+            <p class="statistic-title">Spiele</p>
+            <fa-icon [icon]="faFutbol" size="3x"></fa-icon>
+            <p class="statistic-value">{{getMatches(user)}}</p>
+          </div>
+        </div>
+        <!--/* Wins */-->
+        <div class="col-lg-2">
+          <div class="statistic" id="statistic-4">
+            <p class="statistic-title">Siege</p>
+            <fa-icon [icon]="faCheck" size="3x"></fa-icon>
+            <p class="statistic-value">{{user.statistic.wins}}</p>
+          </div>
+        </div>
+        <!--/* Losses */-->
+        <div class="col-lg-2">
+          <div class="statistic" id="statistic-5">
+            <p class="statistic-title">Niederlagen</p>
+            <fa-icon [icon]="faTimes" size="3x"></fa-icon>
+            <p class="statistic-value">{{user.statistic.losses}}</p>
+          </div>
+        </div>
+        <!--/* WinRate */-->
+        <div class="col-lg-2">
+          <div class="statistic" id="statistic-6">
+            <p class="statistic-title">Siegesquote</p>
+            <fa-icon [icon]="faBalanceScale" size="3x"></fa-icon>
+            <p class="statistic-value">{{getWinRatio(user)|percent}}</p>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #elseBlock>
+      <div class="alert alert-danger" role="alert">Kein Rang</div>
+    </ng-template>
+  </div>
+
+  <hr>
+  <!--/* ChartJS Canvas */-->
+  <app-statistic></app-statistic>
+</div>

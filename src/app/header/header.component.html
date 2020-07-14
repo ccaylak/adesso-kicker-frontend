@@ -1,0 +1,84 @@
+<header>
+  <nav class="navbar navbar-light navbar-expand-lg justify-content-end">
+    <!--/* Logo */-->
+    <a class="navbar-brand mr-auto">
+      <img class="adesso-logo" src="./assets/adesso-logo.png" width="150px" height="auto" alt="adesso kicker">
+    </a>
+    <!--/* Links */-->
+    <div class="navbar-collapse collapse">
+      <ul class="navbar-nav">
+        <div *ngIf="loginService.token">
+          <li class="nav-item header-link">
+            <a class="nav-link clickable" (click)="match()">
+              <div class="nav-link hvr-underline-from-left">
+                <fa-icon [icon]="faCalenderCheck"></fa-icon>
+                Kicker-Spiel eintragen
+              </div>
+            </a>
+          </li>
+        </div>
+        <li class="nav-item header-link">
+          <a class="nav-link clickable" (click)="ranking()">
+            <div class="nav-link hvr-underline-from-left">
+              <fa-icon [icon]="faTrophy"></fa-icon>
+              Rangliste
+            </div>
+          </a>
+        </li>
+        <div *ngIf="loginService.token">
+          <li class="nav-item header-link">
+            <a class="nav-link clickable" (click)="onProfile()">
+              <div class="nav-link hvr-underline-from-left">
+                <fa-icon [icon]="faUser"></fa-icon>
+                Mein Profil
+              </div>
+            </a>
+          </li>
+        </div>
+      </ul>
+    </div>
+    <app-notification></app-notification>
+    <div *ngIf="loginService.fullName; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+      <div class="btn-group" dropdown>
+        <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                aria-controls="dropdown-animated">
+          <span class="caret">{{loginService.fullName}}</span>
+        </button>
+        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+            aria-labelledby="button-animated">
+          <li role="menuitem"><a class="dropdown-item clickable" (click)="match()">
+            <fa-icon [icon]="faCalenderCheck"></fa-icon>
+            Kicker-Spiel eintragen
+          </a>
+          </li>
+          <li role="menuitem"><a class="dropdown-item clickable" (click)="ranking()">
+            <fa-icon [icon]="faTrophy"></fa-icon>
+            Rangliste
+          </a>
+          </li>
+          <li role="menuitem"><a class="dropdown-item clickable" (click)="onProfile()">
+            <fa-icon [icon]="faUser"></fa-icon>
+            Mein Profil
+          </a>
+          </li>
+          <div class="dropdown-divider"></div>
+          <li role="menuitem"><a class="dropdown-item clickable" (click)="enableDisablemails()">
+            <fa-icon [icon]="faEnvelope"></fa-icon>
+            Emails</a>
+          </li>
+          <div class="dropdown-divider"></div>
+          <li role="menuitem"><a class="dropdown-item clickable" (click)="logout()">
+            <fa-icon [icon]="faSignOutAlt"></fa-icon>
+            Logout</a>
+          </li>
+        </ul>
+      </div>
+    </ng-template>
+    <ng-template #elseBlock>
+      <button type="button" class="btn btn-primary hvr-fade" id="login-button" (click)="login()">
+        Login
+      </button>
+    </ng-template>
+  </nav>
+</header>

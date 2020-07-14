@@ -1,0 +1,218 @@
+@import "_colorscheme.less";
+@import "_searchbar.less";
+@import "_background.less";
+@import "_mediaqueries.less";
+
+#everything-above-table {
+  margin-bottom: -25px;
+  width: 80%;
+}
+
+#playerName {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+
+  h2 {
+    margin-top: 10px;
+  }
+}
+
+.table-container {
+  @media @mobile, @tablet {
+    width: 100%;
+    margin-left: 0;
+  }
+  width: 80%;
+  margin-left: 10%;
+}
+
+#table-container {
+  background-color: white;
+  border: 1px solid @colorscheme[warm-grey-midtone];
+}
+
+#info-tooltip {
+  .fa-info-circle {
+    color: @colorscheme[adesso-blue];
+    font-size: 30px;
+    margin-top: 25px;
+  }
+
+  text-align: right;
+}
+
+.badge {
+  min-width: 22px;
+}
+
+.badge-position {
+  color: white;
+  background-color: @colorscheme[adesso-blue];
+  border-radius: 50%;
+  font-size: 15px;
+  box-shadow: 0 0 0 6px white;
+}
+
+#user-searched {
+  .highlight(@colorscheme[warm-grey-midtone]);
+}
+
+#user-self {
+  .highlight(lighten(@colorscheme[orange], 10%));
+
+  td {
+    border-top: solid @colorscheme[warm-grey-light] 1px;
+  }
+}
+
+.thead-name {
+  vertical-align: top !important;
+}
+
+.user-table {
+  text-align: center;
+  margin-bottom: 0;
+
+  td {
+    border: none;
+    cursor: pointer;
+  }
+
+  tr {
+   // opacity: 0;
+    line-height: 18px;
+    min-height: 18px;
+    height: 18px;
+    //animation: appear 0.3s ease-out forwards;
+    animation-play-state: paused;
+
+    :not(.user-table-name):not(.badge-position) {
+      font-size: 20px;
+    }
+  }
+
+  &-name {
+    color: @colorscheme[adesso-blue];
+    font-weight: bold;
+    padding-right: 10%;
+  }
+
+  &-row:hover {
+    .highlight() !important;
+    color: white;
+  }
+}
+
+.search-bar {
+  .setElementCount(@elementCount: 8; @fontSize: 20px; @padding: 10px);
+}
+
+.btn-group-horizontal {
+  margin-left: 70%;
+}
+
+#pager-horizontal {
+  @media @desktop, @large-desktop {
+    display: none;
+  }
+}
+
+#pager-vertical {
+  @media @mobile, @tablet {
+    display: none;
+  }
+}
+
+.pager {
+  color: @colorscheme[adesso-blue];
+  border: none;
+  background: none;
+  font-size: 40px;
+}
+
+.highlight(@color : @colorscheme[adesso-blue]) {
+  background: linear-gradient(to right, white, @color 30%);
+  color: white;
+  & > .user-table-name {
+    color: white;
+  }
+}
+
+#noRankList {
+  margin-top: 1%;
+}
+
+.alert {
+  width: 80%;
+  margin-left: 10%;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media @mobile {
+  .container-fluid {
+    overflow: hidden;
+  }
+
+  .user-table {
+    font-size: 11px !important;
+
+    &-name {
+      font-size: 15px;
+    }
+
+    fa-icon {
+      display: none;
+    }
+  }
+}
+
+//usage of unconventional resolutions so it looks good with "outdated" smartphones like an iPhone 4 too
+@media screen and(max-width: 480px) {
+  .user-table {
+    font-size: 7px !important;
+
+    th span {
+      font-size: 13px !important;
+    }
+  }
+}
+
+@media screen and(max-width: 400px) {
+  .user-table {
+    td {
+      font-size: 11px !important;
+    }
+
+    .badge-position {
+      font-size: 10px;
+    }
+
+    th span {
+      font-size: 8px !important;
+    }
+
+    &-name {
+      font-size: 10px !important;
+    }
+  }
+
+  body {
+    min-width: 320px;
+  }
+}
+
+.notification-alert {
+  margin-top: 10px;
+  margin-bottom: 0;
+  color: white;
+  background-color: @colorscheme[success];
+}
