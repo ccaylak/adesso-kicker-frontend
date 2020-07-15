@@ -12,33 +12,28 @@ export const samePlayerValidator: ValidatorFn = (control: FormGroup): Validation
     || equals(playerA1, playerB1)
     || equals(playerA2, playerB2)
     || equals(playerA1, playerB2)) {
-    console.log("ganz oben");
     return {samePlayer: true};
   }
 
   if (equals(playerA1, playerB1)
     || equals(playerB1, playerB2)
     || equals(playerA1, playerB2)) {
-    console.log("zweite");
     return {samePlayer: true};
   }
 
   if ((equals(playerA1, playerB1))
     || (equals(playerB1, playerB2))
     || (equals(playerA1, playerB2))) {
-    console.log("dritte");
     return {samePlayer: true};
   }
 
   if (equals(playerA1, playerA2)
     || equals(playerA1, playerB1)
     || equals(playerA2, playerB1)) {
-    console.log("vierte");
     return {samePlayer: true};
   }
 
   if (equals(playerA1, playerB1)) {
-    console.log("letzte");
     return {samePlayer: true};
   }
   return null;

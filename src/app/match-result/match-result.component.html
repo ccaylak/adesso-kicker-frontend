@@ -10,13 +10,13 @@
     <!--/* Missing Player Error */-->
     <div *ngIf="playerB1.invalid  && playerB1.touched" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
-      <span *ngIf="playerB1.errors.required"> Bitte wähle einen Gegner aus</span>
+      <span *ngIf="playerB1.errors?.required"> Bitte wähle einen Gegner aus</span>
     </div>
 
     <!--/* Same Player Error */-->
-    <div *ngIf="teamGroup?.invalid && teamGroup?.touched" class="popup popup-error">
+    <div *ngIf="teamGroup.errors?.samePlayer" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
-      <span *ngIf="teamGroup?.errors.samePlayer">Ein Spieler kann an einem Kicker-Spiel nur einmal teilnehmen</span>
+      <span> Ein Spieler kann an einem Kicker-Spiel nur einmal teilnehmen</span>
     </div>
 
     <div *ngIf="(players$|async) as players" class="row" formGroupName="teamGroup">
