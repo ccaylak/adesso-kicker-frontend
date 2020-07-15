@@ -4,18 +4,20 @@
       <div class="col-11">
         <div id="playerName">
           <h2>Rangliste</h2>
+          <br>
         </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="pages.size>0; then thenBlock else elseBlock"></div>
+  <div *ngIf="pages.content>0; then thenBlock else elseBlock"></div>
   <!--/* User List */-->
   <ng-template #thenBlock>
     <div class="container-fluid">
       <div class="table-container">
         <div id="info-tooltip">
-          <fa-icon class="fa-info-circle" [icon]="faInfoCircle" tooltip="Seasons finden jedes Quartal statt" placement="left"></fa-icon>
+          <fa-icon class="fa-info-circle" [icon]="faInfoCircle" tooltip="Seasons finden jedes Quartal statt"
+                   placement="left"></fa-icon>
         </div>
         <div class="shadow-sm" id="table-container">
           <table class="user-table table">
@@ -61,7 +63,10 @@
     </div>
   </ng-template>
   <ng-template #elseBlock>
-    <div class="text-center alert alert-danger">Es wurden noch keine Spiele gespielt, daher gibt es noch keine Ränge
+    <div class="container-fluid">
+      <div class="text-center alert alert-danger">
+        Es wurden noch keine Spiele gespielt, daher gibt es noch keine Ränge
+      </div>
     </div>
   </ng-template>
 </div>

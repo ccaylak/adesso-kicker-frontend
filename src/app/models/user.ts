@@ -1,7 +1,7 @@
 import {Statistic} from './statistic';
 
 export interface User {
-userId: string;
+  userId: string;
   firstName: string;
   lastName: string;
   email: string;

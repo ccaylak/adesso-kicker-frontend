@@ -4,7 +4,6 @@ import {User} from '../models/user';
 import {Observable} from 'rxjs';
 import {TrackedStatistic} from '../models/tracked-statistic';
 import {Page} from '../models/page';
-import {map} from 'rxjs/operators';
 import {environment} from "../../environments/environment";
 
 @Injectable({
@@ -18,11 +17,12 @@ export class UserService {
     if(userId==="you"){
       return this.httpClient.get<User>(`${environment.BASE_PATH}/users/you`);
     }
+    console.log(`${environment.BASE_PATH}/users/u/${userId}`)
     return this.httpClient.get<User>(`${environment.BASE_PATH}/users/u/${userId}`);
   }
 
   getAllUsers(): Observable<User[]> {
-    return this.httpClient.get<Page<User>>(`${environment.BASE_PATH}/ranking/all`).pipe(map((data) => data.content));
+    return this.httpClient.get<User[]>(`${environment.BASE_PATH}/users/all`);
   }
 
   getAllUsersAsPage(page: number): Observable<Page<User>> {
