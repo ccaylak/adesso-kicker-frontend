@@ -4,7 +4,7 @@ import {User} from '../models/user';
 import {Observable} from 'rxjs';
 import {TrackedStatistic} from '../models/tracked-statistic';
 import {Page} from '../models/page';
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class UserService {
   }
 
   getUser(userId: string): Observable<User> {
-    if(userId==="you"){
+    if (userId === 'you') {
       return this.httpClient.get<User>(`${environment.BASE_PATH}/users/you`);
     }
     return this.httpClient.get<User>(`${environment.BASE_PATH}/users/u/${userId}`);

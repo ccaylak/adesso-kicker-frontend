@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AuthConfig, JwksValidationHandler, OAuthService} from 'angular-oauth2-oidc';
-import {UserService} from "./services/user.service";
+import {UserService} from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import {UserService} from "./services/user.service";
 })
 export class AppComponent {
 
-  constructor(private oAuthService: OAuthService, private userService:UserService) {
+  constructor(private oAuthService: OAuthService, private userService: UserService) {
     this.authConfig();
   }
 
@@ -25,7 +25,7 @@ export const authConfig: AuthConfig = {
   issuer: 'http://localhost:8081/auth/realms/adesso',
 
   // URL of the SPA to redirect the user to after login
-  redirectUri: "http://localhost:4200/users/you",
+  redirectUri: 'http://localhost:4200/users/you',
 
   // The SPA's id. The SPA is registered with this id at the auth-server
   clientId: 'angular-login',

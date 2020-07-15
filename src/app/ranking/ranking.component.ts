@@ -37,7 +37,8 @@ export class RankingComponent implements OnInit, OnDestroy {
 
   getAllUsers() {
     this.pages$ = this.userService.getAllUsersAsPage(this.page);
-    this.userService.getAllUsersAsPage(this.page).pipe(takeUntil(this.$destroy)).subscribe((pageUser) => this.usersPlaceholder = pageUser.content);
+    this.userService.getAllUsersAsPage(this.page).pipe(takeUntil(this.$destroy))
+      .subscribe((pageUser) => this.usersPlaceholder = pageUser.content);
   }
 
   getFullName(myUser: User): string {
