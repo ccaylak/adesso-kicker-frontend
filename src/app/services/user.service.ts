@@ -17,7 +17,6 @@ export class UserService {
     if(userId==="you"){
       return this.httpClient.get<User>(`${environment.BASE_PATH}/users/you`);
     }
-    console.log(`${environment.BASE_PATH}/users/u/${userId}`)
     return this.httpClient.get<User>(`${environment.BASE_PATH}/users/u/${userId}`);
   }
 

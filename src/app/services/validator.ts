@@ -1,39 +1,44 @@
 import {FormGroup, ValidationErrors, ValidatorFn} from '@angular/forms';
 
 export const samePlayerValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-  const teamAPlayer1 = control.get('teamPlayerA1').value;
-  const teamAPlayer2 = control.get('teamPlayerA2').value;
-  const teamBPlayer1 = control.get('teamPlayerB1').value;
-  const teamBPlayer2 = control.get('teamPlayerB2').value;
+  const playerA1 = control.get('playerA1').value;
+  const playerA2 = control.get('playerA2').value;
+  const playerB1 = control.get('playerB1').value;
+  const playerB2 = control.get('playerB2').value;
 
-  if (equals(teamAPlayer1, teamAPlayer2)
-    || equals(teamAPlayer2, teamBPlayer1)
-    || equals(teamBPlayer1, teamBPlayer2)
-    || equals(teamAPlayer1, teamBPlayer1)
-    || equals(teamAPlayer2, teamBPlayer2)
-    || equals(teamAPlayer1, teamBPlayer2)) {
+  if (equals(playerA1, playerA2)
+    || equals(playerA2, playerB1)
+    || equals(playerB1, playerB2)
+    || equals(playerA1, playerB1)
+    || equals(playerA2, playerB2)
+    || equals(playerA1, playerB2)) {
+    console.log("ganz oben");
     return {samePlayer: true};
   }
 
-  if (equals(teamAPlayer1, teamBPlayer1)
-    || equals(teamBPlayer1, teamBPlayer2)
-    || equals(teamAPlayer1, teamBPlayer2)) {
+  if (equals(playerA1, playerB1)
+    || equals(playerB1, playerB2)
+    || equals(playerA1, playerB2)) {
+    console.log("zweite");
     return {samePlayer: true};
   }
 
-  if ((equals(teamAPlayer1, teamBPlayer1))
-    || (equals(teamBPlayer1, teamBPlayer2))
-    || (equals(teamAPlayer1, teamBPlayer2))) {
+  if ((equals(playerA1, playerB1))
+    || (equals(playerB1, playerB2))
+    || (equals(playerA1, playerB2))) {
+    console.log("dritte");
     return {samePlayer: true};
   }
 
-  if (equals(teamAPlayer1, teamAPlayer2)
-    || equals(teamAPlayer1, teamBPlayer1)
-    || equals(teamAPlayer2, teamBPlayer1)) {
+  if (equals(playerA1, playerA2)
+    || equals(playerA1, playerB1)
+    || equals(playerA2, playerB1)) {
+    console.log("vierte");
     return {samePlayer: true};
   }
 
-  if (equals(teamAPlayer1, teamBPlayer1)) {
+  if (equals(playerA1, playerB1)) {
+    console.log("letzte");
     return {samePlayer: true};
   }
   return null;

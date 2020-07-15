@@ -3,64 +3,75 @@
     <!--/* Info Tooltip */-->
     <fa-icon class="info-tooltip" [icon]="faInfoCircle" tooltip="Du kannst 1v1, 1v2, 2v1 oder 2v2 spielen"
              placement="left" size="2x"></fa-icon>
-    <!--/* Who played? */-->
+
+    <!--/* Which players played? */-->
     <div class="headline">Wer hat gespielt?</div>
-    <!--/* Error Warning (Same Player) */-->
-    <div *ngIf="matchRequestForm.errors?.samePlayer" class="popup popup-error">
+
+    <!--/* Missing Player Error */-->
+    <div *ngIf="playerB1.invalid  && playerB1.touched" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
-      <span> Ein Spieler kann an einem Kicker-Spiel nur einmal teilnehmen</span>
-    </div>
-    <!--/* Error Warning (Null Player) */-->
-    <div *ngIf="teamPlayerB1.invalid && teamPlayerB1.touched"
-         class="popup popup-error">
-      <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
-      <span> Bitte wähle Spieler 1 für Team A und Team B</span>
+      <span *ngIf="playerB1.errors.required"> Bitte wähle einen Gegner aus</span>
     </div>
 
-    <div *ngIf="(teamPlayers$|async) as teamPlayers" class="row" formGroupName="teamPlayersGroup">
+    <!--/* Same Player Error */-->
+    <div *ngIf="teamGroup?.invalid && teamGroup?.touched" class="popup popup-error">
+      <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
+      <span *ngIf="teamGroup?.errors.samePlayer">Ein Spieler kann an einem Kicker-Spiel nur einmal teilnehmen</span>
+    </div>
+
+    <div *ngIf="(players$|async) as players" class="row" formGroupName="teamGroup">
       <!--/* Team A */-->
       <div class="col-sm-6">
         <div class="team-description">Team A</div>
+
+        <!--/* PlayerA2 */-->
         <div class="team team-textbox">
-          <input class="form-control" formControlName="teamPlayerA1" type="text" name="teamAPlayer1" id="teamAPlayer1"/>
-          <input list=playersOfTeamA formControlName="teamPlayerA2" class="form-control" type="text" id="teamAPlayer2"
-                 name="teamAPlayer2">
+          <input class="form-control" formControlName="playerA1" type="text" name="playerA1" id="playerA1"/>
+          <input list=playersOfTeamA formControlName="playerA2" class="form-control" type="text" id="playerA2"
+                 name="playerA2">
           <datalist id="playersOfTeamA">
             <option
-              *ngFor="let teamPlayerA of teamPlayers"
-              [value]="teamPlayerA.userId">{{teamPlayerA.firstName}} {{teamPlayerA.lastName}}</option>
+              *ngFor="let playerA2 of players"
+              [value]="playerA2.userId">{{playerA2.firstName}} {{playerA2.lastName}}</option>
           </datalist>
         </div>
       </div>
+
       <!--/* Team B */-->
       <div class="col-sm-6">
         <div class="team-description">Team B</div>
         <div class="team team-textbox search-bar">
+
+          <!--/* PlayerB1 */-->
           <ng-container>
-            <input list="playerB1"
-                   formControlName="teamPlayerB1" class="form-control" type="text" id="teamBPlayer1"
-                   name="teamBPlayer1"
-                   [class.is-invalid]="teamPlayerB1.invalid && teamPlayerB1.touched"/>
-            <datalist id="playerB1">
+            <input list="playersOfTeamB1"
+                   formControlName="playerB1" class="form-control" type="text" id="playerB1"
+                   name="playerB1"
+                   [class.is-invalid]="playerB1.invalid && playerB1.touched"/>
+            <datalist id="playersOfTeamB1">
               <option
-                *ngFor="let teamPlayerB1 of teamPlayers"
-                [value]="teamPlayerB1.userId">{{teamPlayerB1.firstName}} {{teamPlayerB1.lastName}}</option>
+                *ngFor="let playerB1 of players"
+                [value]="playerB1.userId">{{playerB1.firstName}} {{playerB1.lastName}}</option>
             </datalist>
           </ng-container>
+
+          <!--/* PlayerB2 */-->
           <ng-container>
-            <input list="playerB2" formControlName="teamPlayerB2" class="form-control" type="text" id="teamBPlayer2"
-                   name="teamBPlayer2"/>
-            <datalist id="playerB2">
+            <input list="playersOfTeamB2" formControlName="playerB2" class="form-control" type="text" id="playerB2"
+                   name="playerB2"/>
+            <datalist id="playersOfTeamB2">
               <option
-                *ngFor="let teamPlayerB2 of teamPlayers"
-                [value]="teamPlayerB2.userId">{{teamPlayerB2.firstName}} {{teamPlayerB2.lastName}}</option>
+                *ngFor="let playerB2 of players"
+                [value]="playerB2.userId">{{playerB2.firstName}} {{playerB2.lastName}}</option>
             </datalist>
           </ng-container>
         </div>
       </div>
     </div>
+
     <div formGroupName="matchGroup" class="container">
-      <!--/* Who won */-->
+
+      <!--/* Which Team won? */-->
       <div class="headline">Wer hat gewonnen?</div>
       <!--/* Radio Buttons */-->
       <div class="row" id="radio-winner-team">
@@ -95,15 +106,13 @@
         </div>
       </div>
     </div>
-    <!--/* Error NoDate */-->
-    <div *ngIf="date.errors?.required" class="popup popup-error">
+
+    <div *ngIf="date.invalid && date.touched" class="popup popup-error">
       <i class="fa fa-times" aria-hidden="true"></i>
-      <span> Bitte wähle ein gültiges Datum</span>
-    </div>
-    <!--/* Error Future Date */-->
-    <div *ngIf="date.errors?.required" class="popup popup-error">
-      <i class="fa fa-times" aria-hidden="true"></i>
-      <span> Bitte wähle ein Datum, dass nicht in der Zukunft liegt</span>
+      <!--/* Error No Date */-->
+      <span *ngIf="date.errors['required']">Bitte wähle ein gültiges Datum</span>
+      <!--/* Error Date in Future */-->
+      <span *ngIf="date.errors['bsDate']">Bitte wähle ein Datum, dass nicht in der Zukunft liegt</span>
     </div>
     <!--/* Submit Match */-->
     <div>
