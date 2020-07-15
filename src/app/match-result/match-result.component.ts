@@ -37,13 +37,17 @@ export class MatchResultComponent implements OnInit {
   }
 
   matchRequestForm = this.fb.group({
-    teamPlayerA1: [{value: this.loginService.userId, disabled: true}],
-    teamPlayerA2: [''],
-    teamPlayerB1: ['', Validators.required],
-    teamPlayerB2: [''],
-    date: [new Date(), Validators.required],
-    winnerTeam: ['teamA', Validators.required]
-  }, {validators: samePlayerValidator});
+    teamPlayersGroup: this.fb.group({
+      teamPlayerA1: [{value: this.loginService.userId, disabled: true}],
+      teamPlayerA2: [''],
+      teamPlayerB1: ['', Validators.required],
+      teamPlayerB2: [''],
+    }),
+    matchGroup: this.fb.group({
+      date: [new Date(), Validators.required],
+      winnerTeam: ['teamA', Validators.required]
+    })
+  })//, {validators: samePlayerValidator});
 
   ngOnInit() {
     this.user$ = this.userService.getUser(this.loginService.userId);
@@ -51,22 +55,33 @@ export class MatchResultComponent implements OnInit {
   }
 
   get date() {
-    return this.matchRequestForm.get('date');
+    return this.matchRequestForm.get('matchGroup.date');
+  }
+
+  get teamPlayerA2() {
+    return this.matchRequestForm.get('teamPlayersGroup.teamPlayerA2');
   }
 
   get teamPlayerB1() {
-    return this.matchRequestForm.get('teamPlayerB1');
+    return this.matchRequestForm.get('teamPlayersGroup.teamPlayerB1');
+  }
+
+  get teamPlayerB2() {
+    return this.matchRequestForm.get('teamPlayersGroup.teamPlayerB2');
+  }
+
+  get winnerTeam() {
+    return this.matchRequestForm.get('matchGroup.winnerTeam');
   }
 
   matchParser() {
-    const matchDate = this.matchRequestForm.get('date').value;
-    const matchWinnerTeam = this.matchRequestForm.get('winnerTeam').value === 'teamA';
-    const matchTeamPlayerA1 = this.matchRequestForm.get('teamPlayerA1').value;
-    const matchTeamPlayerA2 = this.matchRequestForm.get('teamPlayerA2').value;
-    const matchTeamPlayerB1 = this.matchRequestForm.get('teamPlayerB1').value;
-    const matchTeamPlayerB2 = this.matchRequestForm.get('teamPlayerB2').value;
+    const matchDate: Date = this.date.value;
+    const matchWinnerTeam = this.winnerTeam.value === 'teamA';
+    const matchTeamPlayerA2: string = this.teamPlayerA2.value;
+    const matchTeamPlayerB1: string = this.teamPlayerB1.value;
+    const matchTeamPlayerB2: string = this.teamPlayerB2.value;
     forkJoin([
-      this.userService.getUser(matchTeamPlayerA1),
+      this.userService.getUser(this.loginService.userId),
       this.userService.getUser(matchTeamPlayerA2),
       this.userService.getUser(matchTeamPlayerB1),
       this.userService.getUser(matchTeamPlayerB2)
@@ -79,12 +94,12 @@ export class MatchResultComponent implements OnInit {
         teamBPlayer2: userArray[3],
         winnerTeamA: matchWinnerTeam
       };
-      this.matchService.addMatch(this.match).subscribe(value => console.log('Success: ' + value), err=> alert("moin"));
+      this.matchService.addMatch(this.match).subscribe(value => console.log('Success: ' + value), err => alert("moin"));
       console.log(this.match);
     });
   }
 
   onSubmit() {
-    console.log(this.matchRequestForm.value);
+    console.log(this.matchRequestForm);
   }
 }

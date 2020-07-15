@@ -1,4 +1,4 @@
-<form [formGroup]="matchRequestForm" (ngSubmit)="matchParser()">
+<form [formGroup]="matchRequestForm" (ngSubmit)="onSubmit()">
   <div class="container shadow" id="form">
     <!--/* Info Tooltip */-->
     <fa-icon class="info-tooltip" [icon]="faInfoCircle" tooltip="Du kannst 1v1, 1v2, 2v1 oder 2v2 spielen"
@@ -17,7 +17,7 @@
       <span> Bitte wähle Spieler 1 für Team A und Team B</span>
     </div>
 
-    <div *ngIf="(teamPlayers$|async) as teamPlayers" class="row">
+    <div *ngIf="(teamPlayers$|async) as teamPlayers" class="row" formGroupName="teamPlayersGroup">
       <!--/* Team A */-->
       <div class="col-sm-6">
         <div class="team-description">Team A</div>
@@ -59,26 +59,42 @@
         </div>
       </div>
     </div>
-    <!--/* Who won */-->
-    <div class="headline">Wer hat gewonnen?</div>
-    <!--/* Radio Buttons */-->
-    <div class="row" id="radio-winner-team">
-      <div class="col">
-        <div class="form-check" id="form-check-1">
-          <input type="radio" formControlName="winnerTeam" value="teamA" name="winnerTeam" id="radio1">
-          <label class="form-check-label" for="radio1">Team A</label>
+    <div formGroupName="matchGroup" class="container">
+      <!--/* Who won */-->
+      <div class="headline">Wer hat gewonnen?</div>
+      <!--/* Radio Buttons */-->
+      <div class="row" id="radio-winner-team">
+        <div class="col">
+          <div class="form-check" id="form-check-1">
+            <input type="radio" formControlName="winnerTeam" value="teamA" name="winnerTeam" id="radio1">
+            <label class="form-check-label" for="radio1">Team A</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check" id="form-check-2">
+            <input type="radio" formControlName="winnerTeam" value="teamB" name="winnerTeam" id="radio2">
+            <label class="form-check-label" for="radio2">Team B</label>
+          </div>
         </div>
       </div>
-      <div class="col">
-        <div class="form-check" id="form-check-2">
-          <input type="radio" formControlName="winnerTeam" value="teamB" name="winnerTeam" id="radio2">
-          <label class="form-check-label" for="radio2">Team B</label>
+      <!--/* When did you play? */-->
+      <div class="headline">Wann habt ihr gespielt?</div>
+      <!--/* Datepicker */-->
+      <div class="form-group col-sm-6" id="datetimepicker-form-group">
+        <div class="input-group date">
+          <input type="text" id="datetimepicker" #dp="bsDatepicker" formControlName="date" class="form-control"
+                 bsDatepicker
+                 [bsConfig]="{isAnimated: true}" [maxDate]="bsValueAndMaxDate"
+                 placement="top"
+                 [class.is-invalid]="date.invalid && date.touched">
+          <div class="input-group-append">
+            <div class="input-group-text" (click)="dp.toggle()">
+              <fa-icon [icon]="faCalender"></fa-icon>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <!--/* When did you play? */-->
-    <div class="headline">Wann habt ihr gespielt?</div>
-    <!--/* Datepicker */-->
     <!--/* Error NoDate */-->
     <div *ngIf="date.errors?.required" class="popup popup-error">
       <i class="fa fa-times" aria-hidden="true"></i>
@@ -88,22 +104,6 @@
     <div *ngIf="date.errors?.required" class="popup popup-error">
       <i class="fa fa-times" aria-hidden="true"></i>
       <span> Bitte wähle ein Datum, dass nicht in der Zukunft liegt</span>
-    </div>
-
-
-    <div class="form-group col-sm-6" id="datetimepicker-form-group">
-      <div class="input-group date">
-        <input type="text" id="datetimepicker" #dp="bsDatepicker" formControlName="date" class="form-control"
-               bsDatepicker
-               [bsConfig]="{isAnimated: true}" [maxDate]="bsValueAndMaxDate"
-               placement="top"
-               [class.is-invalid]="date.invalid && date.touched">
-        <div class="input-group-append">
-          <div class="input-group-text" (click)="dp.toggle()">
-            <fa-icon [icon]="faCalender"></fa-icon>
-          </div>
-        </div>
-      </div>
     </div>
     <!--/* Submit Match */-->
     <div>
