@@ -5,10 +5,10 @@ import {faInfoCircle} from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import {faCalendar} from '@fortawesome/free-solid-svg-icons/faCalendar';
 import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 import {Match} from '../models/match';
-import {forkJoin, Observable} from 'rxjs';
+import {forkJoin, Observable, Subject, Subscription} from 'rxjs';
 import {User} from '../models/user';
 import {LoginService} from '../services/login.service';
-import {FormBuilder, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, ValidationErrors, Validators} from '@angular/forms';
 import {samePlayerValidator} from '../services/validator';
 import {MatchService} from '../services/match.service';
 
@@ -32,7 +32,7 @@ export class MatchResultComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private loginService: LoginService,
-    private matchService: MatchService
+    private matchService: MatchService,
   ) {
   }
 
@@ -40,7 +40,7 @@ export class MatchResultComponent implements OnInit {
     teamGroup: this.fb.group({
       playerA1: [{value: this.loginService.userId, disabled: true}],
       playerA2: [''],
-      playerB1: ['', Validators.required],
+      playerB1: ['', Validators.required, this.nonExistentUser],
       playerB2: [''],
     }, {validators: samePlayerValidator}),
     matchGroup: this.fb.group({
@@ -52,30 +52,6 @@ export class MatchResultComponent implements OnInit {
   ngOnInit() {
     this.user$ = this.userService.getUser(this.loginService.userId);
     this.players$ = this.userService.getAllUsers();
-  }
-
-  get date() {
-    return this.matchRequestForm.get('matchGroup.date');
-  }
-
-  get teamGroup() {
-    return this.matchRequestForm.get('teamGroup');
-  }
-
-  get playerA2() {
-    return this.matchRequestForm.get('teamGroup.playerA2');
-  }
-
-  get playerB1() {
-    return this.matchRequestForm.get('teamGroup.playerB1');
-  }
-
-  get playerB2() {
-    return this.matchRequestForm.get('teamGroup.playerB2');
-  }
-
-  get winnerTeam() {
-    return this.matchRequestForm.get('matchGroup.winnerTeam');
   }
 
   matchParser() {
@@ -103,7 +79,51 @@ export class MatchResultComponent implements OnInit {
     });
   }
 
+  nonExistentUser(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+    return new Promise<ValidationErrors>((resolve) => {
+      console.log('Eingegebener Wert: ' + control.value);
+      console.log('Kurz vor Subscribe');
+      this.userService.getUser(control.value).subscribe(
+        userObject => {
+          if (userObject === null) {
+            resolve({'notExistentUser': true})
+          } else {
+            resolve(null);
+          }
+        }, error => {
+          console.log(error);
+        });
+    });
+  }
+
+  get date() {
+    return this.matchRequestForm.get('matchGroup.date');
+  }
+
+  get teamGroup() {
+    return this.matchRequestForm.get('teamGroup');
+  }
+
+  get playerA2() {
+    return this.matchRequestForm.get('teamGroup.playerA2');
+  }
+
+  get playerB1() {
+    return this.matchRequestForm.get('teamGroup.playerB1');
+  }
+
+  get playerB2() {
+    return this.matchRequestForm.get('teamGroup.playerB2');
+  }
+
+  get winnerTeam() {
+    return this.matchRequestForm.get('matchGroup.winnerTeam');
+  }
+
   onSubmit() {
     console.log(this.matchRequestForm);
   }
 }
+
+
+
