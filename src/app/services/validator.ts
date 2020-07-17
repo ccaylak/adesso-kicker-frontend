@@ -1,6 +1,6 @@
-import {FormGroup, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {FormGroup, ValidationErrors} from '@angular/forms';
 
-export const samePlayerValidator: ValidatorFn = (group: FormGroup): ValidationErrors | null => {
+export function samePlayerValidator(group: FormGroup): ValidationErrors | null {
   const playerA1 = group.get('playerA1').value;
   const playerA2 = group.get('playerA2').value;
   const playerB1 = group.get('playerB1').value;
@@ -15,7 +15,7 @@ export const samePlayerValidator: ValidatorFn = (group: FormGroup): ValidationEr
     return {samePlayer: true};
   }
   return null;
-};
+}
 
 function equals(a, b): boolean {
   return a && a === b;

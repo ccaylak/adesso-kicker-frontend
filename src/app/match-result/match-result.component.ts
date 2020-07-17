@@ -5,12 +5,13 @@ import {faInfoCircle} from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import {faCalendar} from '@fortawesome/free-solid-svg-icons/faCalendar';
 import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 import {Match} from '../models/match';
-import {forkJoin, Observable, Subject, Subscription} from 'rxjs';
+import {forkJoin, Observable} from 'rxjs';
 import {User} from '../models/user';
 import {LoginService} from '../services/login.service';
-import {AbstractControl, FormBuilder, FormControl, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms';
 import {samePlayerValidator} from '../services/validator';
 import {MatchService} from '../services/match.service';
+import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-match-result',
@@ -40,7 +41,7 @@ export class MatchResultComponent implements OnInit {
     teamGroup: this.fb.group({
       playerA1: [{value: this.loginService.userId, disabled: true}],
       playerA2: [''],
-      playerB1: ['', Validators.required, this.nonExistentUser],
+      playerB1: ['', Validators.required, this.nonExistentUser.bind(this)],
       playerB2: [''],
     }, {validators: samePlayerValidator}),
     matchGroup: this.fb.group({
@@ -80,18 +81,15 @@ export class MatchResultComponent implements OnInit {
   }
 
   nonExistentUser(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
-    return new Promise<ValidationErrors>((resolve) => {
-      console.log('Eingegebener Wert: ' + control.value);
-      console.log('Kurz vor Subscribe');
+    return new Promise<ValidationErrors>(resolve => {
       this.userService.getUser(control.value).subscribe(
         userObject => {
-          if (userObject === null) {
-            resolve({'notExistentUser': true})
-          } else {
+          if (userObject !== null) {
             resolve(null);
           }
         }, error => {
-          console.log(error);
+          if (control.value!=='')
+          resolve({'notExistentUser': true})
         });
     });
   }

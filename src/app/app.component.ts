@@ -9,7 +9,7 @@ import {UserService} from './services/user.service';
 })
 export class AppComponent {
 
-  constructor(private oAuthService: OAuthService, private userService: UserService) {
+  constructor(private oAuthService: OAuthService) {
     this.authConfig();
   }
 

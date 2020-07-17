@@ -11,6 +11,7 @@
     <div *ngIf="playerB1.invalid  && playerB1.touched" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
       <span *ngIf="playerB1.errors?.required"> Bitte wähle einen Gegner aus</span>
+      <span *ngIf="playerB1.errors?.notExistentUser"> SpielerB1 ({{playerB1.value}}) existiert nicht</span>
     </div>
 
     <!--/* Same Player Error */-->
@@ -115,12 +116,6 @@
       <span *ngIf="date.errors['bsDate']">Bitte wähle ein Datum, dass nicht in der Zukunft liegt</span>
     </div>
     <!--/* Submit Match */-->
-    <div>
-      <div *ngIf="matchRequestForm.valid" class="popup popup-success">
-        <fa-icon [icon]="faCheck" aria-hidden="true"></fa-icon>
-        <span> Match erfolgreich erstellt</span>
-      </div>
-      <button type="submit" class="btn btn-primary">Match erstellen</button>
-    </div>
+    <button type="submit" class="btn btn-primary">Match erstellen</button>
   </div>
 </form>
