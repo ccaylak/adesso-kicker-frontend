@@ -38,7 +38,10 @@ export class RankingComponent implements OnInit, OnDestroy {
   getAllUsers() {
     this.pages$ = this.userService.getAllUsersAsPage(this.page);
     this.userService.getAllUsersAsPage(this.page).pipe(takeUntil(this.$destroy))
-      .subscribe((pageUser) => this.usersPlaceholder = pageUser.content);
+      .subscribe((pageUser) => {
+        console.log(pageUser.content.length);
+        this.usersPlaceholder = pageUser.content;
+      });
   }
 
   getFullName(myUser: User): string {
@@ -57,8 +60,7 @@ export class RankingComponent implements OnInit, OnDestroy {
   }
 
   pageChanged(event: PageChangedEvent): void {
-    this.userService.getAllUsersAsPage(event.page - 1).
-    pipe(takeUntil(this.$destroy)).subscribe((pageUser) => this.usersPlaceholder = pageUser.content);
+    this.userService.getAllUsersAsPage(event.page - 1).pipe(takeUntil(this.$destroy)).subscribe((pageUser) => this.usersPlaceholder = pageUser.content);
   }
 
   profile(userId: string) {

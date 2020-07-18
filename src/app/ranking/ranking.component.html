@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div *ngIf="pages.content>0; then thenBlock else elseBlock"></div>
+  <div *ngIf="pages.content.length>0; then thenBlock else elseBlock"></div>
   <!--/* User List */-->
   <ng-template #thenBlock>
     <div class="container-fluid">
