@@ -7,34 +7,30 @@
     <!--/* Links */-->
     <div class="navbar-collapse collapse">
       <ul class="navbar-nav">
-        <div *ngIf="loginService.token">
-          <li class="nav-item header-link">
-            <a class="nav-link clickable" (click)="match()">
-              <div class="nav-link hvr-underline-from-left">
-                <fa-icon [icon]="faCalenderCheck"></fa-icon>
-                Kicker-Spiel eintragen
-              </div>
-            </a>
-          </li>
-        </div>
-        <li class="nav-item header-link">
-          <a class="nav-link clickable" (click)="ranking()">
-            <div class="nav-link hvr-underline-from-left">
+        <li *ngIf="loginService.token" class="nav-item header-link clickable" (click)="match()">
+          <div class="nav-link">
+            <div class="nav-link">
+              <fa-icon [icon]="faCalenderCheck"></fa-icon>
+              Kicker-Spiel eintragen
+            </div>
+          </div>
+        </li>
+        <li class="nav-item header-link clickable" (click)="ranking()">
+          <div class="nav-link">
+            <div class="nav-link">
               <fa-icon [icon]="faTrophy"></fa-icon>
               Rangliste
             </div>
-          </a>
+          </div>
         </li>
-        <div *ngIf="loginService.token">
-          <li class="nav-item header-link">
-            <a class="nav-link clickable" (click)="onProfile()">
-              <div class="nav-link hvr-underline-from-left">
-                <fa-icon [icon]="faUser"></fa-icon>
-                Mein Profil
-              </div>
-            </a>
-          </li>
-        </div>
+        <li *ngIf="loginService.token" class="nav-item header-link clickable" (click)="onProfile()">
+          <div class="nav-link">
+            <div class="nav-link">
+              <fa-icon [icon]="faUser"></fa-icon>
+              Mein Profil
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
     <app-notification></app-notification>
