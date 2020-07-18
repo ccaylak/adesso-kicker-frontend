@@ -63,14 +63,19 @@
           </a>
           </li>
           <div class="dropdown-divider"></div>
-          <li role="menuitem"><a class="dropdown-item clickable" (click)="toggleEmailNotifications()">
-            <fa-icon [icon]="faEnvelope"></fa-icon>
-            Emails</a>
+          <li role="menuitem">
+            <a class="dropdown-item clickable" (click)="toggleEmailNotifications()">
+              <fa-icon [icon]="faEnvelope"></fa-icon>
+              Mails: <span *ngIf="(emailNotification$|async) as mail; else disabled">aktiviert</span>
+              <ng-template #disabled>deaktiviert</ng-template>
+            </a>
           </li>
           <div class="dropdown-divider"></div>
-          <li role="menuitem"><a class="dropdown-item clickable" (click)="logout()">
-            <fa-icon [icon]="faSignOutAlt"></fa-icon>
-            Logout</a>
+          <li role="menuitem">
+            <a class="dropdown-item clickable" (click)="logout()">
+              <fa-icon [icon]="faSignOutAlt"></fa-icon>
+              Logout
+            </a>
           </li>
         </ul>
       </div>

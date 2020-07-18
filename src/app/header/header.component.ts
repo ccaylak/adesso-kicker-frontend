@@ -5,11 +5,9 @@ import {faTrophy} from '@fortawesome/free-solid-svg-icons/faTrophy';
 import {faUser} from '@fortawesome/free-solid-svg-icons/faUser';
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons/faSignOutAlt';
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
-import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
-import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 import {UserService} from '../services/user.service';
 import {LoginService} from '../services/login.service';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {NotificationService} from '../services/notification.service';
 
@@ -27,6 +25,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   faSignOutAlt = faSignOutAlt;
   faEnvelope = faEnvelope;
   subscriptionHandler: Subscription[] = [];
+  bool: boolean;
+  emailNotification$: Observable<boolean>;
 
   constructor(
     private router: Router,
@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.emailNotification$ = this.userService.getEmailNotifications();
   }
 
   login() {
@@ -48,18 +49,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   toggleEmailNotifications() {
-    this.userService.toggleMail().subscribe(value => {
-        console.log(value);
-      },
-      error => {
-        console.log('Error: ' + error);
-      });
-  }
-
-  notifications() {
-    this.subscriptionHandler.push(this.notificationService.getAllNotifications().subscribe((value => {
-      console.log(value);
-    })));
+    this.userService.toggleEmailNotifications().subscribe(success => {
+      this.emailNotification$ = this.userService.getEmailNotifications();
+    });
   }
 
   onProfile() {

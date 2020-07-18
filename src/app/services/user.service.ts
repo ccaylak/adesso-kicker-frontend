@@ -34,8 +34,12 @@ export class UserService {
     return this.httpClient.get<TrackedStatistic[]>(`${environment.BASE_PATH}/statistics/${userId}`);
   }
 
-  toggleMail() {
+  toggleEmailNotifications() {
     return this.httpClient.get(`${environment.BASE_PATH}/users/mail/toggle`);
+  }
+
+  getEmailNotifications() {
+    return this.httpClient.get<boolean>(`${environment.BASE_PATH}/users/mail/notification`);
   }
 }
 
