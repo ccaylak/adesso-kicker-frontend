@@ -9,8 +9,7 @@ import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 import {UserService} from '../services/user.service';
 import {LoginService} from '../services/login.service';
-import {Subject, Subscription} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {NotificationService} from '../services/notification.service';
 
@@ -27,8 +26,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   faUser = faUser;
   faSignOutAlt = faSignOutAlt;
   faEnvelope = faEnvelope;
-  faCheck = faCheck;
-  faTimes = faTimes;
   subscriptionHandler: Subscription[] = [];
 
   constructor(
@@ -50,7 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.loginService.logout();
   }
 
-  enableDisablemails() {
+  toggleEmailNotifications() {
     this.userService.toggleMail().subscribe(value => {
         console.log(value);
       },
