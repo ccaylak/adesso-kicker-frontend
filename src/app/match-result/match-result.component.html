@@ -1,4 +1,4 @@
-<form [formGroup]="matchRequestForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="matchRequestForm" (ngSubmit)="submitMatch()">
   <div class="container shadow" id="form">
     <!--/* Info Tooltip */-->
     <fa-icon class="info-tooltip" [icon]="faInfoCircle" tooltip="Du kannst 1v1, 1v2, 2v1 oder 2v2 spielen"
@@ -111,11 +111,11 @@
     <div *ngIf="date.invalid && date.touched" class="popup popup-error">
       <i class="fa fa-times" aria-hidden="true"></i>
       <!--/* Error No Date */-->
-      <span *ngIf="date.errors['required']">Bitte wähle ein gültiges Datum</span>
+      <span *ngIf="date.errors.required">Bitte wähle ein gültiges Datum</span>
       <!--/* Error Date in Future */-->
-      <span *ngIf="date.errors['bsDate']">Bitte wähle ein Datum, dass nicht in der Zukunft liegt</span>
+      <span *ngIf="date.errors.bsDate">Bitte wähle ein Datum, dass nicht in der Zukunft liegt</span>
     </div>
     <!--/* Submit Match */-->
-    <button type="submit" class="btn btn-primary">Match erstellen</button>
+    <button [disabled]="matchRequestForm.invalid" type="submit" class="btn btn-primary">Match erstellen</button>
   </div>
 </form>

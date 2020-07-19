@@ -3,7 +3,6 @@ import {UserService} from '../services/user.service';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 import {faInfoCircle} from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import {faCalendar} from '@fortawesome/free-solid-svg-icons/faCalendar';
-import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 import {Match} from '../models/match';
 import {forkJoin, Observable} from 'rxjs';
 import {User} from '../models/user';
@@ -11,7 +10,7 @@ import {LoginService} from '../services/login.service';
 import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms';
 import {samePlayerValidator} from '../services/validator';
 import {MatchService} from '../services/match.service';
-import {take} from "rxjs/operators";
+import {catchError} from "rxjs/operators";
 
 @Component({
   selector: 'app-match-result',
@@ -22,7 +21,6 @@ export class MatchResultComponent implements OnInit {
   faTimes = faTimes;
   faInfoCircle = faInfoCircle;
   faCalender = faCalendar;
-  faCheck = faCheck;
 
   match: Match;
   bsValueAndMaxDate = new Date(Date.now());
@@ -40,9 +38,9 @@ export class MatchResultComponent implements OnInit {
   matchRequestForm = this.fb.group({
     teamGroup: this.fb.group({
       playerA1: [{value: this.loginService.userId, disabled: true}],
-      playerA2: [''],
-      playerB1: ['', Validators.required, this.nonExistentUser.bind(this)],
-      playerB2: [''],
+      playerA2: [null],
+      playerB1: [null, Validators.required, this.nonExistentUser.bind(this)],
+      playerB2: [null],
     }, {validators: samePlayerValidator}),
     matchGroup: this.fb.group({
       date: [new Date(), Validators.required],
@@ -55,32 +53,110 @@ export class MatchResultComponent implements OnInit {
     this.players$ = this.userService.getAllUsers();
   }
 
-  matchParser() {
-    const matchDate: Date = this.date.value;
-    const matchWinnerTeam = this.winnerTeam.value === 'teamA';
-    const matchTeamPlayerA2: string = this.playerA2.value;
-    const matchTeamPlayerB1: string = this.playerB1.value;
-    const matchTeamPlayerB2: string = this.playerB2.value;
+  submitMatch() {
+    const playerA2: string = this.playerA2.value;
+    const playerB1: string = this.playerB1.value;
+    const playerB2: string = this.playerB2.value;
+
+    if (!playerA2 && playerB1 && !playerB2) {
+      this.Match1v1()
+    }
+
+    if (!playerA2 && playerB1 && playerB2) {
+      this.Match1v2();
+    }
+
+    if (playerA2 && playerB1 && !playerB2) {
+      this.Match2v1();
+    }
+
+    if (playerA2 && playerB1 && playerB2) {
+      this.Match2v2();
+    }
+  }
+
+  private Match1v1() {
     forkJoin([
       this.userService.getUser(this.loginService.userId),
-      this.userService.getUser(matchTeamPlayerA2),
-      this.userService.getUser(matchTeamPlayerB1),
-      this.userService.getUser(matchTeamPlayerB2)
+      this.userService.getUser(this.playerB1.value),
     ]).subscribe((userArray) => {
       this.match = {
-        date: matchDate,
+        date: this.date.value,
+        teamAPlayer1: userArray[0],
+        teamAPlayer2: null,
+        teamBPlayer1: userArray[1],
+        teamBPlayer2: null,
+        winnerTeamA: this.winnerTeam.value === 'teamA'
+      };
+      this.matchService.addMatch(this.match).subscribe(
+        value => console.log('Success'),
+      );
+    });
+  }
+
+  private Match1v2() {
+    forkJoin([
+      this.userService.getUser(this.loginService.userId),
+      this.userService.getUser(this.playerB1.value),
+      this.userService.getUser(this.playerB2.value)
+    ]).subscribe((userArray) => {
+      this.match = {
+        date: this.date.value,
+        teamAPlayer1: userArray[0],
+        teamAPlayer2: null,
+        teamBPlayer1: userArray[1],
+        teamBPlayer2: userArray[2],
+        winnerTeamA: this.winnerTeam.value === 'teamA'
+      };
+      this.matchService.addMatch(this.match).subscribe(
+        value => console.log('Success'),
+      );
+    });
+  }
+
+  private Match2v1() {
+    forkJoin([
+      this.userService.getUser(this.loginService.userId),
+      this.userService.getUser(this.playerA2.value),
+      this.userService.getUser(this.playerB1.value),
+    ]).subscribe((userArray) => {
+      this.match = {
+        date: this.date.value,
+        teamAPlayer1: userArray[0],
+        teamAPlayer2: userArray[1],
+        teamBPlayer1: userArray[2],
+        teamBPlayer2: null,
+        winnerTeamA: this.winnerTeam.value === 'teamA'
+      };
+      this.matchService.addMatch(this.match).subscribe(
+        value => console.log('Success'),
+      );
+    });
+  }
+
+  private Match2v2() {
+    forkJoin([
+      this.userService.getUser(this.loginService.userId),
+      this.userService.getUser(this.playerA2.value),
+      this.userService.getUser(this.playerB1.value),
+      this.userService.getUser(this.playerB2.value)
+    ]).subscribe((userArray) => {
+      this.match = {
+        date: this.date.value,
         teamAPlayer1: userArray[0],
         teamAPlayer2: userArray[1],
         teamBPlayer1: userArray[2],
         teamBPlayer2: userArray[3],
-        winnerTeamA: matchWinnerTeam
+        winnerTeamA: this.winnerTeam.value === 'teamA'
       };
-      this.matchService.addMatch(this.match).subscribe(value => console.log('Success: ' + value), err => alert('moin'));
       console.log(this.match);
+      this.matchService.addMatch(this.match).subscribe(
+        value => console.log('Success: ' + value),
+      );
     });
   }
 
-  nonExistentUser(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+  private nonExistentUser(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
     return new Promise<ValidationErrors>(resolve => {
       this.userService.getUser(control.value).subscribe(
         userObject => {
@@ -88,8 +164,8 @@ export class MatchResultComponent implements OnInit {
             resolve(null);
           }
         }, error => {
-          if (control.value!=='')
-          resolve({'notExistentUser': true})
+          if (control.value !== '')
+            resolve({'notExistentUser': true})
         });
     });
   }
@@ -116,10 +192,6 @@ export class MatchResultComponent implements OnInit {
 
   get winnerTeam() {
     return this.matchRequestForm.get('matchGroup.winnerTeam');
-  }
-
-  onSubmit() {
-    console.log(this.matchRequestForm);
   }
 }
 

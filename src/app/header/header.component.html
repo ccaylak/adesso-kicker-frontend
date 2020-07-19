@@ -7,25 +7,26 @@
     <!--/* Links */-->
     <div class="navbar-collapse collapse">
       <ul class="navbar-nav">
-        <li *ngIf="loginService.token" class="nav-item header-link clickable" (click)="match()">
+        <li *ngIf="loginService.token" class="nav-item header-link clickable" [routerLink]="['matches','add']">
           <div class="nav-link">
-            <div class="nav-link">
+            <div class="nav-link" routerLinkActive="active">
               <fa-icon [icon]="faCalenderCheck"></fa-icon>
               Kicker-Spiel eintragen
             </div>
           </div>
         </li>
-        <li class="nav-item header-link clickable" (click)="ranking()">
+        <li class="nav-item header-link clickable" [routerLink]="['ranking']">
           <div class="nav-link">
-            <div class="nav-link">
+            <div class="nav-link" routerLinkActive="active">
               <fa-icon [icon]="faTrophy"></fa-icon>
               Rangliste
             </div>
           </div>
         </li>
-        <li *ngIf="loginService.token" class="nav-item header-link clickable" (click)="onProfile()">
+        <li *ngIf="loginService.token" class="nav-item header-link clickable"
+            [routerLink]="['users','u',loginService.userId]">
           <div class="nav-link">
-            <div class="nav-link">
+            <div class="nav-link" routerLinkActive="active">
               <fa-icon [icon]="faUser"></fa-icon>
               Mein Profil
             </div>
@@ -33,9 +34,9 @@
         </li>
       </ul>
     </div>
-    <app-notification></app-notification>
-    <div *ngIf="loginService.fullName; then thenBlock else elseBlock"></div>
-    <ng-template #thenBlock>
+    <app-notification *ngIf="loginService.token"></app-notification>
+    <div *ngIf="loginService.fullName; then userControls else loginButton"></div>
+    <ng-template #userControls>
       <div class="btn-group" dropdown>
         <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
                 aria-controls="dropdown-animated">
@@ -43,40 +44,43 @@
         </button>
         <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
             aria-labelledby="button-animated">
-          <li role="menuitem"><a class="dropdown-item clickable" (click)="match()">
-            <fa-icon [icon]="faCalenderCheck"></fa-icon>
-            Kicker-Spiel eintragen
-          </a>
+          <li role="menuitem">
+            <div class="dropdown-item clickable" (click)="match()">
+              <fa-icon [icon]="faCalenderCheck"></fa-icon>
+              Kicker-Spiel eintragen
+            </div>
           </li>
-          <li role="menuitem"><a class="dropdown-item clickable" (click)="ranking()">
-            <fa-icon [icon]="faTrophy"></fa-icon>
-            Rangliste
-          </a>
+          <li role="menuitem">
+            <div class="dropdown-item clickable" (click)="ranking()">
+              <fa-icon [icon]="faTrophy"></fa-icon>
+              Rangliste
+            </div>
           </li>
-          <li role="menuitem"><a class="dropdown-item clickable" (click)="onProfile()">
-            <fa-icon [icon]="faUser"></fa-icon>
-            Mein Profil
-          </a>
+          <li role="menuitem">
+            <div class="dropdown-item clickable" (click)="onProfile()">
+              <fa-icon [icon]="faUser"></fa-icon>
+              Mein Profil
+            </div>
           </li>
           <div class="dropdown-divider"></div>
           <li role="menuitem">
-            <a class="dropdown-item clickable" (click)="toggleEmailNotifications()">
+            <div class="dropdown-item clickable" (click)="toggleEmailNotifications()">
               <fa-icon [icon]="faEnvelope"></fa-icon>
               Mails: <span *ngIf="(emailNotification$|async) as mail; else disabled">aktiviert</span>
               <ng-template #disabled>deaktiviert</ng-template>
-            </a>
+            </div>
           </li>
           <div class="dropdown-divider"></div>
           <li role="menuitem">
-            <a class="dropdown-item clickable" (click)="logout()">
+            <div class="dropdown-item clickable" (click)="logout()">
               <fa-icon [icon]="faSignOutAlt"></fa-icon>
               Logout
-            </a>
+            </div>
           </li>
         </ul>
       </div>
     </ng-template>
-    <ng-template #elseBlock>
+    <ng-template #loginButton>
       <button type="button" class="btn btn-primary hvr-fade" id="login-button" (click)="login()">
         Login
       </button>

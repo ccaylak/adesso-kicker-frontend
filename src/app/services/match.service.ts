@@ -11,6 +11,7 @@ export class MatchService {
   }
 
   addMatch(match: Match) {
-    return this.http.post<any>(`${environment.BASE_PATH}/matched/add`, match);
+    console.log(`${environment.BASE_PATH}/matches/add`);
+    return this.http.post(`${environment.BASE_PATH}/matches/add`, match);
   }
 }

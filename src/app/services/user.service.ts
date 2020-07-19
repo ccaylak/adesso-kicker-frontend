@@ -17,7 +17,6 @@ export class UserService {
     if (userId === 'you') {
       return this.httpClient.get<User>(`${environment.BASE_PATH}/users/you`);
     }
-    console.log('Fetching User: ' + userId);
     return this.httpClient.get<User>(`${environment.BASE_PATH}/users/u/${userId}`);
   }
 
