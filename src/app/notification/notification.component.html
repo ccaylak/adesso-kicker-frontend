@@ -1,80 +1,33 @@
-<!--
-<div *ngFor="let notification of notifications$|async" class="btn-group" dropdown id="notification-dropdown">
-  <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-          aria-controls="dropdown-animated" style="width: 60px">
-    <fa-icon [icon]="faEnvelope"></fa-icon>
-    <span *ngIf=true class="badge" id="notification-badge"> </span>
-  </button>
-  <ul id="notification-dropdown-menu" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
-      aria-labelledby="button-animated">
-    <li style="height: 500px" class="dropdown-item"
-        role="menuitem">
-      <p class="adesso-blue-text">{{notification.sendDate|date}}</p>
-
-      <div class="notification-text">
-        <div *ngIf="getWinners(notification.match).length == 1">
-          Bitte bestätige, dass Moin das Kicker-Spiel
-          vom was
-          gewonnen hat
-        </div>
-        <div *ngIf="getWinners(notification.match).length == 2">
-          Bitte bestätige, dass {{getWinners(notification.match)[0].lastName}}
-          und {{getWinners(notification.match)[1].lastName}} das
-          Kicker-Spiel vom {{notification.match.date}} gewonnen haben
-        </div>
-
-        <div class="row">
-          <div class="col-sm-6">
-            <button type="button" class="btn hvr-fade notification-bt"
-                    (click)="acceptNotification(notification.notificationId)">
-              Ja
-            </button>
-          </div>
-          <div class="col-sm-6">
-            <button type="button" class="btn hvr-fade notification-bt"
-                    (click)="declineNotification(notification.notificationId)">
-              Nein
-            </button>
-          </div>
-        </div>
-      </div>
-    </li>
-  </ul>
-</div>
--->
 <div class="btn-group" dropdown [autoClose]="false">
   <button id="button-animated" dropdownToggle type="button"
           class="btn btn-primary dropdown-toggle"
           aria-controls="dropdown-animated">
-    <fa-icon [icon]="faEnvelope"></fa-icon>
+    <fa-layers>
+      <fa-icon [icon]="faEnvelope"></fa-icon>
+      <fa-layers-counter content="5"></fa-layers-counter>
+    </fa-layers>
   </button>
-  <ul style="height: 300px" id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+  <ul style="height: 100px" *dropdownMenu class="dropdown-menu dropdown-menu-right"
       role="menu" aria-labelledby="button-animated">
-    <li *ngFor="let notification of notifications$|async" class="dropdown-item matchverification notification"
+    <li *ngFor="let notification of notifications$|async"
         role="menuitem">
-      <div class="notification-text">
-        <div *ngIf="getWinners(notification.match).length == 1">
-          Bitte bestätige, dass Moin das Kicker-Spiel
-          vom was
-          gewonnen hat
+      <div *ngIf="notification.match" class="notification-text dropdown-item">
+        <div *ngIf="getWinners(notification.match).length==1">
+          Hat {{getWinners(notification.match)[0]}} das Spiel
+          vom {{notification.match.date|date}}
+          gewonnen?
         </div>
         <div *ngIf="getWinners(notification.match).length == 2">
-          Bitte bestätige, dass {{getWinners(notification.match)[0].lastName}}
-          und {{getWinners(notification.match)[1].lastName}} das
-          Kicker-Spiel vom {{notification.match.date}} gewonnen haben
+          Haben {{getWinners(notification.match)[0]}}
+          und {{getWinners(notification.match)[1]}} das
+          Spiel vom {{notification.match.date|date}} gewonnen?
         </div>
-        <div class="row">
-          <div class="col-sm-6">
-            <button type="button" class="btn btn-primary" (click)="acceptNotification(notification.notificationId)">
-              Ja
-            </button>
-          </div>
-          <div class="col-sm-6">
-            <button type="button" class="btn btn-primary" (click)="declineNotification(notification.notificationId)">
-              Nein
-            </button>
-          </div>
-        </div>
+        <button type="button" class="btn btn-success" (click)="acceptNotification(notification.notificationId)">
+          Ja!
+        </button>
+        <button type="button" class="btn btn-danger" (click)="declineNotification(notification.notificationId)">
+          Nein!
+        </button>
       </div>
     </li>
   </ul>

@@ -149,7 +149,6 @@ export class MatchResultComponent implements OnInit {
         teamBPlayer2: userArray[3],
         winnerTeamA: this.winnerTeam.value === 'teamA'
       };
-      console.log(this.match);
       this.matchService.addMatch(this.match).subscribe(
         value => console.log('Success: ' + value),
       );

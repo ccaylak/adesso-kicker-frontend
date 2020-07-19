@@ -14,6 +14,7 @@ import {User} from '../models/user';
 export class NotificationComponent implements OnInit {
   notifications$: Observable<Notification[]>;
   faEnvelope = faEnvelope;
+  height = 100;
 
   constructor(private notificationService: NotificationService) {
   }
@@ -27,33 +28,40 @@ export class NotificationComponent implements OnInit {
   }
 
   acceptNotification(notificationId: number) {
-    this.notificationService.acceptNotification(notificationId).subscribe(value => console.log(value));
+    this.notificationService.acceptNotification(notificationId).subscribe(value => {
+      this.getAllNotifications();
+    });
   }
 
   declineNotification(notificationId: number) {
-    this.notificationService.declineNotification(notificationId);
+    this.notificationService.declineNotification(notificationId).subscribe(value => {
+      this.getAllNotifications();
+    });
   }
 
-  getWinners(match: Match): User[] {
-    const users = [];
+  getWinners(match: Match): string[] {
+    const users: string[] = [];
     if (match.winnerTeamA) {
       if (match.teamAPlayer1 && match.teamAPlayer2) {
-        users.push(match.teamAPlayer1);
-        users.push(match.teamAPlayer2);
+        users.push(this.getFullName(match.teamAPlayer1));
+        users.push(this.getFullName(match.teamAPlayer2));
       }
       if (match.teamAPlayer1 && !match.teamAPlayer2) {
-        users.push(match.teamAPlayer1);
+        users.push(this.getFullName(match.teamAPlayer1));
       }
-    }
-    if (!match.winnerTeamA) {
+    } else {
       if (match.teamBPlayer1 && match.teamBPlayer2) {
-        users.push(match.teamBPlayer1);
-        users.push(match.teamBPlayer2);
+        users.push(this.getFullName(match.teamBPlayer1));
+        users.push(this.getFullName(match.teamBPlayer2));
       }
       if (match.teamBPlayer1 && !match.teamBPlayer2) {
-        users.push(match.teamBPlayer1);
+        users.push(this.getFullName(match.teamBPlayer1));
       }
     }
     return users;
+  }
+
+  private getFullName(user: User) {
+    return `${user.firstName} ${user.lastName}`;
   }
 }
