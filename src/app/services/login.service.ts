@@ -6,7 +6,7 @@ import {UserService} from './user.service';
   providedIn: 'root'
 })
 export class LoginService {
-  constructor(private oAuthService: OAuthService, private userService: UserService) {
+  constructor(private oAuthService: OAuthService) {
   }
 
   public login() {
