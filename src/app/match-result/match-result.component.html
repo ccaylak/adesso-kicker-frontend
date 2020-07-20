@@ -108,7 +108,7 @@
         <div class="input-group date">
           <input type="text" id="datetimepicker" #dp="bsDatepicker" formControlName="date" class="form-control"
                  bsDatepicker
-                 [bsConfig]="{isAnimated: true}" [maxDate]="bsValueAndMaxDate"
+                 [bsConfig]="{isAnimated: true, containerClass: 'theme-dark-blue'}" [maxDate]="bsValueAndMaxDate"
                  placement="top"
                  [class.is-invalid]="date.invalid && date.touched">
           <div class="input-group-append">
