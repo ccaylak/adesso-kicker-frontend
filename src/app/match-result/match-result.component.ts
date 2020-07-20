@@ -7,10 +7,9 @@ import {Match} from '../models/match';
 import {forkJoin, Observable} from 'rxjs';
 import {User} from '../models/user';
 import {LoginService} from '../services/login.service';
-import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
 import {samePlayerValidator} from '../services/validator';
 import {MatchService} from '../services/match.service';
-import {catchError} from "rxjs/operators";
 
 @Component({
   selector: 'app-match-result',
@@ -26,6 +25,7 @@ export class MatchResultComponent implements OnInit {
   bsValueAndMaxDate = new Date(Date.now());
   user$: Observable<User>;
   players$: Observable<User[]>;
+  userIds: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -38,9 +38,9 @@ export class MatchResultComponent implements OnInit {
   matchRequestForm = this.fb.group({
     teamGroup: this.fb.group({
       playerA1: [{value: this.loginService.userId, disabled: true}],
-      playerA2: [null],
-      playerB1: [null, Validators.required, this.nonExistentUser.bind(this)],
-      playerB2: [null],
+      playerA2: ['', this.validUserIdValidator()],
+      playerB1: ['', [Validators.required, this.validUserIdValidator()]],
+      playerB2: ['', this.validUserIdValidator()],
     }, {validators: samePlayerValidator}),
     matchGroup: this.fb.group({
       date: [new Date(), Validators.required],
@@ -51,6 +51,11 @@ export class MatchResultComponent implements OnInit {
   ngOnInit() {
     this.user$ = this.userService.getUser(this.loginService.userId);
     this.players$ = this.userService.getAllUsers();
+    this.players$.subscribe((userArray) => {
+      userArray.forEach((userObject) => {
+        this.userIds.push(userObject.userId);
+      });
+    });
   }
 
   submitMatch() {
@@ -59,7 +64,7 @@ export class MatchResultComponent implements OnInit {
     const playerB2: string = this.playerB2.value;
 
     if (!playerA2 && playerB1 && !playerB2) {
-      this.Match1v1()
+      this.Match1v1();
     }
 
     if (!playerA2 && playerB1 && playerB2) {
@@ -155,18 +160,13 @@ export class MatchResultComponent implements OnInit {
     });
   }
 
-  private nonExistentUser(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
-    return new Promise<ValidationErrors>(resolve => {
-      this.userService.getUser(control.value).subscribe(
-        userObject => {
-          if (userObject !== null) {
-            resolve(null);
-          }
-        }, error => {
-          if (control.value !== '')
-            resolve({'notExistentUser': true})
-        });
-    });
+  private validUserIdValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (!this.userIds.includes(control.value) && control.value !== '') {
+        return {invalidUserId: true};
+      }
+      return null;
+    };
   }
 
   get date() {

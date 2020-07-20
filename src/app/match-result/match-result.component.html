@@ -11,13 +11,25 @@
     <div *ngIf="playerB1.invalid  && playerB1.touched" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
       <span *ngIf="playerB1.errors?.required"> Bitte wähle einen Gegner aus</span>
-      <span *ngIf="playerB1.errors?.notExistentUser"> SpielerB1 ({{playerB1.value}}) existiert nicht</span>
+      <span *ngIf="playerB1.errors?.invalidUserId && playerB1.dirty"> Der User ({{playerB1.value}}
+        ) existiert nicht</span>
     </div>
 
     <!--/* Same Player Error */-->
     <div *ngIf="teamGroup.errors?.samePlayer" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
       <span> Ein Spieler kann an einem Kicker-Spiel nur einmal teilnehmen</span>
+    </div>
+
+    <!--/* Invalid UserId Error */-->
+    <div *ngIf="playerB2.touched && playerB2.invalid" class="popup popup-error">
+      <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
+      <span *ngIf="playerB2.errors?.invalidUserId"> Der User ({{playerB2.value}}) existiert nicht</span>
+    </div>
+
+    <div *ngIf="playerA2.touched && playerA2.invalid" class="popup popup-error">
+      <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
+      <span *ngIf="playerA2.errors?.invalidUserId"> Der User ({{playerA2.value}}) existiert nicht</span>
     </div>
 
     <div *ngIf="(players$|async) as players" class="row" formGroupName="teamGroup">
