@@ -1,4 +1,4 @@
-<div class="btn-group" dropdown [autoClose]="false">
+<div class="btn-group" dropdown>
   <button id="button-animated" dropdownToggle type="button"
           class="btn btn-primary dropdown-toggle"
           aria-controls="dropdown-animated">
@@ -7,11 +7,10 @@
       <fa-layers-counter content="5"></fa-layers-counter>
     </fa-layers>
   </button>
-  <ul style="height: 100px" *dropdownMenu class="dropdown-menu dropdown-menu-right"
-      role="menu" aria-labelledby="button-animated">
-    <li *ngFor="let notification of notifications$|async"
-        role="menuitem">
-      <div *ngIf="notification.match" class="notification-text dropdown-item">
+  <ul style="height: 425px; overflow: auto" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+      role="menu">
+    <li *ngFor="let notification of notifications$|async; let i=index" role="menuitem">
+      <div *ngIf="notification.match && i<3" class="notification-text dropdown-item">
         <div *ngIf="getWinners(notification.match).length==1">
           Hat {{getWinners(notification.match)[0]}} das Spiel
           vom {{notification.match.date|date}}
@@ -30,5 +29,6 @@
         </button>
       </div>
     </li>
+    <li *ngIf="notifications$|async as notifications" role="menuitem"><span *ngIf="notifications.length-3!==0">Noch {{notifications.length - 3}}</span></li>
   </ul>
 </div>

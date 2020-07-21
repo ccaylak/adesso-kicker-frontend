@@ -5,22 +5,28 @@ import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
 import {Notification} from '../models/notification';
 import {Match} from '../models/match';
 import {User} from '../models/user';
+import {BsDropdownConfig} from 'ngx-bootstrap';
+import {not} from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.less']
+  styleUrls: ['./notification.component.less'],
+  providers: [{provide: BsDropdownConfig, useValue: {isAnimated: true, autoClose: false, insideClick: true}}]
 })
 export class NotificationComponent implements OnInit {
   notifications$: Observable<Notification[]>;
   faEnvelope = faEnvelope;
-  height = 100;
+  height: number;
 
   constructor(private notificationService: NotificationService) {
   }
 
   ngOnInit() {
     this.getAllNotifications();
+    this.notificationService.getAllNotifications().subscribe(notificationArray => {
+      this.height = notificationArray.length * 100;
+    });
   }
 
   getAllNotifications() {
