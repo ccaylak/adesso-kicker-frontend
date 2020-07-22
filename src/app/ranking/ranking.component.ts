@@ -39,7 +39,6 @@ export class RankingComponent implements OnInit, OnDestroy {
     this.pages$ = this.userService.getAllUsersAsPage(this.page);
     this.userService.getAllUsersAsPage(this.page).pipe(takeUntil(this.$destroy))
       .subscribe((pageUser) => {
-        console.log(pageUser.content.length);
         this.usersPlaceholder = pageUser.content;
       });
   }

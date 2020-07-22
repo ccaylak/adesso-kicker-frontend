@@ -10,5 +10,6 @@ export interface Notification {
   sendDate: Date;
   type: NotificationType;
   match: Match;
+
   messageType: MessageType;
 }
