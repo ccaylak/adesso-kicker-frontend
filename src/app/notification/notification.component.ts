@@ -7,6 +7,7 @@ import {Match} from '../models/match';
 import {User} from '../models/user';
 import {BsDropdownConfig} from 'ngx-bootstrap';
 import {not} from 'rxjs/internal-compatibility';
+import {NotificationType} from "../models/notification-type.enum";
 
 @Component({
   selector: 'app-notification',
@@ -17,7 +18,7 @@ import {not} from 'rxjs/internal-compatibility';
 export class NotificationComponent implements OnInit {
   notifications$: Observable<Notification[]>;
   faEnvelope = faEnvelope;
-  height: number;
+  notificationSize: number;
 
   constructor(private notificationService: NotificationService) {
   }
@@ -25,7 +26,8 @@ export class NotificationComponent implements OnInit {
   ngOnInit() {
     this.getAllNotifications();
     this.notificationService.getAllNotifications().subscribe(notificationArray => {
-      this.height = notificationArray.length * 100;
+      console.log(notificationArray);
+      this.notificationSize=notificationArray.length;
     });
   }
 
@@ -36,12 +38,14 @@ export class NotificationComponent implements OnInit {
   acceptNotification(notificationId: number) {
     this.notificationService.acceptNotification(notificationId).subscribe(value => {
       this.getAllNotifications();
+      this.notificationSize=this.notificationSize-1;
     });
   }
 
   declineNotification(notificationId: number) {
     this.notificationService.declineNotification(notificationId).subscribe(value => {
       this.getAllNotifications();
+      this.notificationSize=this.notificationSize-1;
     });
   }
 

@@ -7,28 +7,45 @@
       <fa-layers-counter content="5"></fa-layers-counter>
     </fa-layers>
   </button>
-  <ul style="height: 425px; overflow: auto" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+  <ul [ngClass]="" *dropdownMenu class="notification-box dropdown-menu dropdown-menu-right"
       role="menu">
     <li *ngFor="let notification of notifications$|async; let i=index" role="menuitem">
-      <div *ngIf="notification.match && i<3" class="notification-text dropdown-item">
-        <div *ngIf="getWinners(notification.match).length==1">
-          Hat {{getWinners(notification.match)[0]}} das Spiel
-          vom {{notification.match.date|date}}
-          gewonnen?
+      <div *ngIf="i<3">
+        <div *ngIf="notification.type===''" class="notification-text dropdown-item">
+          <div *ngIf="getWinners(notification.match).length==1">
+            Hat {{getWinners(notification.match)[0]}} das Spiel
+            vom {{notification.match.date|date}}
+            gewonnen?
+          </div>
+          <div *ngIf="getWinners(notification.match).length == 2">
+            Haben {{getWinners(notification.match)[0]}}
+            und {{getWinners(notification.match)[1]}} das
+            Spiel vom {{notification.match.date|date}} gewonnen?
+          </div>
+          <div style="padding: 15px" class="row">
+            <button type="button" class="btn btn-lg col btn-outline-primary fa-pull-left"
+                    (click)="acceptNotification(notification.notificationId)">
+              Ja!
+            </button>
+            <button type="button" class="btn btn-lg col btn-outline-danger fa-pull-right"
+                    (click)="declineNotification(notification.notificationId)">
+              Nein!
+            </button>
+          </div>
         </div>
-        <div *ngIf="getWinners(notification.match).length == 2">
-          Haben {{getWinners(notification.match)[0]}}
-          und {{getWinners(notification.match)[1]}} das
-          Spiel vom {{notification.match.date|date}} gewonnen?
+        <div class="notification-text dropdown-item" *ngIf="notification.type=='MESSAGE'">
+          Deine Anfrage von {{notification.sender.firstName}} für das Spiel vom {{notification.match.date|date}}
+          wurde abgelehnt!
+          <div style="padding: 15px" class="row">
+            <button type="button" class="btn col btn-outline-danger"
+                    (click)="acceptNotification(notification.notificationId)">Ok
+            </button>
+          </div>
         </div>
-        <button type="button" class="btn btn-success" (click)="acceptNotification(notification.notificationId)">
-          Ja!
-        </button>
-        <button type="button" class="btn btn-danger" (click)="declineNotification(notification.notificationId)">
-          Nein!
-        </button>
       </div>
     </li>
-    <li *ngIf="notifications$|async as notifications" role="menuitem"><span *ngIf="notifications.length-3!==0">Noch {{notifications.length - 3}}</span></li>
+    <div *ngIf="(notificationSize-3)>0">
+      Noch {{notificationSize - 3}} Nachrichten übrig
+    </div>
   </ul>
 </div>
