@@ -47,7 +47,8 @@
             </thead>
             <tbody>
             <!--/* All users */-->
-            <tr *ngFor="let user of usersPlaceholder" (click)="profile(user.userId)" class="user-table-row">
+            <tr [class.user-self]="user.userId==loginService.userId" *ngFor="let user of usersPlaceholder"
+                (click)="profile(user.userId)" class="user-table-row">
               <td><span class="badge badge-position">{{user.statistic.rank}}</span></td>
               <td>{{getFullName(user)}}</td>
               <td>{{user.statistic.wins}}</td>
@@ -65,7 +66,7 @@
   <ng-template #elseBlock>
     <div class="container-fluid">
       <div class="text-center alert alert-danger">
-        Es wurden noch keine Spiele gespielt, daher gibt es noch keine Ränge
+        Es wurden noch keine Spiele gespielt, daher gibt es noch keine Rangliste
       </div>
     </div>
   </ng-template>

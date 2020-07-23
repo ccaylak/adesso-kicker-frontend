@@ -44,38 +44,27 @@
         </button>
         <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
             aria-labelledby="button-animated">
-          <li role="menuitem">
-            <div class="dropdown-item clickable" (click)="match()">
-              <fa-icon [icon]="faCalenderCheck"></fa-icon>
-              Kicker-Spiel eintragen
-            </div>
+          <li class="dropdown-item clickable" (click)="match()" role="menuitem">
+            <fa-icon [icon]="faCalenderCheck"></fa-icon>
+            Kicker-Spiel eintragen
           </li>
-          <li role="menuitem">
-            <div class="dropdown-item clickable" (click)="ranking()">
-              <fa-icon [icon]="faTrophy"></fa-icon>
-              Rangliste
-            </div>
+          <li class="dropdown-item clickable" (click)="ranking()" role="menuitem">
+            <fa-icon [icon]="faTrophy"></fa-icon>
+            Rangliste
           </li>
-          <li role="menuitem">
-            <div class="dropdown-item clickable" (click)="onProfile()">
-              <fa-icon [icon]="faUser"></fa-icon>
-              Mein Profil
-            </div>
+          <li class="dropdown-item clickable" (click)="onProfile()" role="menuitem">
+            <fa-icon [icon]="faUser"></fa-icon>
+            Mein Profil
           </li>
           <div class="dropdown-divider"></div>
-          <li role="menuitem">
-            <div class="dropdown-item clickable" (click)="toggleEmailNotifications()">
-              <fa-icon [icon]="faEnvelope"></fa-icon>
-              Mails: <span *ngIf="(emailNotification$|async) as mail; else disabled">aktiviert</span>
-              <ng-template #disabled>deaktiviert</ng-template>
-            </div>
+          <li class="dropdown-item clickable" (click)="toggleEmailNotifications()" role="menuitem">
+            <fa-icon [icon]="faEnvelope"></fa-icon>
+            Mails: {{(emailNotification$|async) ? 'aktiviert' : 'deaktiviert'}}
           </li>
           <div class="dropdown-divider"></div>
-          <li role="menuitem">
-            <div class="dropdown-item clickable" (click)="logout()">
-              <fa-icon [icon]="faSignOutAlt"></fa-icon>
-              Logout
-            </div>
+          <li class="dropdown-item clickable" (click)="logout()" role="menuitem">
+            <fa-icon [icon]="faSignOutAlt"></fa-icon>
+            Logout
           </li>
         </ul>
       </div>

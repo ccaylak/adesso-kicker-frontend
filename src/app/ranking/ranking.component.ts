@@ -11,6 +11,7 @@ import {PageChangedEvent} from 'ngx-bootstrap';
 import {Page} from '../models/page';
 import {takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {LoginService} from "../services/login.service";
 
 @Component({
   selector: 'app-ranking',
@@ -28,7 +29,7 @@ export class RankingComponent implements OnInit, OnDestroy {
   page = 0;
   $destroy = new Subject();
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router, public loginService: LoginService) {
   }
 
   ngOnInit() {

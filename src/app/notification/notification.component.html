@@ -2,7 +2,7 @@
   <button id="button-animated" dropdownToggle type="button"
           class="btn btn-primary dropdown-toggle"
           aria-controls="dropdown-animated">
-    <fa-icon [icon]="faEnvelope" [spin]="notificationSize"></fa-icon>
+    <fa-icon [icon]="faEnvelope" [spin]="notificationSize!=0"></fa-icon>
   </button>
   <ul *dropdownMenu
       class="notification-box dropdown-menu dropdown-menu-right"
