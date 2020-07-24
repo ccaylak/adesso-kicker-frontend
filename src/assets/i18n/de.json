@@ -7,21 +7,20 @@
     "TEAM B": "Team B",
     "PLAYER 1": "Spieler 1",
     "PLAYER 2": "Spieler 2",
-    "CREATE-MATCH": "Spielergebnis anfragen",
+    "CREATE-MATCH": "Kicker-Spiel anfragen",
     "TOOLTIP": "Du kannst 1v1, 1v2, 2v1 oder 2v2 spielen",
     "SUCCESS-MESSAGE": "Spielergebnis wurde angefragt",
     "ERROR": {
       "NO-DATE": "Bitte wähle ein Datum aus",
-      "NO-PLAYERS": "Bitte wähle Spieler 1 für Team A und Team B",
-      "NO-WINNER": "Bitte wähle einen Sieger aus",
+      "NO-ENEMY": "Bitte wähle einen Gegner",
       "FUTURE-DATE": "Bitte wähle ein Datum, dass nicht in der Zukunft liegt",
-      "INVALID-CREATOR": "Spieler 1 von Team A muss der momentan angemeldete Benutzer sein",
       "SAME-PLAYER": "Ein Spieler kann an einem Kicker-Spiel nur einmal teilnehmen",
+      "NOT-KNOWN-PLAYER": "Der Spieler ({{player}}) existiert nicht",
       "TOO-MANY-MAILS": "Du hast zu viele Anfragen abgeschickt, das Kicker-Spiel wurde dennoch angefragt, deine Gegner bekommen aber keine E-Mail"
     }
   },
   "HEADER": {
-    "MATCH-REQUEST": "Spielergebnis eintragen",
+    "MATCH-REQUEST": "Kicker-Spiel eintragen",
     "RANKING": "Rangliste",
     "PROFILE": "Mein Profil",
     "LOGIN": "Login",
@@ -30,9 +29,10 @@
   },
   "NOTIFICATION": {
     "NO-NOTIFICATIONS": "Du hast keine Anfragen",
+    "LEFT-NOTIFICATIONS":  "{{value}} Anfragen sind übrig",
     "DECLINED": "{{enemy}} hat die Anfrage für ein kürzlich gespieltes Kicker-Spiel abgelehnt",
-    "ONE-OPPONENT": "Bitte bestätige, dass {{enemy-one}} das Kicker-Spiel vom {{date}} gewonnen hat",
-    "TWO-OPPONENTS": "Bitte bestätige, dass {{enemy-one}} and {{enemy-two}} das Kicker-Spiel vom {{date}} gewonnen haben",
+    "ONE-OPPONENT": "Bitte bestätige, dass {{enemy}} das Kicker-Spiel vom {{date}} gewonnen hat",
+    "TWO-OPPONENTS": "Bitte bestätige, dass {{enemyOne}} and {{enemyTwo}} das Kicker-Spiel vom {{date}} gewonnen haben",
     "YES": "Ja!",
     "NO": "Nein!",
     "SUCCESS": "Erfolgreich!",

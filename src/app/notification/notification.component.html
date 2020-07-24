@@ -11,23 +11,26 @@
       <div *ngIf="i<3">
         <div *ngIf="notification.type=='MATCH_VERIFICATION'" class="notification-text dropdown-item">
           <div *ngIf="getWinners(notification.match).length==1">
-            Hat {{getWinners(notification.match)[0]}} das Spiel
-            vom {{notification.match.date|date}}
-            gewonnen?
+            {{'NOTIFICATION.ONE-OPPONENT'|translate: {
+            enemy: getWinners(notification.match)[0],
+            date: notification.match.date|date
+          } }}
           </div>
           <div *ngIf="getWinners(notification.match).length == 2">
-            Haben {{getWinners(notification.match)[0]}}
-            und {{getWinners(notification.match)[1]}} das
-            Spiel vom {{notification.match.date|date}} gewonnen?
+            {{'NOTIFICATION.TWO-OPPONENTS'|translate: {
+            enemyOne: getWinners(notification.match)[0],
+            enemyTwo: getWinners(notification.match)[1],
+            date: notification.match.date|date
+          } }}
           </div>
           <div class="button-center row">
             <button type="button" class="btn button-spacer btn-lg col btn-primary fa-pull-left"
-                    (click)="acceptNotification(notification.notificationId)" value="Ja!">
-              Ja!
+                    (click)="acceptNotification(notification.notificationId)">
+              {{'NOTIFICATION.YES'|translate}}
             </button>
             <button type="button" class="btn btn-lg col button-spacer btn-danger fa-pull-right"
                     (click)="declineNotification(notification.notificationId)">
-              Nein!
+              {{'NOTIFICATION.NO'|translate}}
             </button>
           </div>
         </div>
@@ -44,10 +47,10 @@
       </div>
     </li>
     <div class="left-notifications" *ngIf="notificationSize-3>3">
-      Noch {{notificationSize - 3}} Nachrichten übrig
+      {{'NOTIFICATION.LEFT-NOTIFICATIONS'|translate:{value: (notificationSize - 3)} }}
     </div>
     <div class="left-notifications" *ngIf="notificationSize-3<3">
-      Keine Weiteren Nachrichten
+      {{'NOTIFICATION.NO-NOTIFICATIONS'|translate}}
     </div>
   </ul>
 </div>

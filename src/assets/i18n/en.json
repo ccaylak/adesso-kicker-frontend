@@ -12,11 +12,10 @@
     "SUCCESS-MESSAGE": "Match has been requested",
     "ERROR": {
       "NO-DATE": "Please select a date",
-      "NO-PLAYERS": "Please select Player 1 for Team A and Team B",
-      "NO-WINNER": "Please select a winner",
+      "NO-ENEMY": "Please select an enemy",
       "FUTURE-DATE": "Please select a date that is not in the future",
-      "INVALID-CREATOR": "Player 1 in Team A hast do be the logged in user",
       "SAME-PLAYER": "A player can only participate once in a match",
+      "NOT-KNOWN-PLAYER": "The Player ({{player}}) does not exist",
       "TOO-MANY-MAILS": "Too many match requests at once, the match has been requestet but your opponents will not get an email"
     }
   },
@@ -30,9 +29,10 @@
   },
   "NOTIFICATION": {
     "NO-NOTIFICATIONS": "You don't have any notifications",
+    "LEFT-NOTIFICATIONS":  "{{value}} notifications are left",
     "DECLINED": "{{enemy}} declined your recent match request",
-    "ONE-OPPONENT": "Please verify that {{enemy-one}} won the match on {{date}}",
-    "TWO-OPPONENTS": "Please verify that {{enemy-one}} and {{enemy-two}} won the match on {{date}}",
+    "ONE-OPPONENT": "Please verify that {{enemy}} won the match on {{date}}",
+    "TWO-OPPONENTS": "Please verify that {{enemyOne}} and {{enemyTwo}} won the match on {{date}}",
     "YES": "Yes!",
     "NO": "No!",
     "SUCCESS": "Success!",

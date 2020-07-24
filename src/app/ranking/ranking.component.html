@@ -3,8 +3,7 @@
     <div class="row">
       <div class="col-11">
         <div id="playerName">
-          <h2>Rangliste</h2>
-          <br>
+          <h2>{{'HEADER.RANKING'|translate}}</h2>
         </div>
       </div>
     </div>
@@ -13,10 +12,15 @@
   <div *ngIf="pages.content.length>0; then thenBlock else elseBlock"></div>
   <!--/* User List */-->
   <ng-template #thenBlock>
+
     <div class="container-fluid">
+      <div *ngIf="user$|async as user">
+        <span class="text-center alert alert-danger" *ngIf="!user.statistic">{{'RANKING.NO-RANK'|translate}}</span>
+      </div>
       <div class="table-container">
+
         <div id="info-tooltip">
-          <fa-icon class="fa-info-circle" [icon]="faInfoCircle" tooltip="Seasons finden jedes Quartal statt"
+          <fa-icon class="fa-info-circle" [icon]="faInfoCircle" tooltip="{{'RANKING.TOOLTIP'|translate}}"
                    placement="left"></fa-icon>
         </div>
         <div class="shadow-sm" id="table-container">
@@ -25,23 +29,27 @@
             <tr>
               <!--/* Rank */-->
               <th>
-                <span>Rang <fa-icon [icon]="faChartLine"></fa-icon></span>
+                <span>{{'RANKING.RANK'|translate}}
+                  <fa-icon [icon]="faChartLine"></fa-icon></span>
               </th>
               <!--/* Name */-->
               <th class="thead-name">
-                <span>Name</span>
+                <span>{{'RANKING.NAME'|translate}}</span>
               </th>
               <!--/* Wins */-->
               <th>
-                <span>Siege <fa-icon [icon]="faCheck"></fa-icon></span>
+                <span>{{'RANKING.WINS'|translate}}
+                  <fa-icon [icon]="faCheck"></fa-icon></span>
               </th>
               <!--/* Win Rate */-->
               <th>
-                <span>Siegesrate <fa-icon [icon]="faBalanceScale"></fa-icon></span>
+                <span>{{'RANKING.WIN-RATE'|translate}}
+                  <fa-icon [icon]="faBalanceScale"></fa-icon></span>
               </th>
               <!--/* Points */-->
               <th>
-                <span>Punkte <fa-icon [icon]="faTrophy"></fa-icon></span>
+                <span>{{'RANKING.POINTS'|translate}}
+                  <fa-icon [icon]="faTrophy"></fa-icon></span>
               </th>
             </tr>
             </thead>
@@ -66,7 +74,7 @@
   <ng-template #elseBlock>
     <div class="container-fluid">
       <div class="text-center alert alert-danger">
-        Es wurden noch keine Spiele gespielt, daher gibt es noch keine Rangliste
+        {{'RANKING.NO-RANKS'|translate}}
       </div>
     </div>
   </ng-template>

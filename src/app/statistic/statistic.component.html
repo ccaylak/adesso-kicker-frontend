@@ -1,7 +1,7 @@
 <div class="container-fluid chart-container">
   <div class="row">
     <div class="col-lg-6 chart">
-      <h3 class="chart-headline">Rang über Zeit</h3>
+      <h3 class="chart-headline">{{'CHART.RANK-OVER-TIME'|translate}}</h3>
       <canvas baseChart
               [datasets]="rankOverTimeChart.lineChartData"
               [labels]="rankOverTimeChart.lineChartLabels"
@@ -11,7 +11,7 @@
       </canvas>
     </div>
     <div class="col-lg-6 chart">
-      <h3 class="chart-headline">Siegesrate über Zeit</h3>
+      <h3 class="chart-headline">{{'CHART.WIN-RATE-OVER-TIME'|translate}}</h3>
       <canvas baseChart
               [datasets]="winRateOverTimeChart.lineChartData"
               [labels]="winRateOverTimeChart.lineChartLabels"
@@ -23,7 +23,7 @@
   </div>
   <div class="row">
     <div class="col-lg-6 chart">
-      <h3 class="chart-headline">Siege & Niederlagen pro Tag</h3>
+      <h3 class="chart-headline">{{'CHART.WINS-AND-LOSSES-PER-DAY'|translate}}</h3>
       <canvas baseChart
               [datasets]="winsAndLossesPerDayChart.lineChartData"
               [labels]="winsAndLossesPerDayChart.lineChartLabels"
@@ -33,7 +33,7 @@
       </canvas>
     </div>
     <div class="col-lg-6 chart">
-      <h3 class="chart-headline">Sieg-Niederlage Differenz</h3>
+      <h3 class="chart-headline">{{'CHART.WIN/LOSE-DIFFERENCE'|translate}}</h3>
       <canvas baseChart
               [datasets]="winsAndLossesDiffPerDayChart.lineChartData"
               [labels]="winsAndLossesDiffPerDayChart.lineChartLabels"

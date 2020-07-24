@@ -11,7 +11,7 @@
           <div class="nav-link">
             <div class="nav-link" routerLinkActive="active">
               <fa-icon [icon]="faCalenderCheck"></fa-icon>
-              Kicker-Spiel eintragen
+              {{'HEADER.MATCH-REQUEST'|translate}}
             </div>
           </div>
         </li>
@@ -19,7 +19,7 @@
           <div class="nav-link">
             <div class="nav-link" routerLinkActive="active">
               <fa-icon [icon]="faTrophy"></fa-icon>
-              Rangliste
+              {{'HEADER.RANKING'|translate}}
             </div>
           </div>
         </li>
@@ -28,7 +28,7 @@
           <div class="nav-link">
             <div class="nav-link" routerLinkActive="active">
               <fa-icon [icon]="faUser"></fa-icon>
-              Mein Profil
+              {{'HEADER.PROFILE'|translate}}
             </div>
           </div>
         </li>
@@ -42,36 +42,37 @@
                 aria-controls="dropdown-animated">
           <span class="caret">{{loginService.fullName}}</span>
         </button>
-        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+        <ul style="height: 210px" id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+            role="menu"
             aria-labelledby="button-animated">
           <li class="dropdown-item clickable" (click)="match()" role="menuitem">
             <fa-icon [icon]="faCalenderCheck"></fa-icon>
-            Kicker-Spiel eintragen
+            {{'HEADER.MATCH-REQUEST'|translate}}
           </li>
           <li class="dropdown-item clickable" (click)="ranking()" role="menuitem">
             <fa-icon [icon]="faTrophy"></fa-icon>
-            Rangliste
+            {{'HEADER.RANKING'|translate}}
           </li>
           <li class="dropdown-item clickable" (click)="onProfile()" role="menuitem">
             <fa-icon [icon]="faUser"></fa-icon>
-            Mein Profil
+            {{'HEADER.RANKING'|translate}}
           </li>
           <div class="dropdown-divider"></div>
           <li class="dropdown-item clickable" (click)="toggleEmailNotifications()" role="menuitem">
             <fa-icon [icon]="faEnvelope"></fa-icon>
-            Mails: {{(emailNotification$|async) ? 'aktiviert' : 'deaktiviert'}}
+            {{'HEADER.EMAILS'|translate: {value: (emailNotification$|async) ? 'aktiviert' : 'deaktiviert'} }}
           </li>
           <div class="dropdown-divider"></div>
           <li class="dropdown-item clickable" (click)="logout()" role="menuitem">
             <fa-icon [icon]="faSignOutAlt"></fa-icon>
-            Logout
+            {{'HEADER.LOGOUT'|translate}}
           </li>
         </ul>
       </div>
     </ng-template>
     <ng-template #loginButton>
       <button type="button" class="btn btn-primary hvr-fade" id="login-button" (click)="login()">
-        Login
+        {{'HEADER.LOGIN'|translate}}
       </button>
     </ng-template>
   </nav>

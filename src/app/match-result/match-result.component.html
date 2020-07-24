@@ -1,41 +1,44 @@
 <form [formGroup]="matchRequestForm" (ngSubmit)="submitMatch()">
   <div class="container shadow" id="form">
     <!--/* Info Tooltip */-->
-    <fa-icon class="info-tooltip" [icon]="faInfoCircle" tooltip="Du kannst 1v1, 1v2, 2v1 oder 2v2 spielen"
+    <fa-icon class="info-tooltip" [icon]="faInfoCircle" tooltip="{{'MATCH-RESULT.TOOLTIP'|translate}}"
              placement="left" size="2x"></fa-icon>
 
     <!--/* Which players played? */-->
-    <div class="headline">Wer hat gespielt?</div>
+    <div class="headline">
+      {{'MATCH-RESULT.WHO-PLAYED'|translate}}
+    </div>
 
     <!--/* Missing Player Error */-->
     <div *ngIf="playerB1.invalid  && playerB1.touched" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
-      <span *ngIf="playerB1.errors?.required"> Bitte wähle einen Gegner aus</span>
-      <span *ngIf="playerB1.errors?.invalidUserId && playerB1.dirty"> Der User ({{playerB1.value}}
-        ) existiert nicht</span>
+      <span *ngIf="playerB1.errors?.required"> {{'MATCH-RESULT.ERROR.NO-ENEMY'|translate}}</span>
+      <span *ngIf="playerB1.errors?.invalidUserId && playerB1.dirty"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerB1.value} }}</span>
     </div>
 
     <!--/* Same Player Error */-->
     <div *ngIf="teamGroup.errors?.samePlayer" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
-      <span> Ein Spieler kann an einem Kicker-Spiel nur einmal teilnehmen</span>
+      <span>{{'MATCH-RESULT.ERROR.SAME-PLAYER'|translate}}</span>
     </div>
 
     <!--/* Invalid UserId Error */-->
     <div *ngIf="playerB2.touched && playerB2.invalid" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
-      <span *ngIf="playerB2.errors?.invalidUserId"> Der User ({{playerB2.value}}) existiert nicht</span>
+      <span *ngIf="playerB2.errors?.invalidUserId"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerB2.value} }}</span>
     </div>
 
     <div *ngIf="playerA2.touched && playerA2.invalid" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
-      <span *ngIf="playerA2.errors?.invalidUserId"> Der User ({{playerA2.value}}) existiert nicht</span>
+      <span *ngIf="playerA2.errors?.invalidUserId"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerA2.value} }}</span>
     </div>
 
     <div *ngIf="(players$|async) as players" class="row" formGroupName="teamGroup">
       <!--/* Team A */-->
       <div class="col-sm-6">
-        <div class="team-description">Team A</div>
+        <div class="team-description">
+          {{'MATCH-RESULT.TEAM A'|translate}}
+        </div>
 
         <!--/* PlayerA2 */-->
         <div class="team team-textbox">
@@ -52,7 +55,9 @@
 
       <!--/* Team B */-->
       <div class="col-sm-6">
-        <div class="team-description">Team B</div>
+        <div class="team-description">
+          {{'MATCH-RESULT.TEAM B'|translate}}
+        </div>
         <div class="team team-textbox search-bar">
 
           <!--/* PlayerB1 */-->
@@ -85,7 +90,9 @@
     <div formGroupName="matchGroup" class="container">
 
       <!--/* Which Team won? */-->
-      <div class="headline">Wer hat gewonnen?</div>
+      <div class="headline">
+        {{'MATCH-RESULT.WHO-WON'|translate}}
+      </div>
       <!--/* Radio Buttons */-->
       <div class="row" id="radio-winner-team">
         <div class="col">
@@ -102,7 +109,9 @@
         </div>
       </div>
       <!--/* When did you play? */-->
-      <div class="headline">Wann habt ihr gespielt?</div>
+      <div class="headline">
+        {{'MATCH-RESULT.WHEN-DID-YOU-PLAY'|translate}}
+      </div>
       <!--/* Datepicker */-->
       <div class="form-group col-sm-6" id="datetimepicker-form-group">
         <div class="input-group date">
@@ -123,11 +132,12 @@
     <div *ngIf="date.invalid && date.touched" class="popup popup-error">
       <i class="fa fa-times" aria-hidden="true"></i>
       <!--/* Error No Date */-->
-      <span *ngIf="date.errors.required">Bitte wähle ein gültiges Datum</span>
+      <span *ngIf="date.errors.required"> {{'MATCH-RESULT.ERROR.NO-DATE'|translate}}</span>
       <!--/* Error Date in Future */-->
-      <span *ngIf="date.errors.bsDate">Bitte wähle ein Datum, dass nicht in der Zukunft liegt</span>
+      <span *ngIf="date.errors.bsDate"> {{'MATCH-RESULT.ERROR.FUTURE-DATE'|translate}}</span>
     </div>
     <!--/* Submit Match */-->
-    <button [disabled]="matchRequestForm.invalid" type="submit" class="btn btn-primary">Match erstellen</button>
+    <button [disabled]="matchRequestForm.invalid" type="submit"
+            class="btn btn-primary">{{'MATCH-RESULT.CREATE-MATCH'|translate}}</button>
   </div>
 </form>

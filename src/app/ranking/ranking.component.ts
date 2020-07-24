@@ -28,12 +28,18 @@ export class RankingComponent implements OnInit, OnDestroy {
   usersPlaceholder: User[];
   page = 0;
   $destroy = new Subject();
+  user$: Observable<User>;
 
   constructor(private userService: UserService, private router: Router, public loginService: LoginService) {
   }
 
   ngOnInit() {
     this.getAllUsers();
+    this.getUser(this.loginService.userId)
+  }
+
+  getUser(userId: string) {
+    this.user$ = this.userService.getUser(userId);
   }
 
   getAllUsers() {
