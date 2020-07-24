@@ -15,6 +15,7 @@ import {PaginationModule} from 'ngx-bootstrap/pagination';
 import {ReactiveFormsModule} from '@angular/forms';
 import {OAuthModule} from 'angular-oauth2-oidc';
 import {NotificationComponent} from './notification/notification.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {NotificationComponent} from './notification/notification.component';
         allowedUrls: ['http://localhost/*'],
         sendAccessToken: true
       }
-    })
+    }),
+    TranslateModule.forRoot()
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

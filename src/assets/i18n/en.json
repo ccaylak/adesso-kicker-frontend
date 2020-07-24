@@ -1,0 +1,84 @@
+{
+  "MATCH-RESULT": {
+    "WHO-PLAYED": "Who played?",
+    "WHO-WON": "Who won?",
+    "WHEN-DID-YOU-PLAY": "When did you play?",
+    "TEAM A": "Team A",
+    "TEAM B": "Team B",
+    "PLAYER 1": "Player 1",
+    "PLAYER 2": "Player 2",
+    "CREATE-MATCH": "Request result",
+    "TOOLTIP": "You can play 1v1, 1v2, 2v1 or 2v2",
+    "SUCCESS-MESSAGE": "Match has been requested",
+    "ERROR": {
+      "NO-DATE": "Please select a date",
+      "NO-PLAYERS": "Please select Player 1 for Team A and Team B",
+      "NO-WINNER": "Please select a winner",
+      "FUTURE-DATE": "Please select a date that is not in the future",
+      "INVALID-CREATOR": "Player 1 in Team A hast do be the logged in user",
+      "SAME-PLAYER": "A player can only participate once in a match",
+      "TOO-MANY-MAILS": "Too many match requests at once, the match has been requestet but your opponents will not get an email"
+    }
+  },
+  "HEADER": {
+    "MATCH-REQUEST": "Record match",
+    "RANKING": "Ranking",
+    "PROFILE": "My profile",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "EMAILS": "Emails: {{value}}"
+  },
+  "NOTIFICATION": {
+    "NO-NOTIFICATIONS": "You don't have any notifications",
+    "DECLINED": "{{enemy}} declined your recent match request",
+    "ONE-OPPONENT": "Please verify that {{enemy-one}} won the match on {{date}}",
+    "TWO-OPPONENTS": "Please verify that {{enemy-one}} and {{enemy-two}} won the match on {{date}}",
+    "YES": "Yes!",
+    "NO": "No!",
+    "SUCCESS": "Success!",
+    "SUCCESS-ACCEPTED": "The notification has been accepted",
+    "SUCCESS-DECLINED": "The notification has been declined"
+  },
+  "RANKING": {
+    "NO-RANK": "You need to play at least one match to appear in the table",
+    "NO-RANKS": "No one has ever played a match, can't track ranks",
+    "RANK": "Rank",
+    "POINTS": "Points",
+    "MATCHES-PLAYED": "Matches",
+    "WINS": "Wins",
+    "LOSSES": "Losses",
+    "WIN-RATE": "Win rate",
+    "NAME": "Name",
+    "TOOLTIP": "Seasons reset each quarter of the year",
+    "PROFILE": {
+      "NO-RANK": "You need to play at least one match to see your statistics and your rank history"
+    }
+  },
+  "CHART": {
+    "RANK-OVER-TIME": "Rank over time",
+    "WIN-RATE-OVER-TIME": "Win rate over time",
+    "WINS-AND-LOSSES-PER-DAY": "Wins and losses per day",
+    "WIN/LOSE-DIFFERENCE": "Win-Loss difference"
+  },
+  "EMAIL": {
+    "SUBJECT": "Match: {{matchId}} from {{matchDate}}",
+    "ONE-OPPONENT": "Hello, your recently played match: {{matchId}} against {{enemy}} need to be verified.",
+    "TWO-OPPONENTS": "Hello, your recently played match: {{matchId}} against {{enemyOne}} and {{enemyTwo}} need to be verified.",
+    "ONE-WINNER": "{{winner}} won.",
+    "TWO-WINNERS": "{{winnerOne}} and {{winnerTwo}} won.",
+    "ONE-LOSER": "{{loser}} lost.",
+    "TWO-LOSERS": "{{loserOne}} and {{loserTwo}} lost.",
+    "VERIFY": "Verify",
+    "DECLINE": "Decline"
+  },
+  "ERROR": {
+    "NOT-FOUND": "Not found",
+    "NOT-ALLOWED": "Method not allowed",
+    "FORBIDDEN": "Forbidden"
+  },
+  "STATUSCODE": {
+  },
+  "NOT-FOUND": "This isn't the page you're looking for",
+  "NOT-ALLOWED": "I'm afraid I can't do that",
+  "FORBIDDEN": "Computer says no"
+}

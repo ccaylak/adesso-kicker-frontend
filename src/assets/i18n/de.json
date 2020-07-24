@@ -1,0 +1,84 @@
+{
+  "MATCH-RESULT": {
+    "WHO-PLAYED": "Wer hat gespielt?",
+    "WHO-WON": "Wer hat gewonnen?",
+    "WHEN-DID-YOU-PLAY": "Wann habt ihr gespielt?",
+    "TEAM A": "Team A",
+    "TEAM B": "Team B",
+    "PLAYER 1": "Spieler 1",
+    "PLAYER 2": "Spieler 2",
+    "CREATE-MATCH": "Spielergebnis anfragen",
+    "TOOLTIP": "Du kannst 1v1, 1v2, 2v1 oder 2v2 spielen",
+    "SUCCESS-MESSAGE": "Spielergebnis wurde angefragt",
+    "ERROR": {
+      "NO-DATE": "Bitte wähle ein Datum aus",
+      "NO-PLAYERS": "Bitte wähle Spieler 1 für Team A und Team B",
+      "NO-WINNER": "Bitte wähle einen Sieger aus",
+      "FUTURE-DATE": "Bitte wähle ein Datum, dass nicht in der Zukunft liegt",
+      "INVALID-CREATOR": "Spieler 1 von Team A muss der momentan angemeldete Benutzer sein",
+      "SAME-PLAYER": "Ein Spieler kann an einem Kicker-Spiel nur einmal teilnehmen",
+      "TOO-MANY-MAILS": "Du hast zu viele Anfragen abgeschickt, das Kicker-Spiel wurde dennoch angefragt, deine Gegner bekommen aber keine E-Mail"
+    }
+  },
+  "HEADER": {
+    "MATCH-REQUEST": "Spielergebnis eintragen",
+    "RANKING": "Rangliste",
+    "PROFILE": "Mein Profil",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "EMAILS": "Emails: {{value}}"
+  },
+  "NOTIFICATION": {
+    "NO-NOTIFICATIONS": "Du hast keine Anfragen",
+    "DECLINED": "{{enemy}} hat die Anfrage für ein kürzlich gespieltes Kicker-Spiel abgelehnt",
+    "ONE-OPPONENT": "Bitte bestätige, dass {{enemy-one}} das Kicker-Spiel vom {{date}} gewonnen hat",
+    "TWO-OPPONENTS": "Bitte bestätige, dass {{enemy-one}} and {{enemy-two}} das Kicker-Spiel vom {{date}} gewonnen haben",
+    "YES": "Ja!",
+    "NO": "Nein!",
+    "SUCCESS": "Erfolgreich!",
+    "SUCCESS-ACCEPTED": "Annehmen erfolgreich",
+    "SUCCESS-DECLINED": "Ablehnen erfolgreich"
+  },
+  "RANKING": {
+    "NO-RANK": "Du wirst in der Tabelle nicht aufgeführt, da du noch kein Kicker-Spiel gespielt hast",
+    "NO-RANKS": "Es wurde noch keine Kicker-Spiele gespielt, daher gibt es noch keine Ränge",
+    "RANK": "Rang",
+    "POINTS": "Punkte",
+    "MATCHES-PLAYED": "Spiele",
+    "WINS": "Siege",
+    "LOSSES": "Niederlagen",
+    "WIN-RATE": "Siegesrate",
+    "NAME": "Name",
+    "TOOLTIP": "Seasons finden jedes Quartal statt",
+    "PROFILE": {
+      "NO-RANK": "Du musst mindestens ein Spiel gespielt haben damit deine Statistiken sowie dein zeitlicher Verlauf berechnet werden können"
+    }
+  },
+  "CHART": {
+    "RANK-OVER-TIME": "Rang über Zeit",
+    "WIN-RATE-OVER-TIME": "Siegesrate über Zeit",
+    "WINS-AND-LOSSES-PER-DAY": "Siege und Niederlagen pro Tag",
+    "WIN/LOSE-DIFFERENCE": "Sieg-Niederlage Differenz"
+  },
+  "EMAIL": {
+    "SUBJECT": "Kicker-Spiel: {{matchId}} vom {{matchDate}}",
+    "ONE-OPPONENT": "Hallo, dein kürzlich gespieltes Kicker-Spiel: {{matchId}} gegen {{enemy}} muss reviewt werden.",
+    "TWO-OPPONENTS": "Hallo, dein kürzlich gespieltes Kicker-Spiel: {{matchId}} gegen {{enemyOne}} und {{enemyTwo}} muss reviewt werden.",
+    "ONE-WINNER": "{{winner}} hat gewonnen.",
+    "TWO-WINNERS": "{{winnerOne}} und {{winnerTwo}} haben gewonnen.",
+    "ONE-LOSER": "{{loser}} hat verloren.",
+    "TWO-LOSERS": "{{loserOne}} und {{loserTwo}} haben verloren.",
+    "VERIFY": "Akzeptieren",
+    "DECLINE": "Ablehnen"
+  },
+  "ERROR": {
+    "NOT-FOUND": "Inhalt wurde nicht gefunden",
+    "NOT-ALLOWED": "Methode nicht erlaubt",
+    "FORBIDDEN": "Unzulässig"
+  },
+  "STATUSCODE": {
+  },
+  "NOT-FOUND": "Das ist nicht die Seite, die du suchst",
+  "NOT-ALLOWED": "Das kann ich nicht tun",
+  "FORBIDDEN": "Computer sagt nein"
+}
