@@ -1,56 +1,58 @@
-<div class="btn-group" dropdown>
-  <button id="button-animated" dropdownToggle type="button"
-          class="btn btn-primary dropdown-toggle"
-          aria-controls="dropdown-animated">
-    <fa-icon [icon]="faEnvelope" [spin]="notificationSize!=0"></fa-icon>
+<div *ngIf="(notifications$|async) as notifications">
+  <button type="button" class="btn btn-primary mr-2" (click)="openModal(template)">
+    <fa-layers>
+      <fa-icon [icon]="faEnvelope"></fa-icon>
+      <fa-layers-counter *ngIf="notifications.length>0" content=""></fa-layers-counter>
+    </fa-layers>
   </button>
-  <ul *dropdownMenu
-      class="notification-box dropdown-menu dropdown-menu-right"
-      role="menu">
-    <li *ngFor="let notification of notifications$|async; let i=index" role="menuitem">
-      <div *ngIf="i<3">
-        <div *ngIf="notification.type=='MATCH_VERIFICATION'" class="notification-text dropdown-item">
-          <div *ngIf="getWinners(notification.match).length==1">
-            {{'NOTIFICATION.ONE-OPPONENT'|translate: {
-            enemy: getWinners(notification.match)[0],
-            date: notification.match.date|date
-          } }}
-          </div>
-          <div *ngIf="getWinners(notification.match).length == 2">
-            {{'NOTIFICATION.TWO-OPPONENTS'|translate: {
-            enemyOne: getWinners(notification.match)[0],
-            enemyTwo: getWinners(notification.match)[1],
-            date: notification.match.date|date
-          } }}
-          </div>
-          <div class="button-center row">
-            <button type="button" class="btn button-spacer btn-lg col btn-primary fa-pull-left"
-                    (click)="acceptNotification(notification.notificationId)">
-              {{'NOTIFICATION.YES'|translate}}
-            </button>
-            <button type="button" class="btn btn-lg col button-spacer btn-danger fa-pull-right"
-                    (click)="declineNotification(notification.notificationId)">
-              {{'NOTIFICATION.NO'|translate}}
-            </button>
-          </div>
+  <ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title">Notifications</h4>
+    </div>
+    <div class="modal-body border-bottom" *ngFor="let notification of notifications">
+      <div *ngIf="notification.type==='MATCH_VERIFICATION'">
+        <div *ngIf="getWinners(notification.match).length==1">
+          {{'NOTIFICATION.ONE-OPPONENT'|translate: {
+          enemy: getWinners(notification.match)[0],
+          date: notification.match.date|date
+        } }}
         </div>
-
-        <div class="notification-text dropdown-item" *ngIf="notification.type=='MESSAGE'">
-          Deine Anfrage für das Spiel vom {{notification.sendDate|date}} wurde
-          von {{notification.sender.firstName + ' ' + notification.sender.lastName}} abgelehnt
-          <div style="padding: 15px" class="row">
-            <button type="button" class="btn col btn-danger"
-                    (click)="acceptNotification(notification.notificationId)">Ok
-            </button>
-          </div>
+        <div *ngIf="getWinners(notification.match).length==2">
+          {{'NOTIFICATION.TWO-OPPONENTS'|translate: {
+          enemyOne: getWinners(notification.match)[0],
+          enemyTwo: getWinners(notification.match)[1],
+          date: notification.match.date|date
+        } }}
+        </div>
+        <div class="button-center row p-3">
+          <button type="button" class="btn btn-primary col mr-2"
+                  (click)="acceptNotification(notification.notificationId)">
+            {{'NOTIFICATION.YES'|translate}}
+          </button>
+          <button type="button" class="btn btn-danger col"
+                  (click)="declineNotification(notification.notificationId)">
+            {{'NOTIFICATION.NO'|translate}}
+          </button>
         </div>
       </div>
-    </li>
-    <div class="left-notifications" *ngIf="notificationSize-3>3">
-      {{'NOTIFICATION.LEFT-NOTIFICATIONS'|translate:{value: (notificationSize - 3)} }}
+      <div *ngIf="notification.type=='MESSAGE'">
+        Deine Anfrage für das Spiel vom {{notification.sendDate|date}} wurde
+        von {{notification.sender.firstName + ' ' + notification.sender.lastName}} abgelehnt
+        <div style="padding: 15px" class="row">
+          <button type="button" class="btn col btn-danger"
+                  (click)="acceptNotification(notification.notificationId)">Ok
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="left-notifications" *ngIf="notificationSize-3<3">
-      {{'NOTIFICATION.NO-NOTIFICATIONS'|translate}}
-    </div>
-  </ul>
+      <div class="modal-footer align-content-center">
+        <span *ngIf="notifications.length===0">{{'NOTIFICATION.NO-NOTIFICATIONS'|translate}}</span>
+        <span *ngIf="notifications.length===1">{{'NOTIFICATION.ONE-NOTIFICATION'|translate}}</span>
+        <div *ngIf="notifications.length>1">
+          {{'NOTIFICATION.MORE-NOTIFICATIONS'|translate: {
+          amount: notifications.length}
+          }}
+        </div>
+      </div>
+  </ng-template>
 </div>

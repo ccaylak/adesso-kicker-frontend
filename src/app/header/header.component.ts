@@ -10,6 +10,7 @@ import {LoginService} from '../services/login.service';
 import {Observable, Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {NotificationService} from '../services/notification.service';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -25,13 +26,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   faSignOutAlt = faSignOutAlt;
   faEnvelope = faEnvelope;
   subscriptionHandler: Subscription[] = [];
-  bool: boolean;
   emailNotification$: Observable<boolean>;
 
   constructor(
     private router: Router,
     private notificationService: NotificationService,
     private userService: UserService,
+    public translate: TranslateService,
     public loginService: LoginService
   ) {
   }

@@ -3,17 +3,16 @@
     <!--/* Info Tooltip */-->
     <fa-icon class="info-tooltip" [icon]="faInfoCircle" tooltip="{{'MATCH-RESULT.TOOLTIP'|translate}}"
              placement="left" size="2x"></fa-icon>
-
     <!--/* Which players played? */-->
     <div class="headline">
       {{'MATCH-RESULT.WHO-PLAYED'|translate}}
     </div>
-
     <!--/* Missing Player Error */-->
     <div *ngIf="playerB1.invalid  && playerB1.touched" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
       <span *ngIf="playerB1.errors?.required"> {{'MATCH-RESULT.ERROR.NO-ENEMY'|translate}}</span>
-      <span *ngIf="playerB1.errors?.invalidUserId && playerB1.dirty"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerB1.value} }}</span>
+      <span
+        *ngIf="playerB1.errors?.invalidUserId && playerB1.dirty"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerB1.value} }}</span>
     </div>
 
     <!--/* Same Player Error */-->
@@ -25,26 +24,26 @@
     <!--/* Invalid UserId Error */-->
     <div *ngIf="playerB2.touched && playerB2.invalid" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
-      <span *ngIf="playerB2.errors?.invalidUserId"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerB2.value} }}</span>
+      <span
+        *ngIf="playerB2.errors?.invalidUserId"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerB2.value} }}</span>
     </div>
 
     <div *ngIf="playerA2.touched && playerA2.invalid" class="popup popup-error">
       <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
-      <span *ngIf="playerA2.errors?.invalidUserId"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerA2.value} }}</span>
+      <span
+        *ngIf="playerA2.errors?.invalidUserId"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerA2.value} }}</span>
     </div>
-
     <div *ngIf="(players$|async) as players" class="row" formGroupName="teamGroup">
       <!--/* Team A */-->
       <div class="col-sm-6">
         <div class="team-description">
           {{'MATCH-RESULT.TEAM A'|translate}}
         </div>
-
         <!--/* PlayerA2 */-->
         <div class="team team-textbox">
           <input class="form-control" formControlName="playerA1" type="text" name="playerA1" id="playerA1"/>
-          <input list=playersOfTeamA formControlName="playerA2" class="form-control" type="text" id="playerA2"
-                 name="playerA2">
+          <input list=playersOfTeamA formControlName="playerA2" class="form-control mt-1" type="text" id="playerA2"
+                 name="playerA2" placeholder="{{'MATCH-RESULT.PLAYER A2' | translate}}">
           <datalist id="playersOfTeamA">
             <option
               *ngFor="let playerA2 of players"
@@ -52,19 +51,17 @@
           </datalist>
         </div>
       </div>
-
       <!--/* Team B */-->
       <div class="col-sm-6">
         <div class="team-description">
           {{'MATCH-RESULT.TEAM B'|translate}}
         </div>
         <div class="team team-textbox search-bar">
-
           <!--/* PlayerB1 */-->
           <ng-container>
             <input list="playersOfTeamB1"
                    formControlName="playerB1" class="form-control" type="text" id="playerB1"
-                   name="playerB1"
+                   name="playerB1" placeholder="{{'MATCH-RESULT.PLAYER B1' | translate}}"
                    [class.is-invalid]="playerB1.invalid && playerB1.touched"/>
             <datalist id="playersOfTeamB1">
               <option
@@ -72,11 +69,10 @@
                 [value]="playerB1.userId">{{playerB1.firstName}} {{playerB1.lastName}}</option>
             </datalist>
           </ng-container>
-
           <!--/* PlayerB2 */-->
           <ng-container>
-            <input list="playersOfTeamB2" formControlName="playerB2" class="form-control" type="text" id="playerB2"
-                   name="playerB2"/>
+            <input list="playersOfTeamB2" formControlName="playerB2" class="form-control mt-1" type="text" id="playerB2"
+                   name="playerB2" placeholder="{{'MATCH-RESULT.PLAYER B2' | translate}}"/>
             <datalist id="playersOfTeamB2">
               <option
                 *ngFor="let playerB2 of players"
@@ -86,49 +82,40 @@
         </div>
       </div>
     </div>
-
-    <div formGroupName="matchGroup" class="container">
-
-      <!--/* Which Team won? */-->
-      <div class="headline">
-        {{'MATCH-RESULT.WHO-WON'|translate}}
-      </div>
+    <!--/* Which Team won? */-->
+    <div class="headline">
+      {{'MATCH-RESULT.WHO-WON'|translate}}
+    </div>
+    <div formGroupName="matchGroup" class="row">
       <!--/* Radio Buttons */-->
-      <div class="row" id="radio-winner-team">
-        <div class="col">
-          <div class="form-check" id="form-check-1">
-            <input type="radio" formControlName="winnerTeam" value="teamA" name="winnerTeam" id="radio1">
-            <label class="form-check-label" for="radio1">Team A</label>
-          </div>
+      <div class="input-group" formControlName="winnerTeam" btnRadioGroup>
+        <div class="col-sm-6 form-check">
+          <label class="btn btn-primary" btnRadio="teamA">Team A <fa-icon [icon]="faTrophy"></fa-icon></label>
         </div>
-        <div class="col">
-          <div class="form-check" id="form-check-2">
-            <input type="radio" formControlName="winnerTeam" value="teamB" name="winnerTeam" id="radio2">
-            <label class="form-check-label" for="radio2">Team B</label>
-          </div>
+        <div class="col-sm-6 form-check">
+          <label class="btn btn-primary" btnRadio="teamB">Team B <fa-icon [icon]="faTrophy"></fa-icon></label>
         </div>
       </div>
-      <!--/* When did you play? */-->
-      <div class="headline">
-        {{'MATCH-RESULT.WHEN-DID-YOU-PLAY'|translate}}
-      </div>
-      <!--/* Datepicker */-->
-      <div class="form-group col-sm-6" id="datetimepicker-form-group">
-        <div class="input-group date">
-          <input type="text" id="datetimepicker" #dp="bsDatepicker" formControlName="date" class="form-control"
-                 bsDatepicker
-                 [bsConfig]="{isAnimated: true, containerClass: 'theme-dark-blue'}" [maxDate]="bsValueAndMaxDate"
-                 placement="top"
-                 [class.is-invalid]="date.invalid && date.touched">
-          <div class="input-group-append">
-            <div class="input-group-text" (click)="dp.toggle()">
-              <fa-icon [icon]="faCalender"></fa-icon>
-            </div>
+    </div>
+    <!--/* When did you play? */-->
+    <div class="headline">
+      {{'MATCH-RESULT.WHEN-DID-YOU-PLAY'|translate}}
+    </div>
+    <!--/* Datepicker */-->
+    <div formGroupName="matchGroup" class="row mb-3">
+      <div class="input-group col-sm-6">
+        <input type="text" id="datetimepicker" #dp="bsDatepicker" formControlName="date" class="form-control"
+               bsDatepicker
+               [bsConfig]="{isAnimated: true, containerClass: 'theme-dark-blue'}" [maxDate]="bsValueAndMaxDate"
+               placement="top"
+               [class.is-invalid]="date.invalid && date.touched">
+        <div class="input-group-append">
+          <div class="input-group-text" (click)="dp.toggle()">
+            <fa-icon [icon]="faCalender"></fa-icon>
           </div>
         </div>
       </div>
     </div>
-
     <div *ngIf="date.invalid && date.touched" class="popup popup-error">
       <i class="fa fa-times" aria-hidden="true"></i>
       <!--/* Error No Date */-->
@@ -136,8 +123,10 @@
       <!--/* Error Date in Future */-->
       <span *ngIf="date.errors.bsDate"> {{'MATCH-RESULT.ERROR.FUTURE-DATE'|translate}}</span>
     </div>
+
     <!--/* Submit Match */-->
     <button [disabled]="matchRequestForm.invalid" type="submit"
             class="btn btn-primary">{{'MATCH-RESULT.CREATE-MATCH'|translate}}</button>
   </div>
 </form>
+

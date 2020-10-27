@@ -47,7 +47,7 @@ export class ProfileComponent implements OnInit {
     if (myUser.statistic.losses === 0) {
       return 100;
     }
-    return Math.round(100 - (100 / this.getMatches(myUser) * myUser.statistic.losses));
+    return Math.round((myUser.statistic.wins / myUser.statistic.wins - myUser.statistic.losses) * 100);
   }
 
   getUser() {

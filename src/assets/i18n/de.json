@@ -5,8 +5,9 @@
     "WHEN-DID-YOU-PLAY": "Wann habt ihr gespielt?",
     "TEAM A": "Team A",
     "TEAM B": "Team B",
-    "PLAYER 1": "Spieler 1",
-    "PLAYER 2": "Spieler 2",
+    "PLAYER A2": "Optionaler Spieler 2",
+    "PLAYER B1": "Spieler 1",
+    "PLAYER B2": "Optionaler Spieler 2",
     "CREATE-MATCH": "Kicker-Spiel anfragen",
     "TOOLTIP": "Du kannst 1v1, 1v2, 2v1 oder 2v2 spielen",
     "SUCCESS-MESSAGE": "Spielergebnis wurde angefragt",
@@ -25,14 +26,19 @@
     "PROFILE": "Mein Profil",
     "LOGIN": "Login",
     "LOGOUT": "Logout",
-    "EMAILS": "Emails: {{value}}"
+    "EMAILS": {
+      "HEADER": "Emails: {{status}}",
+      "ENABLED": "aktiviert",
+      "DISABLED": "deaktiviert"
+    }
   },
   "NOTIFICATION": {
     "NO-NOTIFICATIONS": "Du hast keine Anfragen",
-    "LEFT-NOTIFICATIONS":  "{{value}} Anfragen sind übrig",
+    "ONE-NOTIFICATION":  "Du hast 1 Anfrage",
+    "MORE-NOTIFICATIONS": "Du hast {{amount}} Anfragen",
     "DECLINED": "{{enemy}} hat die Anfrage für ein kürzlich gespieltes Kicker-Spiel abgelehnt",
-    "ONE-OPPONENT": "Bitte bestätige, dass {{enemy}} das Kicker-Spiel vom {{date}} gewonnen hat",
-    "TWO-OPPONENTS": "Bitte bestätige, dass {{enemyOne}} and {{enemyTwo}} das Kicker-Spiel vom {{date}} gewonnen haben",
+    "ONE-OPPONENT": "Hat {{enemy}} das Spiel vom {{date}} gewonnen?",
+    "TWO-OPPONENTS": "Haben {{enemyOne}} und {{enemyTwo}} das Spiel vom {{date}} gewonnen?",
     "YES": "Ja!",
     "NO": "Nein!",
     "SUCCESS": "Erfolgreich!",
@@ -51,14 +57,15 @@
     "NAME": "Name",
     "TOOLTIP": "Seasons finden jedes Quartal statt",
     "PROFILE": {
-      "NO-RANK": "Du musst mindestens ein Spiel gespielt haben damit deine Statistiken sowie dein zeitlicher Verlauf berechnet werden können"
+      "NO-RANK": "Du musst ein Spiel gespielt haben, damit deine Statistiken sowie dein zeitlicher Verlauf angezeigt werden können"
     }
   },
   "CHART": {
     "RANK-OVER-TIME": "Rang über Zeit",
     "WIN-RATE-OVER-TIME": "Siegesrate über Zeit",
     "WINS-AND-LOSSES-PER-DAY": "Siege und Niederlagen pro Tag",
-    "WIN/LOSE-DIFFERENCE": "Sieg-Niederlage Differenz"
+    "WIN/LOSE-DIFFERENCE": "Sieg-Niederlage Differenz",
+    "DIFFERENCE": "Differenz"
   },
   "EMAIL": {
     "SUBJECT": "Kicker-Spiel: {{matchId}} vom {{matchDate}}",

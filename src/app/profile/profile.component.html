@@ -1,16 +1,16 @@
 <div *ngIf="(user$ | async) as user">
   <!--/* Profile Name */-->
-  <div class="container" id="text-container">
-    <h1 id="userID">{{getFullName(user)}}</h1>
+  <div class="container text-center mt-4 mb-4">
+    <h1>{{getFullName(user)}}</h1>
   </div>
 
   <!--/* Profile Statistics */-->
   <div class="container">
     <!--/* Display if player has no statistic */-->
-    <div *ngIf="user.statistic, then thenBlock else elseBlock"></div>
+    <div *ngIf="user.statistic, then statistics else noStatistics"></div>
 
     <!--/* Display statistics */-->
-    <ng-template #thenBlock>
+    <ng-template #statistics>
       <div class="row">
         <!--/* Rank */-->
         <div class="col-lg-2">
@@ -57,7 +57,7 @@
           <div class="statistic" id="statistic-6">
             <p class="statistic-title">{{'RANKING.WIN-RATE'|translate}}</p>
             <fa-icon [icon]="faBalanceScale" size="3x"></fa-icon>
-            <p class="statistic-value">{{getWinRatio(user)|percent}}</p>
+            <p class="statistic-value">{{getWinRatio(user)}}</p>
           </div>
         </div>
       </div>
@@ -65,8 +65,12 @@
       <!--/* ChartJS Canvas */-->
       <app-statistic></app-statistic>
     </ng-template>
-    <ng-template #elseBlock>
-      <div class="alert alert-danger" role="alert">{{'RANKING.PROFILE.NO-RANK'|translate}}</div>
+    <ng-template #noStatistics>
+      <div class="container-fluid">
+        <div class="text-center alert alert-danger" role="alert">
+          {{'RANKING.PROFILE.NO-RANK'|translate}}
+        </div>
+      </div>
     </ng-template>
   </div>
 </div>

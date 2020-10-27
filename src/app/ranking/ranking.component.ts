@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {faChartLine} from '@fortawesome/free-solid-svg-icons/faChartLine';
 import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 import {faBalanceScale} from '@fortawesome/free-solid-svg-icons/faBalanceScale';
@@ -9,16 +9,15 @@ import {User} from '../models/user';
 import {UserService} from '../services/user.service';
 import {PageChangedEvent} from 'ngx-bootstrap';
 import {Page} from '../models/page';
-import {takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {LoginService} from "../services/login.service";
+import {LoginService} from '../services/login.service';
 
 @Component({
   selector: 'app-ranking',
   templateUrl: './ranking.component.html',
   styleUrls: ['./ranking.component.less']
 })
-export class RankingComponent implements OnInit, OnDestroy {
+export class RankingComponent implements OnInit {
   faChartLine = faChartLine;
   faCheck = faCheck;
   faBalanceScale = faBalanceScale;
@@ -35,7 +34,7 @@ export class RankingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getAllUsers();
-    this.getUser(this.loginService.userId)
+    this.getUser(this.loginService.userId);
   }
 
   getUser(userId: string) {
@@ -44,7 +43,7 @@ export class RankingComponent implements OnInit, OnDestroy {
 
   getAllUsers() {
     this.pages$ = this.userService.getAllUsersAsPage(this.page);
-    this.userService.getAllUsersAsPage(this.page).pipe(takeUntil(this.$destroy))
+    this.userService.getAllUsersAsPage(this.page)
       .subscribe((pageUser) => {
         this.usersPlaceholder = pageUser.content;
       });
@@ -66,14 +65,10 @@ export class RankingComponent implements OnInit, OnDestroy {
   }
 
   pageChanged(event: PageChangedEvent): void {
-    this.userService.getAllUsersAsPage(event.page - 1).pipe(takeUntil(this.$destroy)).subscribe((pageUser) => this.usersPlaceholder = pageUser.content);
+    this.userService.getAllUsersAsPage(event.page - 1).subscribe((pageUser) => this.usersPlaceholder = pageUser.content);
   }
 
   profile(userId: string) {
     this.router.navigateByUrl('/users/u/' + userId);
-  }
-
-  ngOnDestroy(): void {
-    this.$destroy.next();
   }
 }

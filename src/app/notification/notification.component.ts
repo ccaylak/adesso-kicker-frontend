@@ -1,32 +1,41 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {Observable} from 'rxjs';
 import {NotificationService} from '../services/notification.service';
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
+import {faEnvelopeOpen} from '@fortawesome/free-solid-svg-icons/faEnvelopeOpen';
 import {Notification} from '../models/notification';
 import {Match} from '../models/match';
 import {User} from '../models/user';
-import {BsDropdownConfig} from 'ngx-bootstrap';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {NotificationType} from '../models/notification-type.enum';
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.less'],
-  providers: [{provide: BsDropdownConfig, useValue: {isAnimated: true, autoClose: false, insideClick: true}}]
 })
 export class NotificationComponent implements OnInit {
+
+  constructor(private notificationService: NotificationService, private modalService: BsModalService) {
+  }
+
   notifications$: Observable<Notification[]>;
   faEnvelope = faEnvelope;
-  notificationSize: number;
 
-  constructor(private notificationService: NotificationService) {
+  modalRef: BsModalRef;
+
+  private static getFullName(user: User) {
+    return `${user.firstName} ${user.lastName}`;
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.faEnvelope = faEnvelopeOpen;
+    this.modalRef = this.modalService.show(template);
+    this.modalService.onHide.subscribe(() => this.faEnvelope = faEnvelope);
   }
 
   ngOnInit() {
     this.getAllNotifications();
-    this.notificationService.getAllNotifications().subscribe(notificationArray => {
-      this.notificationSize=notificationArray.length;
-      console.log(this.notificationSize);
-    });
   }
 
   getAllNotifications() {
@@ -34,17 +43,11 @@ export class NotificationComponent implements OnInit {
   }
 
   acceptNotification(notificationId: number) {
-    this.notificationService.acceptNotification(notificationId).subscribe(value => {
-      this.getAllNotifications();
-      this.notificationSize=this.notificationSize-1;
-    });
+    this.notificationService.acceptNotification(notificationId).subscribe(() => this.getAllNotifications());
   }
 
   declineNotification(notificationId: number) {
-    this.notificationService.declineNotification(notificationId).subscribe(value => {
-      this.getAllNotifications();
-      this.notificationSize=this.notificationSize-1;
-    });
+    this.notificationService.declineNotification(notificationId).subscribe(() => this.getAllNotifications());
   }
 
   getWinners(match: Match): string[] {
@@ -67,9 +70,5 @@ export class NotificationComponent implements OnInit {
       }
     }
     return users;
-  }
-
-  private static getFullName(user: User) {
-    return `${user.firstName} ${user.lastName}`;
   }
 }

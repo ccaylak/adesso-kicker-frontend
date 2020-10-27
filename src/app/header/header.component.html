@@ -7,7 +7,7 @@
     <!--/* Links */-->
     <div class="navbar-collapse collapse">
       <ul class="navbar-nav">
-        <li *ngIf="loginService.token" class="nav-item header-link clickable" [routerLink]="['matches','add']">
+        <li *ngIf="loginService.token" class="nav-item ml-2 clickable" [routerLink]="['matches','add']">
           <div class="nav-link">
             <div class="nav-link" routerLinkActive="active">
               <fa-icon [icon]="faCalenderCheck"></fa-icon>
@@ -15,7 +15,7 @@
             </div>
           </div>
         </li>
-        <li class="nav-item header-link clickable" [routerLink]="['ranking']">
+        <li class="nav-item ml-2 clickable" [routerLink]="['ranking']">
           <div class="nav-link">
             <div class="nav-link" routerLinkActive="active">
               <fa-icon [icon]="faTrophy"></fa-icon>
@@ -23,7 +23,7 @@
             </div>
           </div>
         </li>
-        <li *ngIf="loginService.token" class="nav-item header-link clickable"
+        <li *ngIf="loginService.token" class="nav-item ml-2 clickable"
             [routerLink]="['users','u',loginService.userId]">
           <div class="nav-link">
             <div class="nav-link" routerLinkActive="active">
@@ -55,12 +55,12 @@
           </li>
           <li class="dropdown-item clickable" (click)="onProfile()" role="menuitem">
             <fa-icon [icon]="faUser"></fa-icon>
-            {{'HEADER.RANKING'|translate}}
+            {{'HEADER.PROFILE'|translate}}
           </li>
           <div class="dropdown-divider"></div>
           <li class="dropdown-item clickable" (click)="toggleEmailNotifications()" role="menuitem">
             <fa-icon [icon]="faEnvelope"></fa-icon>
-            {{'HEADER.EMAILS'|translate: {value: (emailNotification$|async) ? 'aktiviert' : 'deaktiviert'} }}
+            {{'HEADER.EMAILS.HEADER'|translate: {status: (emailNotification$|async) ? this.translate.instant('HEADER.EMAILS.ENABLED') : this.translate.instant('HEADER.EMAILS.DISABLED')} }}
           </li>
           <div class="dropdown-divider"></div>
           <li class="dropdown-item clickable" (click)="logout()" role="menuitem">

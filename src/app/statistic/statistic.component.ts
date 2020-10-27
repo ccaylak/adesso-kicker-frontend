@@ -1,24 +1,23 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {TrackedStatistic} from '../models/tracked-statistic';
 import {Chart} from '../models/chart';
-import {takeUntil} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../services/user.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-statistic',
   templateUrl: './statistic.component.html',
   styleUrls: ['./statistic.component.less']
 })
-export class StatisticComponent implements OnInit, OnDestroy {
+export class StatisticComponent implements OnInit {
   trackedStatistics$: Observable<TrackedStatistic[]>;
-  $destroy = new Subject();
 
   rankOverTimeChart: Chart = {
     lineChartData: [{
       data: [],
-      label: 'Rang',
+      label: this.translate.instant('RANKING.RANK'),
     }],
     lineChartLabels: [],
     lineChartColors: [{
@@ -29,12 +28,22 @@ export class StatisticComponent implements OnInit, OnDestroy {
     }],
     lineChartLegend: true,
     lineChartType: 'line',
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            stepSize: 1,
+            reverse: true,
+          },
+        }],
+      }
+    }
   };
 
   winRateOverTimeChart: Chart = {
     lineChartData: [{
       data: [],
-      label: 'Siegesrate',
+      label: this.translate.instant('RANKING.WIN-RATE'),
     }],
     lineChartLabels: [],
     lineChartColors: [{
@@ -45,12 +54,23 @@ export class StatisticComponent implements OnInit, OnDestroy {
     }],
     lineChartLegend: true,
     lineChartType: 'line',
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            stepSize: 10,
+            max: 100,
+            min: 0,
+          }
+        }]
+      }
+    }
   };
 
   winsAndLossesPerDayChart: Chart = {
     lineChartData: [{
       data: [],
-      label: 'Siege',
+      label: this.translate.instant('RANKING.WINS'),
       borderColor: 'black',
       borderWidth: 2,
       pointRadius: 5,
@@ -60,7 +80,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
       pointBorderWidth: 1
     }, {
       data: [],
-      label: 'Niederlagen',
+      label: this.translate.instant('RANKING.LOSSES'),
       borderColor: 'black',
       borderWidth: 2,
       pointRadius: 5,
@@ -76,12 +96,13 @@ export class StatisticComponent implements OnInit, OnDestroy {
     lineChartColors: [{}],
     lineChartLegend: true,
     lineChartType: 'line',
+    options: null,
   };
 
   winsAndLossesDiffPerDayChart: Chart = {
     lineChartData: [{
       data: [],
-      label: 'Differenz',
+      label: this.translate.instant('CHART.DIFFERENCE'),
     }],
     lineChartLabels: [],
     lineChartColors: [{
@@ -92,12 +113,22 @@ export class StatisticComponent implements OnInit, OnDestroy {
     }],
     lineChartLegend: true,
     lineChartType: 'line',
+    options: null
   };
 
-  constructor(private route: ActivatedRoute, private userService: UserService) {
+  constructor(private route: ActivatedRoute,
+              private userService: UserService,
+              private translate: TranslateService
+  ) {
   }
 
   ngOnInit() {
+    this.getTrackedStatistics();
+    this.fillChartLabels();
+    this.fillRankOverTimeChartData();
+    this.fillWinAndLossesDiffPerDayChartData();
+    this.fillWinRateOverTimeChartData();
+    this.fillWinsAndLossesPerDayChartData();
   }
 
   getTrackedStatistics() {
@@ -107,18 +138,18 @@ export class StatisticComponent implements OnInit, OnDestroy {
   }
 
   fillChartLabels() {
-    this.trackedStatistics$.pipe(takeUntil(this.$destroy)).subscribe(
+    this.trackedStatistics$.subscribe(
       (trackedStatisticArray) => trackedStatisticArray.forEach(
         (trackedStatisticObject) => {
-          this.rankOverTimeChart.lineChartLabels.push(trackedStatisticObject.date.toString());
-          this.winRateOverTimeChart.lineChartLabels.push(trackedStatisticObject.date.toString());
-          this.winsAndLossesPerDayChart.lineChartLabels.push(trackedStatisticObject.date.toString());
-          this.winsAndLossesDiffPerDayChart.lineChartLabels.push(trackedStatisticObject.date.toString());
+          this.rankOverTimeChart.lineChartLabels.push(new Date(trackedStatisticObject.date).toLocaleDateString());
+          this.winRateOverTimeChart.lineChartLabels.push(new Date(trackedStatisticObject.date).toLocaleDateString());
+          this.winsAndLossesPerDayChart.lineChartLabels.push(new Date(trackedStatisticObject.date).toLocaleDateString());
+          this.winsAndLossesDiffPerDayChart.lineChartLabels.push(new Date(trackedStatisticObject.date).toLocaleDateString());
         }));
   }
 
   fillRankOverTimeChartData() {
-    this.trackedStatistics$.pipe(takeUntil(this.$destroy)).subscribe(
+    this.trackedStatistics$.subscribe(
       (trackedStatisticArray) => trackedStatisticArray.forEach(
         (trackedStatisticObject) => {
           this.rankOverTimeChart.lineChartData.forEach((linechart) => linechart.data.push(trackedStatisticObject.rank));
@@ -126,7 +157,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
   }
 
   fillWinRateOverTimeChartData() {
-    this.trackedStatistics$.pipe(takeUntil(this.$destroy)).subscribe(
+    this.trackedStatistics$.subscribe(
       (trackedStatisticArray) => trackedStatisticArray.forEach(
         (trackedStatisticObject) => {
           this.winRateOverTimeChart.lineChartData.forEach(
@@ -136,7 +167,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
   }
 
   fillWinsAndLossesPerDayChartData() {
-    this.trackedStatistics$.pipe(takeUntil(this.$destroy)).subscribe(
+    this.trackedStatistics$.subscribe(
       (trackedStatisticArray) => trackedStatisticArray.forEach(
         (trackedStatisticObject) => {
           this.winsAndLossesPerDayChart.lineChartData[0].data.push(trackedStatisticObject.wins);
@@ -145,7 +176,7 @@ export class StatisticComponent implements OnInit, OnDestroy {
   }
 
   fillWinAndLossesDiffPerDayChartData() {
-    this.trackedStatistics$.pipe(takeUntil(this.$destroy)).subscribe(
+    this.trackedStatistics$.subscribe(
       (trackedStatisticArray) => trackedStatisticArray.forEach(
         (trackedStatisticObject) => {
           this.winsAndLossesDiffPerDayChart.lineChartData.forEach(
@@ -160,9 +191,5 @@ export class StatisticComponent implements OnInit, OnDestroy {
 
   getWinLossDiff(trackedStatistic: TrackedStatistic): number {
     return trackedStatistic.wins - trackedStatistic.losses;
-  }
-
-  ngOnDestroy(): void {
-    this.$destroy.next();
   }
 }
