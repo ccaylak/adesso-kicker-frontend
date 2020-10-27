@@ -5,8 +5,9 @@
     "WHEN-DID-YOU-PLAY": "When did you play?",
     "TEAM A": "Team A",
     "TEAM B": "Team B",
-    "PLAYER 1": "Player 1",
-    "PLAYER 2": "Player 2",
+    "PLAYER A2": "Optional Player 2",
+    "PLAYER B1": "Player 1",
+    "PLAYER B2": "Optional Player 2",
     "CREATE-MATCH": "Request result",
     "TOOLTIP": "You can play 1v1, 1v2, 2v1 or 2v2",
     "SUCCESS-MESSAGE": "Match has been requested",
@@ -25,14 +26,19 @@
     "PROFILE": "My profile",
     "LOGIN": "Login",
     "LOGOUT": "Logout",
-    "EMAILS": "Emails: {{value}}"
+    "EMAILS": {
+      "HEADER": "Emails",
+      "ENABLED": "enabled",
+      "DISABLED": "disabled"
+    }
   },
   "NOTIFICATION": {
-    "NO-NOTIFICATIONS": "You don't have any notifications",
-    "LEFT-NOTIFICATIONS":  "{{value}} notifications are left",
+    "NO-NOTIFICATIONS": "You have no notifications",
+    "ONE-NOTIFICATION":  "You have 1 notification",
+    "MORE-NOTIFICATIONS": "You have {{amount}} notifications",
     "DECLINED": "{{enemy}} declined your recent match request",
-    "ONE-OPPONENT": "Please verify that {{enemy}} won the match on {{date}}",
-    "TWO-OPPONENTS": "Please verify that {{enemyOne}} and {{enemyTwo}} won the match on {{date}}",
+    "ONE-OPPONENT": "Did {{enemy}} win the match on {{date}}?",
+    "TWO-OPPONENTS": "Did {{enemyOne}} and {{enemyTwo}} win the match on {{date}}?",
     "YES": "Yes!",
     "NO": "No!",
     "SUCCESS": "Success!",
@@ -40,7 +46,7 @@
     "SUCCESS-DECLINED": "The notification has been declined"
   },
   "RANKING": {
-    "NO-RANK": "You need to play at least one match to appear in the table",
+    "NO-RANK": "You need to play a match to appear in the table",
     "NO-RANKS": "No one has ever played a match, can't track ranks",
     "RANK": "Rank",
     "POINTS": "Points",
@@ -51,14 +57,15 @@
     "NAME": "Name",
     "TOOLTIP": "Seasons reset each quarter of the year",
     "PROFILE": {
-      "NO-RANK": "You need to play at least one match to see your statistics and your rank history"
+      "NO-RANK": "You need to play a match to see your statistics and your rank history"
     }
   },
   "CHART": {
     "RANK-OVER-TIME": "Rank over time",
     "WIN-RATE-OVER-TIME": "Win rate over time",
     "WINS-AND-LOSSES-PER-DAY": "Wins and losses per day",
-    "WIN/LOSE-DIFFERENCE": "Win-Loss difference"
+    "WIN/LOSE-DIFFERENCE": "Win-Loss difference",
+    "DIFFERENCE": "Difference"
   },
   "EMAIL": {
     "SUBJECT": "Match: {{matchId}} from {{matchDate}}",

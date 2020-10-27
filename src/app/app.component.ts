@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AuthConfig, JwksValidationHandler, OAuthService} from 'angular-oauth2-oidc';
-import {TranslateService} from "@ngx-translate/core";
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,11 @@ export class AppComponent {
 
   constructor(private oAuthService: OAuthService, private translate: TranslateService) {
     this.authConfig();
-    translate.setDefaultLang('en');
+    if (this.translate.getBrowserLang() === 'de') {
+      translate.setDefaultLang('de');
+    } else {
+      translate.setDefaultLang('en');
+    }
   }
 
   private authConfig() {

@@ -1,21 +1,15 @@
 <div *ngIf="(pages$ | async) as pages">
-  <div id="everything-above-table" class="container">
-    <div class="row">
-      <div class="col-11">
-        <div id="playerName">
-          <h2>{{'HEADER.RANKING'|translate}}</h2>
-        </div>
-      </div>
-    </div>
+  <div class="container text-center mt-4 mb-4">
+    <h1>
+      {{'HEADER.RANKING'|translate}}
+    </h1>
   </div>
-
-  <div *ngIf="pages.content.length>0; then thenBlock else elseBlock"></div>
+  <div *ngIf="pages.content.length>0; then ranking else noRanking"></div>
   <!--/* User List */-->
-  <ng-template #thenBlock>
-
+  <ng-template #ranking>
     <div class="container-fluid">
       <div *ngIf="user$|async as user">
-        <span class="text-center alert alert-danger" *ngIf="!user.statistic">{{'RANKING.NO-RANK'|translate}}</span>
+        <span class="text-center alert alert-danger" *ngIf="!user.statistic" role="alert">{{'RANKING.NO-RANK'|translate}}</span>
       </div>
       <div class="table-container">
 
@@ -33,7 +27,7 @@
                   <fa-icon [icon]="faChartLine"></fa-icon></span>
               </th>
               <!--/* Name */-->
-              <th class="thead-name">
+              <th>
                 <span>{{'RANKING.NAME'|translate}}</span>
               </th>
               <!--/* Wins */-->
@@ -71,7 +65,7 @@
       </div>
     </div>
   </ng-template>
-  <ng-template #elseBlock>
+  <ng-template #noRanking>
     <div class="container-fluid">
       <div class="text-center alert alert-danger">
         {{'RANKING.NO-RANKS'|translate}}

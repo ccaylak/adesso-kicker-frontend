@@ -1,5 +1,5 @@
 import {Color, Label} from 'ng2-charts';
-import {ChartDataSets} from 'chart.js';
+import {ChartDataSets, ChartOptions} from 'chart.js';
 
 export interface Chart {
   lineChartData: ChartDataSets[];
@@ -7,4 +7,5 @@ export interface Chart {
   lineChartColors: Color[];
   lineChartLegend: boolean;
   lineChartType: string;
+  options: ChartOptions;
 }

@@ -15,28 +15,30 @@ import {PaginationModule} from 'ngx-bootstrap/pagination';
 import {ReactiveFormsModule} from '@angular/forms';
 import {OAuthModule} from 'angular-oauth2-oidc';
 import {NotificationComponent} from './notification/notification.component';
-import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
-import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {ModalModule} from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
-    NotificationComponent
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     FontAwesomeModule,
-    BsDropdownModule.forRoot(),
     HttpClientModule,
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ButtonsModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    ChartsModule,
     PaginationModule.forRoot(),
-    ReactiveFormsModule,
+    ChartsModule,
     OAuthModule.forRoot({
       resourceServer: {
         allowedUrls: ['http://localhost/*'],

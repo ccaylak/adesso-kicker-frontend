@@ -30,7 +30,7 @@ export class UserService {
   }
 
   getAllTrackedStatistics(userId: string): Observable<TrackedStatistic[]> {
-    return this.httpClient.get<TrackedStatistic[]>(`${environment.BASE_PATH}/statistics/${userId}`);
+    return this.httpClient.get<TrackedStatistic[]>(`${environment.BASE_PATH}/users/statistics/${userId}`);
   }
 
   toggleEmailNotifications() {

@@ -10,6 +10,8 @@ import {LoginService} from '../services/login.service';
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
 import {samePlayerValidator} from '../services/validator';
 import {MatchService} from '../services/match.service';
+import {faTrophy} from '@fortawesome/free-solid-svg-icons/faTrophy';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-match-result',
@@ -20,19 +22,27 @@ export class MatchResultComponent implements OnInit {
   faTimes = faTimes;
   faInfoCircle = faInfoCircle;
   faCalender = faCalendar;
+  faTrophy = faTrophy;
 
   match: Match;
   bsValueAndMaxDate = new Date(Date.now());
   user$: Observable<User>;
   players$: Observable<User[]>;
   userIds: string[] = [];
+  dateFormat: string;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private loginService: LoginService,
     private matchService: MatchService,
+    private translate: TranslateService
   ) {
+    if (translate.getBrowserLang() === 'de') {
+      this.dateFormat = 'DD.MM.YYYY';
+    } else {
+      this.dateFormat = 'MM/DD/YYYY';
+    }
   }
 
   matchRequestForm = this.fb.group({
@@ -43,7 +53,7 @@ export class MatchResultComponent implements OnInit {
       playerB2: ['', this.validUserIdValidator()],
     }, {validators: samePlayerValidator}),
     matchGroup: this.fb.group({
-      date: [new Date(), Validators.required],
+      date: [new Date().toLocaleDateString, Validators.required],
       winnerTeam: ['teamA', Validators.required]
     })
   });
@@ -62,7 +72,6 @@ export class MatchResultComponent implements OnInit {
     const playerA2: string = this.playerA2.value;
     const playerB1: string = this.playerB1.value;
     const playerB2: string = this.playerB2.value;
-
     if (!playerA2 && playerB1 && !playerB2) {
       this.Match1v1();
     }

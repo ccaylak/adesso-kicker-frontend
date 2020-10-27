@@ -1,7 +1,5 @@
 @import "_colorscheme.less";
 @import "_mediaqueries.less";
-@import "_background.less";
-@import "_searchbar.less";
 
 @media screen and(min-width: 1480px) {
   body {
@@ -66,43 +64,6 @@
 
 .form-check {
   width: 60%;
-
-  &-input {
-    display: none;
-  }
-
-  &-label {
-    font-size: 35px;
-    color: @colorscheme[warm-grey-dark];
-    min-width: 109px;
-  }
-
-  &:hover > .outline-trophy {
-    -webkit-text-stroke: 0 black;
-    -webkit-text-fill-color: @colorscheme[orange];
-    opacity: 0.5;
-  }
-
-  .trophy-selected {
-    -webkit-text-stroke: 0 black !important;
-    -webkit-text-fill-color: @colorscheme[orange] !important;
-    opacity: 1 !important;
-  }
-
-  .outline-trophy {
-    -webkit-text-stroke: 1px @colorscheme[warm-grey-dark];
-    -webkit-text-fill-color: transparent;
-  }
-}
-
-#datetimepicker-form-group {
-  @width: 100%;
-  padding-left: 0;
-  width: @width/2;
-  @media @mobile {
-    width: @width;
-    padding-right: 0;
-  }
 }
 
 .popup {
