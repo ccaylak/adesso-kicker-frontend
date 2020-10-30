@@ -7,7 +7,7 @@
     <!--/* Links */-->
     <div class="navbar-collapse collapse">
       <ul class="navbar-nav">
-        <li *ngIf="loginService.token" class="nav-item ml-2 clickable" [routerLink]="['matches','add']">
+        <li *ngIf="token" class="nav-item ml-2 clickable" [routerLink]="['matches','add']">
           <div class="nav-link">
             <div class="nav-link" routerLinkActive="active">
               <fa-icon [icon]="faCalenderCheck"></fa-icon>
@@ -23,8 +23,8 @@
             </div>
           </div>
         </li>
-        <li *ngIf="loginService.token" class="nav-item ml-2 clickable"
-            [routerLink]="['users','u',loginService.userId]">
+        <li *ngIf="token" class="nav-item ml-2 clickable"
+            [routerLink]="['users','u',userId]">
           <div class="nav-link">
             <div class="nav-link" routerLinkActive="active">
               <fa-icon [icon]="faUser"></fa-icon>
@@ -34,33 +34,33 @@
         </li>
       </ul>
     </div>
-    <app-notification *ngIf="loginService.token"></app-notification>
-    <div *ngIf="loginService.fullName; then userControls else loginButton"></div>
+    <app-notification *ngIf="token"></app-notification>
+    <div *ngIf="fullName; then userControls else loginButton"></div>
     <ng-template #userControls>
       <div class="btn-group" dropdown>
         <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
                 aria-controls="dropdown-animated">
-          <span class="caret">{{loginService.fullName}}</span>
+          <span class="caret">{{fullName}}</span>
         </button>
         <ul style="height: 210px" id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right"
             role="menu"
             aria-labelledby="button-animated">
-          <li class="dropdown-item clickable" (click)="match()" role="menuitem">
+          <li class="dropdown-item clickable" [routerLink]="['matches','add']" role="menuitem">
             <fa-icon [icon]="faCalenderCheck"></fa-icon>
             {{'HEADER.MATCH-REQUEST'|translate}}
           </li>
-          <li class="dropdown-item clickable" (click)="ranking()" role="menuitem">
+          <li class="dropdown-item clickable" [routerLink]="['ranking']" role="menuitem">
             <fa-icon [icon]="faTrophy"></fa-icon>
             {{'HEADER.RANKING'|translate}}
           </li>
-          <li class="dropdown-item clickable" (click)="onProfile()" role="menuitem">
+          <li class="dropdown-item clickable" [routerLink]="['users','u',userId]" role="menuitem">
             <fa-icon [icon]="faUser"></fa-icon>
             {{'HEADER.PROFILE'|translate}}
           </li>
           <div class="dropdown-divider"></div>
           <li class="dropdown-item clickable" (click)="toggleEmailNotifications()" role="menuitem">
             <fa-icon [icon]="faEnvelope"></fa-icon>
-            {{'HEADER.EMAILS.HEADER'|translate: {status: (emailNotification$|async) ? this.translate.instant('HEADER.EMAILS.ENABLED') : this.translate.instant('HEADER.EMAILS.DISABLED')} }}
+            {{'HEADER.EMAILS.HEADER'|translate: {status: (emailNotification$|async) ? translate('HEADER.EMAILS.ENABLED') : translate('HEADER.EMAILS.DISABLED')} }}
           </li>
           <div class="dropdown-divider"></div>
           <li class="dropdown-item clickable" (click)="logout()" role="menuitem">

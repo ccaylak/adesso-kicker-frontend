@@ -1,39 +1,32 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BsDropdownConfig} from 'ngx-bootstrap/dropdown/';
-import {faCalendarCheck} from '@fortawesome/free-solid-svg-icons/faCalendarCheck';
-import {faTrophy} from '@fortawesome/free-solid-svg-icons/faTrophy';
-import {faUser} from '@fortawesome/free-solid-svg-icons/faUser';
-import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons/faSignOutAlt';
-import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
+import {faCalendarCheck, faTrophy, faUser, faSignOutAlt, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {UserService} from '../services/user.service';
 import {LoginService} from '../services/login.service';
-import {Observable, Subscription} from 'rxjs';
-import {Router} from '@angular/router';
-import {NotificationService} from '../services/notification.service';
+import {Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
+import {NotyfService} from 'ng-notyf';
 
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.less'],
-  providers: [{provide: BsDropdownConfig, useValue: {isAnimated: true, autoClose: true}}]
+  providers: [{provide: BsDropdownConfig, useValue: {autoClose: true}}]
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
   faCalenderCheck = faCalendarCheck;
   faTrophy = faTrophy;
   faUser = faUser;
   faSignOutAlt = faSignOutAlt;
   faEnvelope = faEnvelope;
-  subscriptionHandler: Subscription[] = [];
   emailNotification$: Observable<boolean>;
 
   constructor(
-    private router: Router,
-    private notificationService: NotificationService,
     private userService: UserService,
-    public translate: TranslateService,
-    public loginService: LoginService
+    private translateService: TranslateService,
+    private loginService: LoginService,
+    private notyfService: NotyfService
   ) {
   }
 
@@ -49,25 +42,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.loginService.logout();
   }
 
+  get userId() {
+    return this.loginService.userId;
+  }
+
+  get token() {
+    return this.loginService.token;
+  }
+
+  get fullName() {
+    return this.loginService.fullName;
+  }
+
+  translate(key: string): string {
+    return this.translateService.instant(key);
+  }
+
   toggleEmailNotifications() {
-    this.userService.toggleEmailNotifications().subscribe(success => {
+    this.userService.toggleEmailNotifications().subscribe(() => {
       this.emailNotification$ = this.userService.getEmailNotifications();
+      this.emailNotification$.subscribe(emails => {
+          if (emails) {
+            this.notyfService.success(this.translate('HEADER.EMAILS.ENABLED'));
+          } else {
+            this.notyfService.error(this.translate('HEADER.EMAILS.DISABLED'));
+          }
+        }
+      );
     });
-  }
-
-  onProfile() {
-    this.router.navigate(['users', 'u', this.loginService.userId]);
-  }
-
-  ranking() {
-    this.router.navigate(['ranking']);
-  }
-
-  match() {
-    this.router.navigate(['matches', 'add']);
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptionHandler.forEach(subscription => subscription.unsubscribe());
   }
 }

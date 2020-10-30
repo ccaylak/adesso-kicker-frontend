@@ -8,9 +8,14 @@
     "PLAYER A2": "Optionaler Spieler 2",
     "PLAYER B1": "Spieler 1",
     "PLAYER B2": "Optionaler Spieler 2",
-    "CREATE-MATCH": "Kicker-Spiel anfragen",
     "TOOLTIP": "Du kannst 1v1, 1v2, 2v1 oder 2v2 spielen",
-    "SUCCESS-MESSAGE": "Spielergebnis wurde angefragt",
+    "CREATE-MATCH": "Kicker-Spiel anfragen",
+    "SUCCESS": {
+      "1V1": "1v1 Spiel wurde angefragt",
+      "1V2": "1v2 Spiel wurde angefragt",
+      "2V1": "2v1 Spiel wurde angefragt",
+      "2V2": "2v2 Spiel wurde angefragt"
+    },
     "ERROR": {
       "NO-DATE": "Bitte wähle ein Datum aus",
       "NO-ENEMY": "Bitte wähle einen Gegner",
@@ -27,34 +32,33 @@
     "LOGIN": "Login",
     "LOGOUT": "Logout",
     "EMAILS": {
-      "HEADER": "Emails: {{status}}",
+      "HEADER": "Emails {{status}}",
       "ENABLED": "aktiviert",
       "DISABLED": "deaktiviert"
     }
   },
   "NOTIFICATION": {
     "NO-NOTIFICATIONS": "Du hast keine Anfragen",
-    "ONE-NOTIFICATION":  "Du hast 1 Anfrage",
+    "ONE-NOTIFICATION": "Du hast 1 Anfrage",
     "MORE-NOTIFICATIONS": "Du hast {{amount}} Anfragen",
     "DECLINED": "{{enemy}} hat die Anfrage für ein kürzlich gespieltes Kicker-Spiel abgelehnt",
     "ONE-OPPONENT": "Hat {{enemy}} das Spiel vom {{date}} gewonnen?",
     "TWO-OPPONENTS": "Haben {{enemyOne}} und {{enemyTwo}} das Spiel vom {{date}} gewonnen?",
-    "YES": "Ja!",
-    "NO": "Nein!",
-    "SUCCESS": "Erfolgreich!",
-    "SUCCESS-ACCEPTED": "Annehmen erfolgreich",
-    "SUCCESS-DECLINED": "Ablehnen erfolgreich"
+    "SUCCESS": {
+      "ACCEPTED": "Das Spiel wurde bestätigt",
+      "DECLINED": "Das Spiel wurde abgelehnt"
+    }
   },
   "RANKING": {
-    "NO-RANK": "Du wirst in der Tabelle nicht aufgeführt, da du noch kein Kicker-Spiel gespielt hast",
-    "NO-RANKS": "Es wurde noch keine Kicker-Spiele gespielt, daher gibt es noch keine Ränge",
+    "NO-RANK": "Du wirst in der Tabelle nicht angezeigt, da du noch kein Kicker-Spiel gespielt hast",
+    "NO-RANKS": "Bisher wurden keine Spiele gespielt, daher gibt es noch keine Rangliste",
     "RANK": "Rang",
     "POINTS": "Punkte",
     "MATCHES-PLAYED": "Spiele",
     "WINS": "Siege",
     "LOSSES": "Niederlagen",
     "WIN-RATE": "Siegesrate",
-    "NAME": "Name",
+    "PLAYER": "Spieler",
     "TOOLTIP": "Seasons finden jedes Quartal statt",
     "PROFILE": {
       "NO-RANK": "Du musst ein Spiel gespielt haben, damit deine Statistiken sowie dein zeitlicher Verlauf angezeigt werden können"

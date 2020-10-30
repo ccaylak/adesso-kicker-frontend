@@ -1,15 +1,14 @@
-<form [formGroup]="matchRequestForm" (ngSubmit)="submitMatch()">
+<form [formGroup]="matchRequestForm" (ngSubmit)="onSubmit()">
   <div class="container shadow" id="form">
     <!--/* Info Tooltip */-->
-    <fa-icon class="info-tooltip" [icon]="faInfoCircle" tooltip="{{'MATCH-RESULT.TOOLTIP'|translate}}"
+    <fa-icon class="info-tooltip mt-4 float-right" [icon]="faInfoCircle" tooltip="{{'MATCH-RESULT.TOOLTIP'|translate}}"
              placement="left" size="2x"></fa-icon>
     <!--/* Which players played? */-->
-    <div class="headline">
+    <div class="headline h1 mt-4 mb-4">
       {{'MATCH-RESULT.WHO-PLAYED'|translate}}
     </div>
     <!--/* Missing Player Error */-->
     <div *ngIf="playerB1.invalid  && playerB1.touched" class="popup popup-error">
-      <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
       <span *ngIf="playerB1.errors?.required"> {{'MATCH-RESULT.ERROR.NO-ENEMY'|translate}}</span>
       <span
         *ngIf="playerB1.errors?.invalidUserId && playerB1.dirty"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerB1.value} }}</span>
@@ -17,19 +16,17 @@
 
     <!--/* Same Player Error */-->
     <div *ngIf="teamGroup.errors?.samePlayer" class="popup popup-error">
-      <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
       <span>{{'MATCH-RESULT.ERROR.SAME-PLAYER'|translate}}</span>
     </div>
 
     <!--/* Invalid UserId Error */-->
     <div *ngIf="playerB2.touched && playerB2.invalid" class="popup popup-error">
-      <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
       <span
         *ngIf="playerB2.errors?.invalidUserId"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerB2.value} }}</span>
     </div>
 
+
     <div *ngIf="playerA2.touched && playerA2.invalid" class="popup popup-error">
-      <fa-icon [icon]="faTimes" aria-hidden="true"></fa-icon>
       <span
         *ngIf="playerA2.errors?.invalidUserId"> {{'MATCH-RESULT.ERROR.NOT-KNOWN-PLAYER'|translate: {player: playerA2.value} }}</span>
     </div>
@@ -83,30 +80,42 @@
       </div>
     </div>
     <!--/* Which Team won? */-->
-    <div class="headline">
+    <div class="headline h1 mt-4 mb-4">
       {{'MATCH-RESULT.WHO-WON'|translate}}
     </div>
     <div formGroupName="matchGroup" class="row">
       <!--/* Radio Buttons */-->
-      <div class="input-group" formControlName="winnerTeam" btnRadioGroup>
+      <div class="input-group" formControlName="winnerTeamA" btnRadioGroup>
         <div class="col-sm-6 form-check">
-          <label class="btn btn-primary" btnRadio="teamA">Team A <fa-icon [icon]="faTrophy"></fa-icon></label>
+          <label class="btn btn-primary" btnRadio="teamA">Team A
+            <fa-icon [icon]="faTrophy"></fa-icon>
+          </label>
         </div>
         <div class="col-sm-6 form-check">
-          <label class="btn btn-primary" btnRadio="teamB">Team B <fa-icon [icon]="faTrophy"></fa-icon></label>
+          <label class="btn btn-primary" btnRadio="teamB">Team B
+            <fa-icon [icon]="faTrophy"></fa-icon>
+          </label>
         </div>
       </div>
     </div>
     <!--/* When did you play? */-->
-    <div class="headline">
+    <div class="headline h1 mt-4 mb-4">
       {{'MATCH-RESULT.WHEN-DID-YOU-PLAY'|translate}}
+    </div>
+    <div *ngIf="date.invalid && date.touched" class="popup popup-error">
+      <i class="fa fa-times" aria-hidden="true"></i>
+      <!--/* Error No Date */-->
+      <span *ngIf="date.errors.required"> {{'MATCH-RESULT.ERROR.NO-DATE'|translate}}</span>
+      <!--/* Error Date in Future */-->
+      <span *ngIf="date.errors.bsDate"> {{'MATCH-RESULT.ERROR.FUTURE-DATE'|translate}}</span>
     </div>
     <!--/* Datepicker */-->
     <div formGroupName="matchGroup" class="row mb-3">
       <div class="input-group col-sm-6">
         <input type="text" id="datetimepicker" #dp="bsDatepicker" formControlName="date" class="form-control"
                bsDatepicker
-               [bsConfig]="{isAnimated: true, containerClass: 'theme-dark-blue'}" [maxDate]="bsValueAndMaxDate"
+               [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: dateFormat}"
+               [maxDate]="bsValueAndMaxDate"
                placement="top"
                [class.is-invalid]="date.invalid && date.touched">
         <div class="input-group-append">
@@ -116,17 +125,13 @@
         </div>
       </div>
     </div>
-    <div *ngIf="date.invalid && date.touched" class="popup popup-error">
-      <i class="fa fa-times" aria-hidden="true"></i>
-      <!--/* Error No Date */-->
-      <span *ngIf="date.errors.required"> {{'MATCH-RESULT.ERROR.NO-DATE'|translate}}</span>
-      <!--/* Error Date in Future */-->
-      <span *ngIf="date.errors.bsDate"> {{'MATCH-RESULT.ERROR.FUTURE-DATE'|translate}}</span>
-    </div>
-
     <!--/* Submit Match */-->
+
     <button [disabled]="matchRequestForm.invalid" type="submit"
-            class="btn btn-primary">{{'MATCH-RESULT.CREATE-MATCH'|translate}}</button>
+            class="btn btn-primary">{{'MATCH-RESULT.CREATE-MATCH'|translate}}
+      <ngx-spinner [fullScreen]="false">
+      </ngx-spinner>
+    </button>
   </div>
 </form>
 

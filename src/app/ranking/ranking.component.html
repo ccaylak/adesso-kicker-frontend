@@ -1,7 +1,9 @@
 <div *ngIf="(pages$ | async) as pages">
-  <div class="container text-center mt-4 mb-4">
+  <div class="container text-center mt-3 mb-3">
     <h1>
       {{'HEADER.RANKING'|translate}}
+        <fa-icon class="fa-info-circle" size="xs" [icon]="faInfoCircle" tooltip="{{'RANKING.TOOLTIP'|translate}}"
+                 placement="left"></fa-icon>
     </h1>
   </div>
   <div *ngIf="pages.content.length>0; then ranking else noRanking"></div>
@@ -9,14 +11,13 @@
   <ng-template #ranking>
     <div class="container-fluid">
       <div *ngIf="user$|async as user">
-        <span class="text-center alert alert-danger" *ngIf="!user.statistic" role="alert">{{'RANKING.NO-RANK'|translate}}</span>
+        <span class="text-center alert alert-danger" *ngIf="!user.statistic"
+              role="alert">{{'RANKING.NO-RANK'|translate}}</span>
       </div>
-      <div class="table-container">
 
-        <div id="info-tooltip">
-          <fa-icon class="fa-info-circle" [icon]="faInfoCircle" tooltip="{{'RANKING.TOOLTIP'|translate}}"
-                   placement="left"></fa-icon>
-        </div>
+      <div class="table-container">
+        <pagination class="justify-content-center" [totalItems]="pages.totalElements" [itemsPerPage]="10" (numPages)="pages.totalPages"
+                    (pageChanged)="pageChanged($event)" [rotate]="true" [maxSize]="6" previousText="&lsaquo;" nextText="&rsaquo;"></pagination>
         <div class="shadow-sm" id="table-container">
           <table class="user-table table">
             <thead>
@@ -28,7 +29,8 @@
               </th>
               <!--/* Name */-->
               <th>
-                <span>{{'RANKING.NAME'|translate}}</span>
+                <span>{{'RANKING.PLAYER'|translate}}
+                <fa-icon [icon]="faUser"></fa-icon></span>
               </th>
               <!--/* Wins */-->
               <th>
@@ -38,7 +40,7 @@
               <!--/* Win Rate */-->
               <th>
                 <span>{{'RANKING.WIN-RATE'|translate}}
-                  <fa-icon [icon]="faBalanceScale"></fa-icon></span>
+                  <fa-icon [icon]="faChartPie"></fa-icon></span>
               </th>
               <!--/* Points */-->
               <th>
@@ -52,17 +54,15 @@
             <tr [class.user-self]="user.userId==loginService.userId" *ngFor="let user of usersPlaceholder"
                 (click)="profile(user.userId)" class="user-table-row">
               <td><span class="badge badge-position">{{user.statistic.rank}}</span></td>
-              <td>{{getFullName(user)}}</td>
+              <td>{{user.fullName}}</td>
               <td>{{user.statistic.wins}}</td>
-              <td>{{getWinRatio(user)}}</td>
+              <td>{{user.statistic.winRatio}}</td>
               <td>{{user.statistic.rating}}</td>
             </tr>
             </tbody>
           </table>
         </div>
-        <pagination [totalItems]="pages.totalElements" [itemsPerPage]="10" (numPages)="pages.totalPages"
-                    (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;"></pagination>
-      </div>
+        </div>
     </div>
   </ng-template>
   <ng-template #noRanking>

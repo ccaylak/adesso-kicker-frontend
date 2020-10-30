@@ -8,16 +8,20 @@
     "PLAYER A2": "Optional Player 2",
     "PLAYER B1": "Player 1",
     "PLAYER B2": "Optional Player 2",
-    "CREATE-MATCH": "Request result",
     "TOOLTIP": "You can play 1v1, 1v2, 2v1 or 2v2",
-    "SUCCESS-MESSAGE": "Match has been requested",
+    "CREATE-MATCH": "Request result",
+    "SUCCESS": {
+      "1V1": "1v1 Match has been requested",
+      "1V2": "1v2 Match has been requested",
+      "2V1": "2v1 Match has been requested",
+      "2V2": "2v2 Match has been requested"
+    },
     "ERROR": {
       "NO-DATE": "Please select a date",
       "NO-ENEMY": "Please select an enemy",
       "FUTURE-DATE": "Please select a date that is not in the future",
-      "SAME-PLAYER": "A player can only participate once in a match",
-      "NOT-KNOWN-PLAYER": "The Player ({{player}}) does not exist",
-      "TOO-MANY-MAILS": "Too many match requests at once, the match has been requestet but your opponents will not get an email"
+      "SAME-PLAYER": "A player can only participate once",
+      "NOT-KNOWN-PLAYER": "The Player ({{player}}) does not exist"
     }
   },
   "HEADER": {
@@ -27,23 +31,22 @@
     "LOGIN": "Login",
     "LOGOUT": "Logout",
     "EMAILS": {
-      "HEADER": "Emails",
+      "HEADER": "Emails {{status}}",
       "ENABLED": "enabled",
       "DISABLED": "disabled"
     }
   },
   "NOTIFICATION": {
     "NO-NOTIFICATIONS": "You have no notifications",
-    "ONE-NOTIFICATION":  "You have 1 notification",
+    "ONE-NOTIFICATION": "You have 1 notification",
     "MORE-NOTIFICATIONS": "You have {{amount}} notifications",
     "DECLINED": "{{enemy}} declined your recent match request",
     "ONE-OPPONENT": "Did {{enemy}} win the match on {{date}}?",
     "TWO-OPPONENTS": "Did {{enemyOne}} and {{enemyTwo}} win the match on {{date}}?",
-    "YES": "Yes!",
-    "NO": "No!",
-    "SUCCESS": "Success!",
-    "SUCCESS-ACCEPTED": "The notification has been accepted",
-    "SUCCESS-DECLINED": "The notification has been declined"
+    "SUCCESS": {
+      "ACCEPTED": "Match has been accepted",
+      "DECLINED": "Match has been declined"
+    }
   },
   "RANKING": {
     "NO-RANK": "You need to play a match to appear in the table",
@@ -54,7 +57,7 @@
     "WINS": "Wins",
     "LOSSES": "Losses",
     "WIN-RATE": "Win rate",
-    "NAME": "Name",
+    "PLAYER": "Player",
     "TOOLTIP": "Seasons reset each quarter of the year",
     "PROFILE": {
       "NO-RANK": "You need to play a match to see your statistics and your rank history"

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
 import {TrackedStatistic} from '../models/tracked-statistic';
 import {Chart} from '../models/chart';
-import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../services/user.service';
 import {TranslateService} from '@ngx-translate/core';
 

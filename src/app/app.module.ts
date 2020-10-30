@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TokenInterceptor} from './token-interceptor';
 import {AppRoutingModule, routingComponents} from './app-routing.module';
@@ -18,6 +18,8 @@ import {NotificationComponent} from './notification/notification.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {ModalModule} from 'ngx-bootstrap';
+import { NotyfModule } from 'ng-notyf';
+import {NgxSpinnerModule, NgxSpinnerService} from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import {ModalModule} from 'ngx-bootstrap';
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    NotyfModule,
+    NgxSpinnerModule,
     FontAwesomeModule,
     HttpClientModule,
     ModalModule.forRoot(),
@@ -53,12 +57,12 @@ import {ModalModule} from 'ngx-bootstrap';
       }
     })
   ],
-
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  }],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }, NgxSpinnerService],
   bootstrap: [AppComponent],
 })
 

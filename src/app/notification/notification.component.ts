@@ -1,13 +1,12 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {Observable} from 'rxjs';
 import {NotificationService} from '../services/notification.service';
-import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
-import {faEnvelopeOpen} from '@fortawesome/free-solid-svg-icons/faEnvelopeOpen';
+import {faEnvelopeOpen, faEnvelope, faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {Notification} from '../models/notification';
 import {Match} from '../models/match';
-import {User} from '../models/user';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {NotificationType} from '../models/notification-type.enum';
+import {NotyfService} from 'ng-notyf';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-notification',
@@ -15,17 +14,18 @@ import {NotificationType} from '../models/notification-type.enum';
   styleUrls: ['./notification.component.less'],
 })
 export class NotificationComponent implements OnInit {
-
-  constructor(private notificationService: NotificationService, private modalService: BsModalService) {
-  }
-
   notifications$: Observable<Notification[]>;
   faEnvelope = faEnvelope;
-
+  faCheck = faCheck;
+  faTimes = faTimes;
   modalRef: BsModalRef;
 
-  private static getFullName(user: User) {
-    return `${user.firstName} ${user.lastName}`;
+  constructor(
+    private notificationService: NotificationService,
+    private modalService: BsModalService,
+    private notyfyService: NotyfService,
+    private translateService: TranslateService
+  ) {
   }
 
   openModal(template: TemplateRef<any>) {
@@ -42,33 +42,18 @@ export class NotificationComponent implements OnInit {
     this.notifications$ = this.notificationService.getAllNotifications();
   }
 
-  acceptNotification(notificationId: number) {
-    this.notificationService.acceptNotification(notificationId).subscribe(() => this.getAllNotifications());
+  acceptNotification(notification: Notification) {
+    this.notificationService.acceptNotification(notification.notificationId).subscribe(() => {
+        this.getAllNotifications();
+        this.notyfyService.success(this.translateService.instant('NOTIFICATION.SUCCESS.ACCEPTED'));
+      }
+    );
   }
 
-  declineNotification(notificationId: number) {
-    this.notificationService.declineNotification(notificationId).subscribe(() => this.getAllNotifications());
-  }
-
-  getWinners(match: Match): string[] {
-    const users: string[] = [];
-    if (match.winnerTeamA) {
-      if (match.teamAPlayer1 && match.teamAPlayer2) {
-        users.push(NotificationComponent.getFullName(match.teamAPlayer1));
-        users.push(NotificationComponent.getFullName(match.teamAPlayer2));
-      }
-      if (match.teamAPlayer1 && !match.teamAPlayer2) {
-        users.push(NotificationComponent.getFullName(match.teamAPlayer1));
-      }
-    } else {
-      if (match.teamBPlayer1 && match.teamBPlayer2) {
-        users.push(NotificationComponent.getFullName(match.teamBPlayer1));
-        users.push(NotificationComponent.getFullName(match.teamBPlayer2));
-      }
-      if (match.teamBPlayer1 && !match.teamBPlayer2) {
-        users.push(NotificationComponent.getFullName(match.teamBPlayer1));
-      }
-    }
-    return users;
+  declineNotification(notification: Notification) {
+    this.notificationService.declineNotification(notification.notificationId).subscribe(() => {
+      this.getAllNotifications();
+      this.notyfyService.success(this.translateService.instant('NOTIFICATION.SUCCESS.ACCEPTED'));
+    });
   }
 }

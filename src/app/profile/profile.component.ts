@@ -1,14 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {faChartLine} from '@fortawesome/free-solid-svg-icons/faChartLine';
-import {faTrophy} from '@fortawesome/free-solid-svg-icons/faTrophy';
-import {faFutbol} from '@fortawesome/free-solid-svg-icons/faFutbol';
-import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
-import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
-import {faBalanceScale} from '@fortawesome/free-solid-svg-icons/faBalanceScale';
+import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
+import {faChartLine, faTrophy, faFutbol, faCheck, faTimes, faChartPie} from '@fortawesome/free-solid-svg-icons';
 import {User} from '../models/user';
 import {UserService} from '../services/user.service';
-import {Observable, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -22,32 +17,16 @@ export class ProfileComponent implements OnInit {
   faFutbol = faFutbol;
   faCheck = faCheck;
   faTimes = faTimes;
-  faBalanceScale = faBalanceScale;
+  faChartPie = faChartPie;
   user$: Observable<User>;
 
   constructor(
     private route: ActivatedRoute,
     private userService: UserService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.getUser();
-  }
-
-  getFullName(myUser: User): string {
-    return myUser.firstName + ' ' + myUser.lastName;
-  }
-
-  getMatches(myUser: User): number {
-    return myUser.statistic.wins + myUser.statistic.losses;
-  }
-
-  getWinRatio(myUser: User): number {
-    if (myUser.statistic.losses === 0) {
-      return 100;
-    }
-    return Math.round((myUser.statistic.wins / myUser.statistic.wins - myUser.statistic.losses) * 100);
   }
 
   getUser() {

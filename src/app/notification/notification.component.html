@@ -11,27 +11,27 @@
     </div>
     <div class="modal-body border-bottom" *ngFor="let notification of notifications">
       <div *ngIf="notification.type==='MATCH_VERIFICATION'">
-        <div *ngIf="getWinners(notification.match).length==1">
+        <div *ngIf="notification.match.winners.length==1">
           {{'NOTIFICATION.ONE-OPPONENT'|translate: {
-          enemy: getWinners(notification.match)[0],
+          enemy: notification.match.winners[0],
           date: notification.match.date|date
         } }}
         </div>
-        <div *ngIf="getWinners(notification.match).length==2">
+        <div *ngIf="notification.match.winners.length==2">
           {{'NOTIFICATION.TWO-OPPONENTS'|translate: {
-          enemyOne: getWinners(notification.match)[0],
-          enemyTwo: getWinners(notification.match)[1],
+          enemyOne: notification.match.winners[0],
+          enemyTwo: notification.match.winners[1],
           date: notification.match.date|date
         } }}
         </div>
         <div class="button-center row p-3">
           <button type="button" class="btn btn-primary col mr-2"
-                  (click)="acceptNotification(notification.notificationId)">
-            {{'NOTIFICATION.YES'|translate}}
+                  (click)="acceptNotification(notification)">
+            <fa-icon [icon]="faCheck"></fa-icon>
           </button>
           <button type="button" class="btn btn-danger col"
-                  (click)="declineNotification(notification.notificationId)">
-            {{'NOTIFICATION.NO'|translate}}
+                  (click)="declineNotification(notification)">
+            <fa-icon [icon]="faTimes"></fa-icon>
           </button>
         </div>
       </div>
@@ -40,7 +40,7 @@
         von {{notification.sender.firstName + ' ' + notification.sender.lastName}} abgelehnt
         <div style="padding: 15px" class="row">
           <button type="button" class="btn col btn-danger"
-                  (click)="acceptNotification(notification.notificationId)">Ok
+                  (click)="acceptNotification(notification)">Ok
           </button>
         </div>
       </div>

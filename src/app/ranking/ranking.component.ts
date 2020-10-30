@@ -1,15 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {faChartLine} from '@fortawesome/free-solid-svg-icons/faChartLine';
-import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
-import {faBalanceScale} from '@fortawesome/free-solid-svg-icons/faBalanceScale';
-import {faTrophy} from '@fortawesome/free-solid-svg-icons/faTrophy';
-import {faInfoCircle} from '@fortawesome/free-solid-svg-icons/faInfoCircle';
-import {Observable, Subject} from 'rxjs';
-import {User} from '../models/user';
-import {UserService} from '../services/user.service';
-import {PageChangedEvent} from 'ngx-bootstrap';
-import {Page} from '../models/page';
+import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
+import {faChartLine, faCheck, faTrophy, faInfoCircle, faChartPie, faUser} from '@fortawesome/free-solid-svg-icons';
+import {User} from '../models/user';
+import {Page} from '../models/page';
+import {PageChangedEvent} from 'ngx-bootstrap';
+import {UserService} from '../services/user.service';
 import {LoginService} from '../services/login.service';
 
 @Component({
@@ -19,14 +15,14 @@ import {LoginService} from '../services/login.service';
 })
 export class RankingComponent implements OnInit {
   faChartLine = faChartLine;
+  faUser = faUser;
   faCheck = faCheck;
-  faBalanceScale = faBalanceScale;
+  faChartPie = faChartPie;
   faTrophy = faTrophy;
   faInfoCircle = faInfoCircle;
   pages$: Observable<Page<User>>;
   usersPlaceholder: User[];
   page = 0;
-  $destroy = new Subject();
   user$: Observable<User>;
 
   constructor(private userService: UserService, private router: Router, public loginService: LoginService) {
@@ -34,7 +30,9 @@ export class RankingComponent implements OnInit {
 
   ngOnInit() {
     this.getAllUsers();
-    this.getUser(this.loginService.userId);
+    if (this.loginService.token) {
+      this.getUser(this.loginService.userId);
+    }
   }
 
   getUser(userId: string) {
@@ -47,21 +45,6 @@ export class RankingComponent implements OnInit {
       .subscribe((pageUser) => {
         this.usersPlaceholder = pageUser.content;
       });
-  }
-
-  getFullName(myUser: User): string {
-    return myUser.firstName + ' ' + myUser.lastName;
-  }
-
-  getPlayedMatches(myUser: User): number {
-    return myUser.statistic.wins + myUser.statistic.losses;
-  }
-
-  getWinRatio(myUser: User): number {
-    if (myUser.statistic.losses === 0) {
-      return 100;
-    }
-    return Math.round(100 - (100 / this.getPlayedMatches(myUser) * myUser.statistic.losses));
   }
 
   pageChanged(event: PageChangedEvent): void {

@@ -1,7 +1,7 @@
 <div *ngIf="(user$ | async) as user">
   <!--/* Profile Name */-->
-  <div class="container text-center mt-4 mb-4">
-    <h1>{{getFullName(user)}}</h1>
+  <div class="container text-center mt-3 mb-3">
+    <h1>{{user.fullName}}</h1>
   </div>
 
   <!--/* Profile Statistics */-->
@@ -20,25 +20,17 @@
             <p class="statistic-value">{{user.statistic.rank}}</p>
           </div>
         </div>
-        <!--/* Points */-->
-        <div class="col-lg-2">
-          <div class="statistic" id="statistic-2">
-            <p class="statistic-title">{{'RANKING.POINTS'|translate}}</p>
-            <fa-icon [icon]="faTrophy" size="3x"></fa-icon>
-            <p class="statistic-value">{{user.statistic.rating}}</p>
-          </div>
-        </div>
         <!--/* Matches Played */-->
         <div class="col-lg-2">
-          <div class="statistic" id="statistic-3">
+          <div class="statistic" id="statistic-2">
             <p class="statistic-title">{{'RANKING.MATCHES-PLAYED'|translate}}</p>
             <fa-icon [icon]="faFutbol" size="3x"></fa-icon>
-            <p class="statistic-value">{{getMatches(user)}}</p>
+            <p class="statistic-value">{{user.statistic.playedMatches}}</p>
           </div>
         </div>
         <!--/* Wins */-->
         <div class="col-lg-2">
-          <div class="statistic" id="statistic-4">
+          <div class="statistic" id="statistic-3">
             <p class="statistic-title">{{'RANKING.WINS'|translate}}</p>
             <fa-icon [icon]="faCheck" size="3x"></fa-icon>
             <p class="statistic-value">{{user.statistic.wins}}</p>
@@ -46,7 +38,7 @@
         </div>
         <!--/* Losses */-->
         <div class="col-lg-2">
-          <div class="statistic" id="statistic-5">
+          <div class="statistic" id="statistic-4">
             <p class="statistic-title">{{'RANKING.LOSSES'|translate}}</p>
             <fa-icon [icon]="faTimes" size="3x"></fa-icon>
             <p class="statistic-value">{{user.statistic.losses}}</p>
@@ -54,10 +46,18 @@
         </div>
         <!--/* WinRate */-->
         <div class="col-lg-2">
-          <div class="statistic" id="statistic-6">
+          <div class="statistic" id="statistic-5">
             <p class="statistic-title">{{'RANKING.WIN-RATE'|translate}}</p>
-            <fa-icon [icon]="faBalanceScale" size="3x"></fa-icon>
-            <p class="statistic-value">{{getWinRatio(user)}}</p>
+            <fa-icon [icon]="faChartPie" size="3x"></fa-icon>
+            <p class="statistic-value">{{user.statistic.winRatio}}%</p>
+          </div>
+        </div>
+        <!--/* Points */-->
+        <div class="col-lg-2">
+          <div class="statistic" id="statistic-6">
+            <p class="statistic-title">{{'RANKING.POINTS'|translate}}</p>
+            <fa-icon [icon]="faTrophy" size="3x"></fa-icon>
+            <p class="statistic-value">{{user.statistic.rating}}</p>
           </div>
         </div>
       </div>

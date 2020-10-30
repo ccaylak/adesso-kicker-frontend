@@ -10,13 +10,9 @@ import {environment} from '../../environments/environment';
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   getUser(userId: string): Observable<User> {
-    if (userId === 'you') {
-      return this.httpClient.get<User>(`${environment.BASE_PATH}/users/you`);
-    }
     return this.httpClient.get<User>(`${environment.BASE_PATH}/users/u/${userId}`);
   }
 

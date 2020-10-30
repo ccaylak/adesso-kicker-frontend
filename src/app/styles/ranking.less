@@ -4,7 +4,7 @@
 .table-container {
   @media @mobile, @tablet {
     width: 100%;
-    margin-left: 0;
+    margin: 0;
   }
   width: 80%;
   margin-left: 10%;
@@ -15,12 +15,8 @@
   border: 1px solid @colorscheme[warm-grey-midtone];
 }
 
-#info-tooltip {
-  .fa-info-circle {
-    color: @colorscheme[adesso-blue];
-    font-size: 30px;
-  }
-  text-align: right;
+.fa-info-circle {
+  color: @colorscheme[adesso-blue];
 }
 
 .badge {
@@ -93,7 +89,7 @@
   }
 
   .user-table {
-    font-size: 11px !important;
+    font-size: 0 !important;
 
     &-name {
       font-size: 15px;
@@ -126,7 +122,7 @@
 @media screen and(max-width: 400px) {
   .user-table {
     td {
-      font-size: 11px !important;
+      font-size: 13px !important;
     }
 
     .badge-position {
@@ -134,11 +130,12 @@
     }
 
     th span {
-      font-size: 8px !important;
+      font-size: 0 !important;
     }
 
-    &-name {
-      font-size: 10px !important;
+    fa-icon {
+      display: unset;
+      font-size: 14px !important;
     }
   }
 }

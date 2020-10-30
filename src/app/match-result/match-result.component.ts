@@ -1,17 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from '../services/user.service';
-import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
-import {faInfoCircle} from '@fortawesome/free-solid-svg-icons/faInfoCircle';
-import {faCalendar} from '@fortawesome/free-solid-svg-icons/faCalendar';
-import {Match} from '../models/match';
-import {forkJoin, Observable} from 'rxjs';
-import {User} from '../models/user';
-import {LoginService} from '../services/login.service';
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
+import {forkJoin, Observable} from 'rxjs';
+import {faCalendar, faInfoCircle, faTrophy} from '@fortawesome/free-solid-svg-icons';
+import {Match} from '../models/match';
+import {User} from '../models/user';
 import {samePlayerValidator} from '../services/validator';
+import {LoginService} from '../services/login.service';
 import {MatchService} from '../services/match.service';
-import {faTrophy} from '@fortawesome/free-solid-svg-icons/faTrophy';
+import {UserService} from '../services/user.service';
 import {TranslateService} from '@ngx-translate/core';
+import {NotyfService} from 'ng-notyf';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-match-result',
@@ -19,7 +18,6 @@ import {TranslateService} from '@ngx-translate/core';
   styleUrls: ['./match-result.component.less']
 })
 export class MatchResultComponent implements OnInit {
-  faTimes = faTimes;
   faInfoCircle = faInfoCircle;
   faCalender = faCalendar;
   faTrophy = faTrophy;
@@ -36,13 +34,16 @@ export class MatchResultComponent implements OnInit {
     private userService: UserService,
     private loginService: LoginService,
     private matchService: MatchService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private notyfService: NotyfService,
+    private spinner: NgxSpinnerService
   ) {
     if (translate.getBrowserLang() === 'de') {
       this.dateFormat = 'DD.MM.YYYY';
     } else {
       this.dateFormat = 'MM/DD/YYYY';
     }
+    this.notyfService.toastDelay = 4000;
   }
 
   matchRequestForm = this.fb.group({
@@ -53,8 +54,8 @@ export class MatchResultComponent implements OnInit {
       playerB2: ['', this.validUserIdValidator()],
     }, {validators: samePlayerValidator}),
     matchGroup: this.fb.group({
-      date: [new Date().toLocaleDateString, Validators.required],
-      winnerTeam: ['teamA', Validators.required]
+      date: [new Date(), Validators.required],
+      winnerTeamA: ['teamA', Validators.required]
     })
   });
 
@@ -68,7 +69,11 @@ export class MatchResultComponent implements OnInit {
     });
   }
 
-  submitMatch() {
+  onSubmit() {
+    this.submitMatch();
+  }
+
+  private submitMatch() {
     const playerA2: string = this.playerA2.value;
     const playerB1: string = this.playerB1.value;
     const playerB2: string = this.playerB2.value;
@@ -90,81 +95,103 @@ export class MatchResultComponent implements OnInit {
   }
 
   private Match1v1() {
-    forkJoin([
+    forkJoin(
       this.userService.getUser(this.loginService.userId),
       this.userService.getUser(this.playerB1.value),
-    ]).subscribe((userArray) => {
-      this.match = {
-        date: this.date.value,
-        teamAPlayer1: userArray[0],
-        teamAPlayer2: null,
-        teamBPlayer1: userArray[1],
-        teamBPlayer2: null,
-        winnerTeamA: this.winnerTeam.value === 'teamA'
-      };
-      this.matchService.addMatch(this.match).subscribe(
-        value => console.log('Success'),
+    ).subscribe(userArray => {
+      this.spinner.show();
+      this.matchService.addMatch(new Match(
+        this.date.value,
+        this.isWinnerTeamA,
+        userArray[0],
+        userArray[1]
+      )).subscribe(
+        () => {
+          this.notyfService.success(this.translate.instant('MATCH-RESULT.SUCCESS.1V1'));
+          this.spinner.hide();
+          this.resetForm();
+        }
       );
     });
   }
 
+  private resetForm() {
+    this.matchRequestForm.reset({
+      teamGroup: {
+        playerA1: this.loginService.userId,
+        playerA2: '',
+        playerB1: '',
+        playerB2: ''
+      },
+      matchGroup: {
+        date: new Date(),
+        winnerTeamA: 'teamA'
+      }
+    });
+  }
+
   private Match1v2() {
-    forkJoin([
+    forkJoin(
       this.userService.getUser(this.loginService.userId),
       this.userService.getUser(this.playerB1.value),
       this.userService.getUser(this.playerB2.value)
-    ]).subscribe((userArray) => {
-      this.match = {
-        date: this.date.value,
-        teamAPlayer1: userArray[0],
-        teamAPlayer2: null,
-        teamBPlayer1: userArray[1],
-        teamBPlayer2: userArray[2],
-        winnerTeamA: this.winnerTeam.value === 'teamA'
-      };
-      this.matchService.addMatch(this.match).subscribe(
-        value => console.log('Success'),
+    ).subscribe(userArray => {
+      this.matchService.addMatch(new Match(
+        this.date.value,
+        this.isWinnerTeamA,
+        userArray[0],
+        userArray[1],
+        userArray[2]
+      )).subscribe(
+        () => {
+          this.notyfService.success(this.translate.instant('MATCH-RESULT.SUCCESS.1V2'));
+          this.resetForm();
+        }
       );
     });
   }
 
   private Match2v1() {
-    forkJoin([
+    forkJoin(
       this.userService.getUser(this.loginService.userId),
       this.userService.getUser(this.playerA2.value),
       this.userService.getUser(this.playerB1.value),
-    ]).subscribe((userArray) => {
-      this.match = {
-        date: this.date.value,
-        teamAPlayer1: userArray[0],
-        teamAPlayer2: userArray[1],
-        teamBPlayer1: userArray[2],
-        teamBPlayer2: null,
-        winnerTeamA: this.winnerTeam.value === 'teamA'
-      };
-      this.matchService.addMatch(this.match).subscribe(
-        value => console.log('Success'),
+    ).subscribe((userArray) => {
+      this.matchService.addMatch(new Match(
+        this.date.value,
+        this.isWinnerTeamA,
+        userArray[0],
+        userArray[1],
+        userArray[2]
+      )).subscribe(
+        () => {
+          this.notyfService.success(this.translate.instant('MATCH-RESULT.SUCCESS.2V1'));
+          this.resetForm();
+        }
       );
     });
   }
 
   private Match2v2() {
-    forkJoin([
+    forkJoin(
       this.userService.getUser(this.loginService.userId),
       this.userService.getUser(this.playerA2.value),
       this.userService.getUser(this.playerB1.value),
       this.userService.getUser(this.playerB2.value)
-    ]).subscribe((userArray) => {
-      this.match = {
-        date: this.date.value,
-        teamAPlayer1: userArray[0],
-        teamAPlayer2: userArray[1],
-        teamBPlayer1: userArray[2],
-        teamBPlayer2: userArray[3],
-        winnerTeamA: this.winnerTeam.value === 'teamA'
-      };
-      this.matchService.addMatch(this.match).subscribe(
-        value => console.log('Success: ' + value),
+    ).subscribe(userArray => {
+      this.matchService.addMatch(
+        new Match(
+          this.date.value,
+          this.isWinnerTeamA,
+          userArray[0],
+          userArray[1],
+          userArray[2],
+          userArray[3])
+      ).subscribe(
+        value => {
+          this.notyfService.success(this.translate.instant('MATCH-RESULT.SUCCESS.2V2'));
+          this.resetForm();
+        }
       );
     });
   }
@@ -198,10 +225,9 @@ export class MatchResultComponent implements OnInit {
     return this.matchRequestForm.get('teamGroup.playerB2');
   }
 
-  get winnerTeam() {
-    return this.matchRequestForm.get('matchGroup.winnerTeam');
+  get isWinnerTeamA(): boolean {
+    return this.matchRequestForm.get('matchGroup.winnerTeamA').value === 'teamA';
   }
 }
-
 
 
