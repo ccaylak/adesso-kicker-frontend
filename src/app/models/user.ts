@@ -7,6 +7,14 @@ export class User {
   private _emailNotifications: boolean;
   private _statistic: Statistic;
 
+  constructor(userId: string, firstName: string, lastName: string, emailNotifications: boolean, statistic: Statistic) {
+    this._userId = userId;
+    this._firstName = firstName;
+    this._lastName = lastName;
+    this._emailNotifications = emailNotifications;
+    this._statistic = statistic;
+  }
+
   get userId(): string {
     return this._userId;
   }
