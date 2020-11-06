@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
 import {forkJoin, Observable} from 'rxjs';
-import {faCalendar, faInfoCircle, faTrophy} from '@fortawesome/free-solid-svg-icons';
+import {faCalendar, faInfoCircle, faTrophy, faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {Match} from '../models/match';
 import {User} from '../models/user';
 import {samePlayerValidator} from '../services/validator';
@@ -10,7 +10,6 @@ import {MatchService} from '../services/match.service';
 import {UserService} from '../services/user.service';
 import {TranslateService} from '@ngx-translate/core';
 import {NotyfService} from 'ng-notyf';
-import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-match-result',
@@ -20,7 +19,9 @@ import {NgxSpinnerService} from 'ngx-spinner';
 export class MatchResultComponent implements OnInit {
   faInfoCircle = faInfoCircle;
   faCalender = faCalendar;
+  faSpinner = faSpinner;
   faTrophy = faTrophy;
+  loading = false;
 
   match: Match;
   bsValueAndMaxDate = new Date(Date.now());
@@ -36,7 +37,6 @@ export class MatchResultComponent implements OnInit {
     private matchService: MatchService,
     private translate: TranslateService,
     private notyfService: NotyfService,
-    private spinner: NgxSpinnerService
   ) {
     if (translate.getBrowserLang() === 'de') {
       this.dateFormat = 'DD.MM.YYYY';
@@ -77,6 +77,7 @@ export class MatchResultComponent implements OnInit {
     const playerA2: string = this.playerA2.value;
     const playerB1: string = this.playerB1.value;
     const playerB2: string = this.playerB2.value;
+    this.loading = true;
     if (!playerA2 && playerB1 && !playerB2) {
       this.Match1v1();
     }
@@ -99,7 +100,6 @@ export class MatchResultComponent implements OnInit {
       this.userService.getUser(this.loginService.userId),
       this.userService.getUser(this.playerB1.value),
     ).subscribe(userArray => {
-      this.spinner.show();
       this.matchService.addMatch(new Match(
         this.date.value,
         this.isWinnerTeamA,
@@ -108,7 +108,6 @@ export class MatchResultComponent implements OnInit {
       )).subscribe(
         () => {
           this.notyfService.success(this.translate.instant('MATCH-RESULT.SUCCESS.1V1'));
-          this.spinner.hide();
           this.resetForm();
         }
       );
@@ -128,6 +127,7 @@ export class MatchResultComponent implements OnInit {
         winnerTeamA: 'teamA'
       }
     });
+    this.loading = false;
   }
 
   private Match1v2() {

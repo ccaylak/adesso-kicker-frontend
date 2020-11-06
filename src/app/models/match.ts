@@ -1,65 +1,82 @@
 import {User} from './user';
+import {UserAPI} from './api/user-api';
 
 export class Match {
   private _date: Date;
   private _winnerTeamA: boolean;
-  private _playerA1: User;
-  private _playerA2: User;
-  private _playerB1: User;
-  private _playerB2: User;
+  private _teamAPlayer1: User;
+  private _teamAPlayer2: User;
+  private _teamBPlayer1: User;
+  private _teamBPlayer2: User;
 
   constructor(date: Date, winnerTeamA: boolean, playerA1: User, playerB1: User, playerA2: User = null, playerB2: User = null) {
     this._date = date;
     this._winnerTeamA = winnerTeamA;
-    this._playerA1 = playerA1;
-    this._playerB1 = playerB1;
-    this._playerA2 = playerA2;
-    this._playerB2 = playerB2;
+    this._teamAPlayer1 = UserAPI.createUser(playerA1);
+    this._teamBPlayer1 = UserAPI.createUser(playerB1);
+    this._teamAPlayer2 = UserAPI.createUser(playerA2);
+    this._teamBPlayer2 = UserAPI.createUser(playerB2);
   }
 
   get date(): Date {
     return this._date;
   }
 
+  set date(date: Date) {
+    this._date = date;
+  }
+
   get winnerTeamA(): boolean {
     return this._winnerTeamA;
   }
 
-  get playerA1(): User {
-    return this._playerA1;
+  set winnerTeamA(winnerTeamA: boolean) {
+    this._winnerTeamA = winnerTeamA;
   }
 
-  get playerA2(): User {
-    return this._playerA2;
+  get teamAPlayer1(): User {
+    return this._teamAPlayer1;
   }
 
-  get playerB1(): User {
-    return this._playerB1;
+  set teamAPlayer1(teamAPlayer1: User) {
+    this._teamAPlayer1 = teamAPlayer1;
   }
 
-  get playerB2(): User {
-    return this._playerB2;
+  get teamAPlayer2(): User {
+    return this._teamAPlayer2;
   }
 
-  get winners(): string[] {
-    const users: string[] = [];
+  set teamAPlayer2(teamAPlayer2: User) {
+    this._teamAPlayer2 = teamAPlayer2;
+  }
+
+  get teamBPlayer1(): User {
+    return this._teamBPlayer1;
+  }
+
+  set teamBPlayer1(teamBPlayer1: User) {
+    this._teamBPlayer1 = teamBPlayer1;
+  }
+
+  get teamBPlayer2(): User {
+    return this._teamBPlayer2;
+  }
+
+  set teamBPlayer2(teamBPlayer2: User) {
+    this._teamBPlayer2 = teamBPlayer2;
+  }
+
+  get winners(): { winner1: User, winner2?: User } {
     if (this._winnerTeamA) {
-      if (this._playerA1 && this._playerA2) {
-        users.push(this._playerA1.fullName);
-        users.push(this._playerA2.fullName);
-      }
-      if (this._playerA1 && !this._playerA2) {
-        users.push(this._playerA1.fullName);
-      }
+      return {
+        winner1: this._teamAPlayer1,
+        winner2: this._teamAPlayer2
+      };
     } else {
-      if (this._playerB1 && this._playerB2) {
-        users.push(this._playerB1.fullName);
-        users.push(this._playerB2.fullName);
-      }
-      if (this._playerB1 && !this._playerB2) {
-        users.push(this._playerB1.fullName);
-      }
+      return {
+        winner1: this._teamBPlayer1,
+        winner2: this._teamBPlayer2
+      };
     }
-    return users;
   }
 }

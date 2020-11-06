@@ -11,36 +11,36 @@
     </div>
     <div class="modal-body border-bottom" *ngFor="let notification of notifications">
       <div *ngIf="notification.type==='MATCH_VERIFICATION'">
-        <div *ngIf="notification.match.winners.length==1">
+        <div *ngIf="!notification.match.winners.winner2">
           {{'NOTIFICATION.ONE-OPPONENT'|translate: {
-          enemy: notification.match.winners[0],
+          enemy: notification.match.winners.winner1.fullName,
           date: notification.match.date|date
         } }}
         </div>
-        <div *ngIf="notification.match.winners.length==2">
+        <div *ngIf="notification.match.winners.winner2">
           {{'NOTIFICATION.TWO-OPPONENTS'|translate: {
-          enemyOne: notification.match.winners[0],
-          enemyTwo: notification.match.winners[1],
+          enemyOne: notification.match.winners.winner1.fullName,
+          enemyTwo: notification.match.winners.winner2.fullName,
           date: notification.match.date|date
         } }}
         </div>
         <div class="button-center row p-3">
           <button type="button" class="btn btn-primary col mr-2"
-                  (click)="acceptNotification(notification)">
+                  (click)="acceptNotification(notification.notificationId)">
             <fa-icon [icon]="faCheck"></fa-icon>
           </button>
           <button type="button" class="btn btn-danger col"
-                  (click)="declineNotification(notification)">
+                  (click)="declineNotification(notification.notificationId)">
             <fa-icon [icon]="faTimes"></fa-icon>
           </button>
         </div>
       </div>
       <div *ngIf="notification.type=='MESSAGE'">
-        Deine Anfrage für das Spiel vom {{notification.sendDate|date}} wurde
+        Deine Anfrage für das Spiel vom {{notification.sendDate}} wurde
         von {{notification.sender.firstName + ' ' + notification.sender.lastName}} abgelehnt
         <div style="padding: 15px" class="row">
           <button type="button" class="btn col btn-danger"
-                  (click)="acceptNotification(notification)">Ok
+                  (click)="acceptNotification(notification.notificationId)">Ok
           </button>
         </div>
       </div>

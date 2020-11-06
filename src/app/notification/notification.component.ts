@@ -3,7 +3,6 @@ import {Observable} from 'rxjs';
 import {NotificationService} from '../services/notification.service';
 import {faEnvelopeOpen, faEnvelope, faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {Notification} from '../models/notification';
-import {Match} from '../models/match';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {NotyfService} from 'ng-notyf';
 import {TranslateService} from '@ngx-translate/core';
@@ -42,18 +41,18 @@ export class NotificationComponent implements OnInit {
     this.notifications$ = this.notificationService.getAllNotifications();
   }
 
-  acceptNotification(notification: Notification) {
-    this.notificationService.acceptNotification(notification.notificationId).subscribe(() => {
+  acceptNotification(notificationId: number) {
+    this.notificationService.acceptNotification(notificationId).subscribe(() => {
         this.getAllNotifications();
         this.notyfyService.success(this.translateService.instant('NOTIFICATION.SUCCESS.ACCEPTED'));
       }
     );
   }
 
-  declineNotification(notification: Notification) {
-    this.notificationService.declineNotification(notification.notificationId).subscribe(() => {
+  declineNotification(notificationId: number) {
+    this.notificationService.declineNotification(notificationId).subscribe(() => {
       this.getAllNotifications();
-      this.notyfyService.success(this.translateService.instant('NOTIFICATION.SUCCESS.ACCEPTED'));
+      this.notyfyService.error(this.translateService.instant('NOTIFICATION.SUCCESS.DECLINED'));
     });
   }
 }

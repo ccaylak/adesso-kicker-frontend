@@ -3,8 +3,8 @@ import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {TrackedStatistic} from '../models/tracked-statistic';
 import {Chart} from '../models/chart';
-import {UserService} from '../services/user.service';
 import {TranslateService} from '@ngx-translate/core';
+import {TrackedStatisticService} from '../services/tracked-statistic.service';
 
 @Component({
   selector: 'app-statistic',
@@ -14,61 +14,80 @@ import {TranslateService} from '@ngx-translate/core';
 export class StatisticComponent implements OnInit {
   trackedStatistics$: Observable<TrackedStatistic[]>;
 
-  rankOverTimeChart: Chart = {
-    lineChartData: [{
+  public rankOverTimeChart = new Chart(
+    [{
       data: [],
       label: this.translate.instant('RANKING.RANK'),
+      fill: 'start'
     }],
-    lineChartLabels: [],
-    lineChartColors: [{
+    [],
+    [{
       borderColor: 'black',
       borderWidth: 2,
       pointBackgroundColor: 'white',
       backgroundColor: 'rgba(173,216,230,0.5)'
     }],
-    lineChartLegend: true,
-    lineChartType: 'line',
-    options: {
+    true,
+    'line',
+    {
       scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+            unit: 'day',
+            displayFormats: {
+              day: 'D.MM.YYYY',
+            }
+          }
+        }],
         yAxes: [{
           ticks: {
-            stepSize: 1,
             reverse: true,
-          },
+            stepSize: 1
+          }
         }],
       }
     }
-  };
+  );
 
-  winRateOverTimeChart: Chart = {
-    lineChartData: [{
+  winRateOverTimeChart = new Chart(
+    [{
       data: [],
       label: this.translate.instant('RANKING.WIN-RATE'),
     }],
-    lineChartLabels: [],
-    lineChartColors: [{
+    [],
+    [{
       borderColor: 'black',
       borderWidth: 2,
       pointBackgroundColor: 'white',
       backgroundColor: 'rgba(173,216,230,0.5)'
     }],
-    lineChartLegend: true,
-    lineChartType: 'line',
-    options: {
+    true,
+    'line',
+    {
       scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+            unit: 'day',
+            displayFormats: {
+              day: 'D.MM.YYYY',
+            }
+          }
+        }],
         yAxes: [{
           ticks: {
-            stepSize: 10,
+            beginAtZero: true,
             max: 100,
-            min: 0,
+            stepSize: 10,
           }
         }]
       }
     }
-  };
+  );
 
-  winsAndLossesPerDayChart: Chart = {
-    lineChartData: [{
+  winsAndLossesPerDayChart = new Chart(
+    [{
       data: [],
       label: this.translate.instant('RANKING.WINS'),
       borderColor: 'black',
@@ -92,32 +111,67 @@ export class StatisticComponent implements OnInit {
       pointHoverBackgroundColor: 'red',
       pointHoverBorderColor: 'black',
     }],
-    lineChartLabels: [],
-    lineChartColors: [{}],
-    lineChartLegend: true,
-    lineChartType: 'line',
-    options: null,
-  };
+    [],
+    [{}],
+    true,
+    'line',
+    {
+      scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+            unit: 'day',
+            displayFormats: {
+              day: 'D.MM.YYYY',
+            }
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1
+          }
+        }]
+      }
+    }
+  );
 
-  winsAndLossesDiffPerDayChart: Chart = {
-    lineChartData: [{
+  winsAndLossesDiffPerDayChart = new Chart(
+    [{
       data: [],
       label: this.translate.instant('CHART.DIFFERENCE'),
     }],
-    lineChartLabels: [],
-    lineChartColors: [{
+    [],
+    [{
       borderColor: 'black',
       borderWidth: 2,
       pointBackgroundColor: 'white',
       backgroundColor: 'rgba(173,216,230,0.5)'
     }],
-    lineChartLegend: true,
-    lineChartType: 'line',
-    options: null
-  };
+    true,
+    'line',
+    {
+      scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+            unit: 'day',
+            displayFormats: {
+              day: 'D.MM.YYYY',
+            }
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            stepSize: 1
+          }
+        }]
+      }
+    }
+  );
 
   constructor(private route: ActivatedRoute,
-              private userService: UserService,
+              private trackedStatisticService: TrackedStatisticService,
               private translate: TranslateService
   ) {
   }
@@ -125,71 +179,39 @@ export class StatisticComponent implements OnInit {
   ngOnInit() {
     this.getTrackedStatistics();
     this.fillChartLabels();
-    this.fillRankOverTimeChartData();
-    this.fillWinAndLossesDiffPerDayChartData();
-    this.fillWinRateOverTimeChartData();
-    this.fillWinsAndLossesPerDayChartData();
+    this.fillCharts();
   }
 
   getTrackedStatistics() {
     this.route.params.subscribe((params) => {
-      this.trackedStatistics$ = this.userService.getAllTrackedStatistics(params.userId);
+      this.trackedStatistics$ = this.trackedStatisticService.getAllTrackedStatistics(params.userId);
     });
   }
 
   fillChartLabels() {
-    this.trackedStatistics$.subscribe(
-      (trackedStatisticArray) => trackedStatisticArray.forEach(
-        (trackedStatisticObject) => {
-          this.rankOverTimeChart.lineChartLabels.push(new Date(trackedStatisticObject.date).toLocaleDateString());
-          this.winRateOverTimeChart.lineChartLabels.push(new Date(trackedStatisticObject.date).toLocaleDateString());
-          this.winsAndLossesPerDayChart.lineChartLabels.push(new Date(trackedStatisticObject.date).toLocaleDateString());
-          this.winsAndLossesDiffPerDayChart.lineChartLabels.push(new Date(trackedStatisticObject.date).toLocaleDateString());
-        }));
+    this.trackedStatistics$
+      .subscribe(trackedStatistics => trackedStatistics.map(trackedStatistic => {
+          const date = trackedStatistic.date.toString();
+          this.rankOverTimeChart.lineChartLabels.push(date);
+          this.winRateOverTimeChart.lineChartLabels.push(date);
+          this.winsAndLossesPerDayChart.lineChartLabels.push(date);
+          this.winsAndLossesDiffPerDayChart.lineChartLabels.push(date);
+        }
+        )
+      );
   }
 
-  fillRankOverTimeChartData() {
-    this.trackedStatistics$.subscribe(
-      (trackedStatisticArray) => trackedStatisticArray.forEach(
-        (trackedStatisticObject) => {
-          this.rankOverTimeChart.lineChartData.forEach((linechart) => linechart.data.push(trackedStatisticObject.rank));
-        }));
-  }
-
-  fillWinRateOverTimeChartData() {
-    this.trackedStatistics$.subscribe(
-      (trackedStatisticArray) => trackedStatisticArray.forEach(
-        (trackedStatisticObject) => {
-          this.winRateOverTimeChart.lineChartData.forEach(
-            linechart => linechart.data.push(this.getTrackedStatisticWinRatio(trackedStatisticObject))
-          );
-        }));
-  }
-
-  fillWinsAndLossesPerDayChartData() {
-    this.trackedStatistics$.subscribe(
-      (trackedStatisticArray) => trackedStatisticArray.forEach(
-        (trackedStatisticObject) => {
-          this.winsAndLossesPerDayChart.lineChartData[0].data.push(trackedStatisticObject.wins);
-          this.winsAndLossesPerDayChart.lineChartData[1].data.push(trackedStatisticObject.losses);
-        }));
-  }
-
-  fillWinAndLossesDiffPerDayChartData() {
-    this.trackedStatistics$.subscribe(
-      (trackedStatisticArray) => trackedStatisticArray.forEach(
-        (trackedStatisticObject) => {
-          this.winsAndLossesDiffPerDayChart.lineChartData.forEach(
-            linechart => linechart.data.push(this.getWinLossDiff(trackedStatisticObject))
-          );
-        }));
-  }
-
-  getTrackedStatisticWinRatio(trackedStatistic: TrackedStatistic): number {
-    return trackedStatistic.wins / trackedStatistic.losses;
-  }
-
-  getWinLossDiff(trackedStatistic: TrackedStatistic): number {
-    return trackedStatistic.wins - trackedStatistic.losses;
+  fillCharts() {
+    this.trackedStatistics$
+      .subscribe(trackedStatistics => trackedStatistics
+        .map(trackedStatistic => {
+            this.rankOverTimeChart.lineChartData.map(lineChart => lineChart.data.push(trackedStatistic.rank));
+            this.winRateOverTimeChart.lineChartData.map(lineChart => lineChart.data.push(trackedStatistic.getWinRate()));
+            this.winsAndLossesPerDayChart.lineChartData[0].data.push(trackedStatistic.wins);
+            this.winsAndLossesPerDayChart.lineChartData[1].data.push(trackedStatistic.losses);
+            this.winsAndLossesDiffPerDayChart.lineChartData.map(lineChart => lineChart.data.push(trackedStatistic.getWinLoseDiff()));
+          }
+        )
+      );
   }
 }

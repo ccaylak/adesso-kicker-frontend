@@ -2,8 +2,8 @@
   <div class="container text-center mt-3 mb-3">
     <h1>
       {{'HEADER.RANKING'|translate}}
-        <fa-icon class="fa-info-circle" size="xs" [icon]="faInfoCircle" tooltip="{{'RANKING.TOOLTIP'|translate}}"
-                 placement="left"></fa-icon>
+      <fa-icon class="fa-info-circle" size="xs" [icon]="faInfoCircle" tooltip="{{'RANKING.TOOLTIP'|translate}}"
+               placement="left"></fa-icon>
     </h1>
   </div>
   <div *ngIf="pages.content.length>0; then ranking else noRanking"></div>
@@ -16,8 +16,10 @@
       </div>
 
       <div class="table-container">
-        <pagination class="justify-content-center" [totalItems]="pages.totalElements" [itemsPerPage]="10" (numPages)="pages.totalPages"
-                    (pageChanged)="pageChanged($event)" [rotate]="true" [maxSize]="6" previousText="&lsaquo;" nextText="&rsaquo;"></pagination>
+        <pagination class="justify-content-center" [totalItems]="pages.totalElements" [itemsPerPage]="10"
+                    (numPages)="pages.totalPages"
+                    (pageChanged)="pageChanged($event)" [rotate]="true" [maxSize]="6" previousText="&lsaquo;"
+                    nextText="&rsaquo;"></pagination>
         <div class="shadow-sm" id="table-container">
           <table class="user-table table">
             <thead>
@@ -30,7 +32,7 @@
               <!--/* Name */-->
               <th>
                 <span>{{'RANKING.PLAYER'|translate}}
-                <fa-icon [icon]="faUser"></fa-icon></span>
+                  <fa-icon [icon]="faUser"></fa-icon></span>
               </th>
               <!--/* Wins */-->
               <th>
@@ -51,8 +53,8 @@
             </thead>
             <tbody>
             <!--/* All users */-->
-            <tr [class.user-self]="user.userId==loginService.userId" *ngFor="let user of usersPlaceholder"
-                (click)="profile(user.userId)" class="user-table-row">
+            <tr [class.user-self]="user.userId==loginService.userId" *ngFor="let user of pages.content"
+                [routerLink]="['..', 'users','u', user.userId]" class="user-table-row">
               <td><span class="badge badge-position">{{user.statistic.rank}}</span></td>
               <td>{{user.fullName}}</td>
               <td>{{user.statistic.wins}}</td>
@@ -62,7 +64,7 @@
             </tbody>
           </table>
         </div>
-        </div>
+      </div>
     </div>
   </ng-template>
   <ng-template #noRanking>

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {faChartLine, faTrophy, faFutbol, faCheck, faTimes, faChartPie} from '@fortawesome/free-solid-svg-icons';
 import {User} from '../models/user';
@@ -23,20 +23,15 @@ export class ProfileComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userService: UserService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.getUser();
   }
 
   getUser() {
-    this.route.params.subscribe((params) => {
-        this.userService.getUser(params.userId).subscribe(
-          user => {
-            this.user$ = of(new User(user.userId, user.firstName, user.lastName, user.emailNotifications, user.statistic));
-          });
-      },
-    );
+    this.route.params.subscribe(params => {
+      this.user$ = this.userService.getUser(params.userId);
+    });
   }
 }
